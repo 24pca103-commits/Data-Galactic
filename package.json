@@ -1,0 +1,21 @@
+{
+  "name": "datagalactic-fullstack",
+  "version": "1.0.0",
+  "description": "DataGalactic - Premium B2B Data & Business Support Services Website",
+  "scripts": {
+    "server": "cd server && node src/server.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "node server/src/server.js"
+  },
+  "keywords": [
+    "datagalactic",
+    "b2b",
+    "data-entry",
+    "data-processing",
+    "data-conversion",
+    "mern"
+  ],
+  "author": "DataGalactic (Founder: Risona R)",
+  "license": "ISC"
+}
