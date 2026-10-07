@@ -110,7 +110,7 @@ function App() {
 
   // Public User-Facing Website
   return (
-    <div className="min-h-screen bg-[#0d1117] text-slate-100 flex flex-col font-sans relative selection:bg-sky-500 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans relative selection:bg-sky-500 selection:text-white">
       {/* 1. Sticky Navigation Header */}
       <Navbar />
 

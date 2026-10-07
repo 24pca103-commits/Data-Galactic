@@ -133,26 +133,26 @@ const IndustriesSection = () => {
   ];
 
   return (
-    <section id="industries" className="py-24 relative bg-gradient-to-b from-[#1b2631] via-[#243342] to-[#1b2631] overflow-hidden">
+    <section id="industries" className="py-24 relative bg-white overflow-hidden border-b border-slate-200">
       
       {/* Glow */}
-      <div className="absolute top-1/4 right-10 w-[450px] h-[450px] bg-[#88BDF2]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 right-10 w-[450px] h-[450px] bg-sky-200/30 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 text-xs font-semibold text-[#BDDDFC]">
-            <Layers className="w-3.5 h-3.5 text-[#88BDF2]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
+            <Layers className="w-3.5 h-3.5 text-sky-600" />
             <span>Cross-Sector Domain Expertise</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Supporting Businesses{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BDDDFC] via-[#88BDF2] to-[#6A89A7]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
               Across Industries
             </span>
           </h2>
-          <p className="text-[#BDDDFC]/80 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             Every sector has unique data schemas, regulatory demands, and processing standards. We adapt our operations to fit your industry's exact specifications.
           </p>
         </div>
@@ -171,86 +171,86 @@ const IndustriesSection = () => {
                   onClick={() => setSelectedIndustry(idx)}
                   className={`w-full text-left p-4 rounded-2xl border transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-gradient-to-r from-[#2d3e50] to-[#243342] border-[#88BDF2] text-white shadow-lg shadow-[#1b2631]/80'
-                      : 'bg-[#1b2631]/80 border-[#384959] text-[#BDDDFC]/80 hover:bg-[#2d3e50]/60 hover:text-white'
+                      ? 'bg-sky-50 border-sky-400 text-slate-900 shadow-sm'
+                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white hover:text-slate-900'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`p-2.5 rounded-xl ${isSelected ? 'bg-[#88BDF2]/25 text-[#88BDF2]' : 'bg-[#384959] text-[#6A89A7]'}`}>
+                    <div className={`p-2.5 rounded-xl ${isSelected ? 'bg-sky-100 text-sky-700' : 'bg-slate-200 text-slate-600'}`}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
                       <p className="text-sm font-semibold">{ind.short}</p>
-                      <p className="text-[11px] text-[#6A89A7] line-clamp-1">{ind.name}</p>
+                      <p className="text-[11px] text-slate-500 line-clamp-1">{ind.name}</p>
                     </div>
                   </div>
-                  <ChevronRight className={`w-4 h-4 transition-transform ${isSelected ? 'text-[#88BDF2] translate-x-1' : 'text-[#6A89A7]'}`} />
+                  <ChevronRight className={`w-4 h-4 transition-transform ${isSelected ? 'text-sky-600 translate-x-1' : 'text-slate-400'}`} />
                 </button>
               );
             })}
           </div>
 
           {/* Right Selected Industry Showcase Panel */}
-          <div className="lg:col-span-8 rounded-3xl p-6 sm:p-10 bg-gradient-to-b from-[#2d3e50]/95 to-[#243342]/95 border border-[#88BDF2]/30 backdrop-blur-2xl shadow-2xl flex flex-col justify-between">
+          <div className="lg:col-span-8 rounded-3xl p-6 sm:p-10 bg-slate-50 border border-slate-200 shadow-md flex flex-col justify-between">
             
             <div className="space-y-6">
               
               {/* Header Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#384959] pb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#88BDF2]/20 border border-[#88BDF2]/40 flex items-center justify-center text-[#88BDF2] shadow-lg shadow-[#88BDF2]/20">
+                  <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-700 shadow-sm">
                     {React.createElement(industries[selectedIndustry].icon, { className: 'w-7 h-7' })}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white font-['Space_Grotesk']">
+                    <h3 className="text-2xl font-bold text-slate-900 font-['Space_Grotesk']">
                       {industries[selectedIndustry].name}
                     </h3>
-                    <p className="text-xs text-[#BDDDFC] mt-0.5 font-medium">Specialized Data Operations</p>
+                    <p className="text-xs text-sky-700 mt-0.5 font-medium">Specialized Data Operations</p>
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-[#1b2631] border border-[#384959] text-[#BDDDFC] self-start sm:self-auto">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-white border border-slate-200 text-slate-600 self-start sm:self-auto shadow-sm">
                   Tailored Workflows
                 </span>
               </div>
 
               {/* Tagline */}
-              <p className="text-[#BDDDFC]/80 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 {industries[selectedIndustry].tagline}
               </p>
 
               {/* Specialized Tasks List */}
               <div className="space-y-3 pt-2">
-                <h4 className="text-xs uppercase tracking-wider text-[#6A89A7] font-mono font-semibold">
+                <h4 className="text-xs uppercase tracking-wider text-slate-500 font-mono font-semibold">
                   Common Outsourced Workloads:
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {industries[selectedIndustry].tasks.map((task, i) => (
                     <div
                       key={i}
-                      className="p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] flex items-start gap-3"
+                      className="p-3.5 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 shadow-sm"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-[#88BDF2] shrink-0 mt-0.5" />
-                      <span className="text-xs sm:text-sm text-slate-200">{task}</span>
+                      <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm text-slate-800 font-medium">{task}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Verified Impact Box */}
-              <div className="p-4 rounded-2xl bg-[#384959]/50 border border-[#88BDF2]/30 text-xs text-[#BDDDFC] flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#88BDF2] shrink-0 animate-pulse" />
+              <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100 text-xs text-sky-800 flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-sky-500 shrink-0 animate-pulse" />
                 <span><strong>Demonstrated Impact:</strong> {industries[selectedIndustry].impact}</span>
               </div>
 
             </div>
 
             {/* Bottom Action */}
-            <div className="mt-8 pt-6 border-t border-[#384959] flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-[#6A89A7]">Ready to streamline your {industries[selectedIndustry].short} data?</span>
+            <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span className="text-xs text-slate-500">Ready to streamline your {industries[selectedIndustry].short} data?</span>
               <a
                 href="#contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-[#1b2631] bg-gradient-to-r from-[#88BDF2] to-[#BDDDFC] hover:from-[#BDDDFC] hover:to-[#88BDF2] rounded-xl shadow-lg shadow-[#1b2631]/80 transition-all group"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl shadow-md transition-all group"
               >
                 <span>Discuss {industries[selectedIndustry].short} Requirements</span>
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />

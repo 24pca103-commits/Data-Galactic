@@ -26,26 +26,26 @@ const DataSecurity = () => {
   ];
 
   return (
-    <section id="security" className="py-24 relative bg-gradient-to-b from-[#1b2631] via-[#243342] to-[#1b2631] overflow-hidden">
+    <section id="security" className="py-24 relative bg-white border-b border-slate-200/80 overflow-hidden">
       
       {/* Background Accent */}
-      <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-[#88BDF2]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-sky-100/50 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 text-xs font-semibold text-[#BDDDFC]">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#88BDF2]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
+            <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
             <span>Uncompromising Data Protection</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Your Data Deserves the{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BDDDFC] via-[#88BDF2] to-[#6A89A7]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
               Highest Level of Care
             </span>
           </h2>
-          <p className="text-[#BDDDFC]/80 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             Data security is not an afterthought at DataGalactic—it is engineered into every stage of our daily operational workflow.
           </p>
         </div>
@@ -57,16 +57,16 @@ const DataSecurity = () => {
             return (
               <div
                 key={idx}
-                className="p-8 rounded-3xl bg-gradient-to-b from-[#2d3e50]/95 to-[#243342]/95 border border-[#88BDF2]/25 hover:border-[#88BDF2]/60 backdrop-blur-xl shadow-xl transition-all duration-300 flex items-start gap-5"
+                className="p-8 rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-sky-300 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-5"
               >
-                <div className="w-14 h-14 rounded-2xl bg-[#88BDF2]/15 border border-[#88BDF2]/30 flex items-center justify-center text-[#88BDF2] shrink-0 shadow-md">
+                <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 shrink-0 shadow-sm">
                   <Icon className="w-7 h-7" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-white font-['Space_Grotesk']">
+                  <h3 className="text-xl font-bold text-slate-900 font-['Space_Grotesk']">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm text-[#BDDDFC]/75 leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>
@@ -76,17 +76,17 @@ const DataSecurity = () => {
         </div>
 
         {/* Security Checklist Banner */}
-        <div className="mt-12 p-6 rounded-3xl bg-[#1b2631]/90 border border-[#384959] grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-200">
-            <UserCheck className="w-4 h-4 text-[#88BDF2]" />
+        <div className="mt-12 p-6 rounded-3xl bg-slate-50 border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+            <UserCheck className="w-4 h-4 text-sky-600" />
             <span>Dedicated Confidential Workstations</span>
           </div>
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-200">
-            <FileCheck2 className="w-4 h-4 text-[#88BDF2]" />
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+            <FileCheck2 className="w-4 h-4 text-sky-600" />
             <span>Encrypted Batch File Transfers</span>
           </div>
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-200">
-            <Server className="w-4 h-4 text-[#88BDF2]" />
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+            <Server className="w-4 h-4 text-sky-600" />
             <span>Clean Data Purge Upon Sign-off</span>
           </div>
         </div>

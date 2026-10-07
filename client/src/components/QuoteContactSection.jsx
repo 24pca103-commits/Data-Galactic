@@ -148,27 +148,27 @@ const QuoteContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative bg-gradient-to-b from-[#1b2631] via-[#243342] to-[#1b2631] overflow-hidden">
+    <section id="contact" className="py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
       
       {/* Background Decorators */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#88BDF2]/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-[#6A89A7]/15 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-sky-100/60 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-blue-100/40 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 text-xs font-semibold text-[#BDDDFC]">
-            <Sparkles className="w-3.5 h-3.5 text-[#88BDF2]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
             <span>Free Project Estimation & Consultation</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Request a Free Project{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BDDDFC] via-[#88BDF2] to-[#6A89A7]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
               Quote & Proposal
             </span>
           </h2>
-          <p className="text-[#BDDDFC]/80 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             Tell us about your data workload, timelines, or format requirements. We will analyze your specifications and respond with a customized proposal within 12–24 hours.
           </p>
         </div>
@@ -178,72 +178,72 @@ const QuoteContactSection = () => {
           {/* Left Column: Direct Contact */}
           <div className="lg:col-span-4 space-y-6">
             
-            <div className="p-7 rounded-3xl bg-gradient-to-b from-[#2d3e50]/95 to-[#243342]/95 border border-[#88BDF2]/30 backdrop-blur-xl shadow-xl space-y-6">
-              <h3 className="text-xl font-bold text-white font-['Space_Grotesk']">
+            <div className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6">
+              <h3 className="text-xl font-bold text-slate-900 font-['Space_Grotesk']">
                 Direct Communication
               </h3>
               
-              <div className="space-y-4 text-sm text-[#BDDDFC]/90">
+              <div className="space-y-4 text-sm text-slate-600">
                 <a
                   href="mailto:hello@datagalactic.in"
-                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] hover:border-[#88BDF2]/40 hover:text-white transition-colors"
+                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-sky-50/50 transition-colors"
                 >
-                  <div className="p-2 rounded-lg bg-[#88BDF2]/15 text-[#88BDF2]">
+                  <div className="p-2 rounded-lg bg-sky-100 text-sky-600">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-[#6A89A7]">Business Inquiries</p>
-                    <p className="font-semibold text-slate-200">hello@datagalactic.in</p>
+                    <p className="text-[11px] text-slate-500">Business Inquiries</p>
+                    <p className="font-semibold text-slate-800">hello@datagalactic.in</p>
                   </div>
                 </a>
 
                 <a
                   href="mailto:datagalactic2@gmail.com"
-                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] hover:border-[#88BDF2]/40 hover:text-white transition-colors"
+                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-sky-50/50 transition-colors"
                 >
-                  <div className="p-2 rounded-lg bg-[#6A89A7]/25 text-[#BDDDFC]">
+                  <div className="p-2 rounded-lg bg-slate-200 text-slate-700">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-[#6A89A7]">Secondary Inquiries</p>
-                    <p className="font-semibold text-slate-200">datagalactic2@gmail.com</p>
+                    <p className="text-[11px] text-slate-500">Secondary Inquiries</p>
+                    <p className="font-semibold text-slate-800">datagalactic2@gmail.com</p>
                   </div>
                 </a>
 
                 <a
                   href="tel:+919363164608"
-                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] hover:border-[#88BDF2]/40 hover:text-white transition-colors"
+                  className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-sky-50/50 transition-colors"
                 >
-                  <div className="p-2 rounded-lg bg-emerald-500/15 text-emerald-400">
+                  <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-[#6A89A7]">Direct Contact / WhatsApp</p>
-                    <p className="font-semibold text-slate-200">+91 9363164608</p>
+                    <p className="text-[11px] text-slate-500">Direct Contact / WhatsApp</p>
+                    <p className="font-semibold text-slate-800">+91 9363164608</p>
                   </div>
                 </a>
               </div>
 
               {/* Office Details */}
-              <div className="pt-4 border-t border-[#384959] space-y-2 text-xs text-[#BDDDFC]/80">
+              <div className="pt-4 border-t border-slate-100 space-y-2 text-xs text-slate-600">
                 <div className="flex items-center gap-2">
-                  <Building className="w-4 h-4 text-[#88BDF2] shrink-0" />
-                  <span>Founder & CEO: <strong className="text-white">Risona R</strong></span>
+                  <Building className="w-4 h-4 text-sky-600 shrink-0" />
+                  <span>Founder & CEO: <strong className="text-slate-900">Risona R</strong></span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Globe2 className="w-4 h-4 text-[#88BDF2] shrink-0" />
+                  <Globe2 className="w-4 h-4 text-sky-600 shrink-0" />
                   <span>Tamil Nadu, India (Worldwide Delivery)</span>
                 </div>
               </div>
             </div>
 
             {/* Privacy Guarantee Box */}
-            <div className="p-6 rounded-3xl bg-[#1b2631]/90 border border-[#384959] space-y-3 shadow-lg">
-              <div className="flex items-center gap-2 text-[#88BDF2] text-sm font-semibold">
+            <div className="p-6 rounded-3xl bg-white border border-slate-200 space-y-3 shadow-sm">
+              <div className="flex items-center gap-2 text-sky-700 text-sm font-semibold">
                 <Lock className="w-4 h-4" />
                 <span>NDA & Confidentiality</span>
               </div>
-              <p className="text-xs text-[#BDDDFC]/70 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 All sample files, schemas, and descriptions submitted are strictly protected under our client confidentiality policy. We never share or sell client data.
               </p>
             </div>
@@ -252,43 +252,43 @@ const QuoteContactSection = () => {
 
           {/* Right Column: Lead Generation & Quote Form */}
           <div className="lg:col-span-8">
-            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#2d3e50]/95 to-[#243342]/95 border border-[#88BDF2]/30 backdrop-blur-2xl shadow-2xl">
+            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-xl">
               
               {successData ? (
                 /* Success Screen */
                 <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in-95 duration-300">
-                  <div className="w-20 h-20 rounded-3xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 mx-auto shadow-xl">
+                  <div className="w-20 h-20 rounded-3xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto shadow-sm">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
 
                   <div className="space-y-2 max-w-md mx-auto">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white font-['Space_Grotesk']">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
                       Project Received!
                     </h3>
-                    <p className="text-[#BDDDFC]/90 text-sm sm:text-base leading-relaxed">
-                      Thank you, <strong className="text-white">{successData.data?.name}</strong>. Your enquiry for <strong className="text-[#88BDF2]">{successData.data?.companyName}</strong> has been logged in our queue.
+                    <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                      Thank you, <strong className="text-slate-900">{successData.data?.name}</strong>. Your enquiry for <strong className="text-sky-700">{successData.data?.companyName}</strong> has been logged in our queue.
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] max-w-lg mx-auto text-left space-y-2 text-xs sm:text-sm text-slate-200">
-                    <div className="flex justify-between border-b border-[#384959] pb-2">
-                      <span className="text-[#6A89A7]">Service:</span>
-                      <span className="font-semibold text-[#88BDF2]">{successData.data?.service}</span>
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 max-w-lg mx-auto text-left space-y-2 text-xs sm:text-sm text-slate-700">
+                    <div className="flex justify-between border-b border-slate-200 pb-2">
+                      <span className="text-slate-500">Service:</span>
+                      <span className="font-semibold text-sky-700">{successData.data?.service}</span>
                     </div>
-                    <div className="flex justify-between border-b border-[#384959] pb-2">
-                      <span className="text-[#6A89A7]">Turnaround Notice:</span>
-                      <span className="text-slate-200">Quote sent within 12–24 hours</span>
+                    <div className="flex justify-between border-b border-slate-200 pb-2">
+                      <span className="text-slate-500">Turnaround Notice:</span>
+                      <span className="text-slate-700">Quote sent within 12–24 hours</span>
                     </div>
                     <div className="flex justify-between pt-1">
-                      <span className="text-[#6A89A7]">Direct Inquiries:</span>
-                      <span className="text-[#88BDF2]">hello@datagalactic.in</span>
+                      <span className="text-slate-500">Direct Inquiries:</span>
+                      <span className="text-sky-700">hello@datagalactic.in</span>
                     </div>
                   </div>
 
                   <div className="pt-4">
                     <button
                       onClick={resetForm}
-                      className="px-6 py-2.5 text-sm font-semibold text-white bg-[#384959] hover:bg-[#6A89A7] rounded-xl transition-colors cursor-pointer"
+                      className="px-6 py-2.5 text-sm font-semibold text-white bg-slate-900 hover:bg-sky-700 rounded-xl transition-colors cursor-pointer shadow-sm"
                     >
                       Submit Another Request
                     </button>
@@ -299,8 +299,8 @@ const QuoteContactSection = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   
                   {errorMsg && (
-                    <div className="p-4 rounded-xl bg-red-950/60 border border-red-500/50 flex items-center gap-3 text-red-200 text-xs sm:text-sm">
-                      <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3 text-red-700 text-xs sm:text-sm">
+                      <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
                       <span>{errorMsg}</span>
                     </div>
                   )}
@@ -308,8 +308,8 @@ const QuoteContactSection = () => {
                   {/* Row 1 */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Full Name <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Full Name <span className="text-sky-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -318,12 +318,12 @@ const QuoteContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="e.g. John Miller"
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Company Name <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Company Name <span className="text-sky-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -332,7 +332,7 @@ const QuoteContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="e.g. Apex Global Logistics Ltd."
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                   </div>
@@ -340,8 +340,8 @@ const QuoteContactSection = () => {
                   {/* Row 2 */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Business Email <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Business Email <span className="text-sky-600">*</span>
                       </label>
                       <input
                         type="email"
@@ -350,12 +350,12 @@ const QuoteContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="e.g. j.miller@company.com"
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Country <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Country <span className="text-sky-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -364,7 +364,7 @@ const QuoteContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="e.g. United States, UK, Germany, etc."
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                   </div>
@@ -372,34 +372,34 @@ const QuoteContactSection = () => {
                   {/* Row 3 */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Service Required <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Service Required <span className="text-sky-600">*</span>
                       </label>
                       <select
                         name="service"
                         value={formData.service}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631] border border-[#384959] text-white text-sm focus:outline-none focus:border-[#88BDF2] transition-colors cursor-pointer"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all cursor-pointer"
                       >
                         {servicesList.map((s, idx) => (
-                          <option key={idx} value={s} className="bg-[#243342] text-white">
+                          <option key={idx} value={s}>
                             {s}
                           </option>
                         ))}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                        Project Type <span className="text-[#88BDF2]">*</span>
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
+                        Project Type <span className="text-sky-600">*</span>
                       </label>
                       <select
                         name="projectType"
                         value={formData.projectType}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631] border border-[#384959] text-white text-sm focus:outline-none focus:border-[#88BDF2] transition-colors cursor-pointer"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all cursor-pointer"
                       >
                         {projectTypes.map((t, idx) => (
-                          <option key={idx} value={t} className="bg-[#243342] text-white">
+                          <option key={idx} value={t}>
                             {t}
                           </option>
                         ))}
@@ -410,7 +410,7 @@ const QuoteContactSection = () => {
                   {/* Row 4 */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
                         Estimated Data Volume (Optional)
                       </label>
                       <input
@@ -419,11 +419,11 @@ const QuoteContactSection = () => {
                         value={formData.estimatedVolume}
                         onChange={handleInputChange}
                         placeholder="e.g. 5,000 PDF invoices, 20 hrs/week"
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
+                      <label className="block text-xs font-semibold text-slate-700 mb-2">
                         Phone / WhatsApp (Optional)
                       </label>
                       <input
@@ -432,15 +432,15 @@ const QuoteContactSection = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="e.g. +1 (555) 019-2834"
-                        className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Row 5 */}
                   <div>
-                    <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
-                      Project Description & Requirements <span className="text-[#88BDF2]">*</span>
+                    <label className="block text-xs font-semibold text-slate-700 mb-2">
+                      Project Description & Requirements <span className="text-sky-600">*</span>
                     </label>
                     <textarea
                       name="description"
@@ -449,23 +449,23 @@ const QuoteContactSection = () => {
                       required
                       rows={4}
                       placeholder="Please outline the nature of your data, source file formats, required deliverables, expected accuracy guidelines, and turnaround timeline..."
-                      className="w-full px-4 py-3 rounded-xl bg-[#1b2631]/80 border border-[#384959] text-white placeholder:text-[#6A89A7] text-sm focus:outline-none focus:border-[#88BDF2] transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all resize-none"
                     />
                   </div>
 
                   {/* File Upload */}
                   <div>
-                    <label className="block text-xs font-semibold text-[#BDDDFC] mb-2">
+                    <label className="block text-xs font-semibold text-slate-700 mb-2">
                       Attach Sample / Guideline Document (Optional, Max 10MB)
                     </label>
                     
                     {!selectedFile ? (
-                      <label className="border-2 border-dashed border-[#384959] hover:border-[#88BDF2]/60 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-[#1b2631]/50 hover:bg-[#1b2631] transition-all">
-                        <Upload className="w-8 h-8 text-[#88BDF2] mb-2" />
-                        <span className="text-xs font-medium text-[#BDDDFC]">
+                      <label className="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-slate-50 hover:bg-sky-50/40 transition-all">
+                        <Upload className="w-8 h-8 text-sky-600 mb-2" />
+                        <span className="text-xs font-medium text-slate-700">
                           Click to upload sample (PDF, DOCX, XLSX, CSV, ZIP, Images)
                         </span>
-                        <span className="text-[10px] text-[#6A89A7] mt-1">Up to 10MB per file</span>
+                        <span className="text-[10px] text-slate-400 mt-1">Up to 10MB per file</span>
                         <input
                           type="file"
                           onChange={handleFileChange}
@@ -474,18 +474,18 @@ const QuoteContactSection = () => {
                         />
                       </label>
                     ) : (
-                      <div className="p-4 rounded-xl bg-[#1b2631] border border-[#88BDF2]/40 flex items-center justify-between">
+                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <FileText className="w-6 h-6 text-[#88BDF2] shrink-0" />
+                          <FileText className="w-6 h-6 text-sky-600 shrink-0" />
                           <div>
-                            <p className="text-xs font-medium text-white line-clamp-1">{selectedFile.name}</p>
-                            <p className="text-[10px] text-[#6A89A7]">{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                            <p className="text-xs font-medium text-slate-900 line-clamp-1">{selectedFile.name}</p>
+                            <p className="text-[10px] text-slate-500">{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB</p>
                           </div>
                         </div>
                         <button
                           type="button"
                           onClick={removeFile}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors cursor-pointer"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -493,7 +493,7 @@ const QuoteContactSection = () => {
                     )}
 
                     {fileError && (
-                      <p className="text-xs text-red-400 mt-2">{fileError}</p>
+                      <p className="text-xs text-red-500 mt-2">{fileError}</p>
                     )}
                   </div>
 
@@ -502,11 +502,11 @@ const QuoteContactSection = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full py-4 rounded-xl font-bold text-[#1b2631] text-base bg-gradient-to-r from-[#88BDF2] via-[#BDDDFC] to-[#88BDF2] hover:from-[#BDDDFC] hover:to-[#88BDF2] shadow-xl shadow-[#1b2631]/80 border border-[#BDDDFC]/40 transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-4 rounded-xl font-bold text-white text-base bg-slate-900 hover:bg-sky-700 shadow-lg shadow-slate-900/10 transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
                     >
                       {loading ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-[#1b2631]/30 border-t-[#1b2631] rounded-full animate-spin" />
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                           <span>Submitting Your Project...</span>
                         </>
                       ) : (
@@ -516,9 +516,9 @@ const QuoteContactSection = () => {
                         </>
                       )}
                     </button>
-                    <p className="text-center text-[11px] text-[#BDDDFC]/70 mt-3 flex items-center justify-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 text-[#88BDF2]" />
-                      100% Secure & Confidential. We will never share your information.
+                    <p className="text-center text-[11px] text-slate-500 mt-3 flex items-center justify-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
+                      100% Secure &amp; Confidential. We will never share your information.
                     </p>
                   </div>
 

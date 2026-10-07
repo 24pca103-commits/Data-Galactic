@@ -141,29 +141,29 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="py-24 relative bg-gradient-to-b from-[#1b2631] via-[#243342] to-[#1b2631] overflow-hidden"
+      className="py-24 relative bg-slate-50 overflow-hidden border-b border-slate-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Lighting with Stormy morning palette */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#88BDF2]/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#6A89A7]/15 blur-[150px] rounded-full pointer-events-none" />
+      {/* Background Lighting */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-sky-200/40 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-100/50 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 text-xs font-semibold text-[#BDDDFC]">
-            <Layers className="w-3.5 h-3.5 text-[#88BDF2]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
+            <Layers className="w-3.5 h-3.5 text-sky-600" />
             <span>Comprehensive Enterprise Capabilities</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Data Support Services Built Around{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BDDDFC] via-[#88BDF2] to-[#6A89A7]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
               Your Business
             </span>
           </h2>
-          <p className="text-[#BDDDFC]/80 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             From granular spreadsheet data entry to end-to-end e-commerce catalog operations, we deliver accurate, secure, and cost-efficient back-office support tailored for international companies.
           </p>
         </div>
@@ -178,7 +178,7 @@ const ServicesSection = () => {
             <button
               onClick={handlePrev}
               aria-label="Previous Service"
-              className="p-3 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 hover:border-[#88BDF2] hover:bg-[#88BDF2] text-[#BDDDFC] hover:text-[#1b2631] transition-all cursor-pointer shadow-lg active:scale-95 shrink-0"
+              className="p-3 rounded-full bg-white border border-slate-200 hover:border-sky-500 hover:bg-sky-500 text-slate-700 hover:text-white transition-all cursor-pointer shadow-md active:scale-95 shrink-0"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -200,22 +200,22 @@ const ServicesSection = () => {
                     <div
                       className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isCenter
-                          ? 'bg-gradient-to-br from-[#88BDF2] via-[#6A89A7] to-[#384959] text-white shadow-2xl shadow-[#88BDF2]/40 ring-4 ring-[#88BDF2]/50'
-                          : 'bg-[#243342] border-2 border-[#384959] text-[#88BDF2] group-hover:border-[#88BDF2]/60'
+                          ? 'bg-gradient-to-br from-sky-500 via-cyan-600 to-blue-700 text-white shadow-xl shadow-sky-500/25 ring-4 ring-sky-200'
+                          : 'bg-white border-2 border-slate-200 text-sky-600 group-hover:border-sky-400 shadow-sm'
                       }`}
                     >
                       <Icon className={`w-7 h-7 sm:w-8 sm:h-8 transition-transform ${isCenter ? 'scale-110' : 'group-hover:scale-105'}`} />
                       
                       {/* Active indicator dot */}
                       {isCenter && (
-                        <span className="absolute -bottom-1 w-2.5 h-2.5 rounded-full bg-[#BDDDFC] animate-ping" />
+                        <span className="absolute -bottom-1 w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping" />
                       )}
                     </div>
 
                     {/* Title under icon */}
                     <span
                       className={`text-xs font-semibold text-center line-clamp-1 max-w-[120px] transition-colors ${
-                        isCenter ? 'text-white' : 'text-[#6A89A7]'
+                        isCenter ? 'text-slate-900 font-bold' : 'text-slate-500'
                       }`}
                     >
                       {service.title}
@@ -229,7 +229,7 @@ const ServicesSection = () => {
             <button
               onClick={handleNext}
               aria-label="Next Service"
-              className="p-3 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 hover:border-[#88BDF2] hover:bg-[#88BDF2] text-[#BDDDFC] hover:text-[#1b2631] transition-all cursor-pointer shadow-lg active:scale-95 shrink-0"
+              className="p-3 rounded-full bg-white border border-slate-200 hover:border-sky-500 hover:bg-sky-500 text-slate-700 hover:text-white transition-all cursor-pointer shadow-md active:scale-95 shrink-0"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -244,41 +244,41 @@ const ServicesSection = () => {
                 aria-label={`Go to service ${i + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   activeIdx === i
-                    ? 'w-7 bg-[#88BDF2]'
-                    : 'w-2 bg-[#384959] hover:bg-[#6A89A7]'
+                    ? 'w-7 bg-sky-600'
+                    : 'w-2 bg-slate-300 hover:bg-slate-400'
                 }`}
               />
             ))}
           </div>
         </div>
 
-        {/* Detailed Service Showcase Card (Slides / Transitions with Active Icon) */}
-        <div className="relative rounded-3xl p-6 sm:p-10 lg:p-12 bg-gradient-to-b from-[#2d3e50]/95 to-[#243342]/95 border border-[#88BDF2]/30 backdrop-blur-2xl shadow-2xl shadow-black/50 transition-all duration-500">
+        {/* Detailed Service Showcase Card */}
+        <div className="relative rounded-3xl p-6 sm:p-10 lg:p-12 bg-white border border-slate-200 shadow-xl transition-all duration-500">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left Content Column */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#384959]/80 border border-[#88BDF2]/30 text-xs font-mono tracking-wider text-[#BDDDFC] font-medium">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-mono tracking-wider text-sky-700 font-medium">
                 <span>Featured Data Solution</span>
               </div>
 
-              <h3 className="text-2xl sm:text-4xl font-bold text-white font-['Space_Grotesk']">
+              <h3 className="text-2xl sm:text-4xl font-bold text-slate-900 font-['Space_Grotesk']">
                 {currentService.title}
               </h3>
 
-              <p className="text-[#BDDDFC]/80 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 {currentService.tagline}
               </p>
 
               {/* Service SLA & Metrics */}
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959]">
-                  <p className="text-[11px] uppercase tracking-wider text-[#6A89A7] font-mono">Turnaround</p>
-                  <p className="text-sm font-bold text-[#88BDF2] mt-1">{currentService.turnaround}</p>
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-mono">Turnaround</p>
+                  <p className="text-sm font-bold text-sky-600 mt-1">{currentService.turnaround}</p>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-[#1b2631]/80 border border-[#384959]">
-                  <p className="text-[11px] uppercase tracking-wider text-[#6A89A7] font-mono">Quality Standard</p>
-                  <p className="text-sm font-bold text-emerald-400 mt-1">{currentService.accuracy}</p>
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-mono">Quality Standard</p>
+                  <p className="text-sm font-bold text-emerald-600 mt-1">{currentService.accuracy}</p>
                 </div>
               </div>
 
@@ -286,7 +286,7 @@ const ServicesSection = () => {
               <div className="pt-2">
                 <a
                   href="#contact"
-                  className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-[#1b2631] bg-gradient-to-r from-[#88BDF2] to-[#BDDDFC] hover:from-[#BDDDFC] hover:to-[#88BDF2] rounded-xl shadow-lg shadow-[#1b2631]/80 transition-all group"
+                  className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl shadow-md transition-all group"
                 >
                   <span>Request Quote for {currentService.title}</span>
                   <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
@@ -299,22 +299,22 @@ const ServicesSection = () => {
               {currentService.subServices.map((sub, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-[#1b2631]/80 border border-[#384959] hover:border-[#88BDF2]/50 hover:bg-[#1b2631] transition-all duration-300 group flex flex-col justify-between shadow-lg"
+                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-white transition-all duration-300 group flex flex-col justify-between shadow-sm hover:shadow-md"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-sm font-bold text-white group-hover:text-[#88BDF2] transition-colors">
+                      <h4 className="text-sm font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
                         {sub.name}
                       </h4>
-                      <CheckCircle2 className="w-4 h-4 text-[#88BDF2] shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
                     </div>
-                    <p className="text-xs text-[#BDDDFC]/70 leading-relaxed">
+                    <p className="text-xs text-slate-600 leading-relaxed">
                       {sub.desc}
                     </p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-[#384959]/80 flex items-center justify-between text-[11px] text-[#88BDF2] font-medium">
+                  <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between text-[11px] text-sky-600 font-medium">
                     <span>100% QA Verified</span>
-                    <span className="text-[#6A89A7] group-hover:text-[#88BDF2] transition-colors">→</span>
+                    <span className="text-slate-400 group-hover:text-sky-600 transition-colors">→</span>
                   </div>
                 </div>
               ))}

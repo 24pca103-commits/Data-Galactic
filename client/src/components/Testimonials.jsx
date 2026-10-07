@@ -215,25 +215,25 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-24 relative bg-gradient-to-b from-[#0d1117] via-[#161b22] to-[#0d1117] overflow-hidden">
+    <section id="testimonials" className="py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#38bdf8]/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-sky-100/60 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#21262d] border border-[#38bdf8]/25 text-xs font-semibold text-[#7dd3fc]">
-            <MessageSquareQuote className="w-3.5 h-3.5 text-[#38bdf8]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
+            <MessageSquareQuote className="w-3.5 h-3.5 text-sky-600" />
             <span>Client Experiences</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             What Our Clients{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7dd3fc] via-[#38bdf8] to-[#0284c7]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
               Say
             </span>
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             See how international businesses leverage our precision data processing and back-office support to scale operations smoothly.
           </p>
 
@@ -241,9 +241,9 @@ const Testimonials = () => {
           <div className="pt-2">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#21262d] hover:bg-[#38bdf8]/15 border border-[#38bdf8]/40 text-[#7dd3fc] hover:text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-md hover:shadow-[#38bdf8]/20 hover:scale-105"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-300 text-sky-700 hover:text-sky-800 text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-sm hover:shadow hover:scale-105"
             >
-              <PlusCircle className="w-4 h-4 text-[#38bdf8]" />
+              <PlusCircle className="w-4 h-4 text-sky-600" />
               <span>Leave Client Feedback / Review</span>
             </button>
           </div>
@@ -254,8 +254,8 @@ const Testimonials = () => {
       {/* Full-width continuous even auto-scroller container */}
       <div className="relative w-full">
         {/* Soft edge fade masks on left and right */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#0d1117] via-[#0d1117]/80 to-transparent z-20" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#0d1117] via-[#0d1117]/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent z-20" />
 
         {/* Scrollable Track */}
         <div
@@ -280,31 +280,31 @@ const Testimonials = () => {
           {allItems.map((item, idx) => (
             <div
               key={idx}
-              className="w-[320px] sm:w-[400px] flex-shrink-0 p-7 rounded-3xl bg-gradient-to-b from-[#21262d]/95 to-[#161b22]/95 border border-[#30363d] hover:border-[#38bdf8]/50 backdrop-blur-xl shadow-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+              className="w-[320px] sm:w-[400px] flex-shrink-0 p-7 rounded-3xl bg-white border border-slate-200/90 hover:border-sky-400 shadow-sm hover:shadow-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
             >
               <div>
                 {/* Rating Stars */}
-                <div className="flex items-center gap-1 text-amber-400 mb-5">
+                <div className="flex items-center gap-1 text-amber-500 mb-5">
                   {[...Array(item.rating || 5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
 
                 {/* Quote */}
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed italic mb-6">
+                <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic mb-6">
                   "{item.quote}"
                 </p>
               </div>
 
               {/* Client Info Block */}
-              <div className="pt-4 border-t border-[#30363d] space-y-1.5">
-                <div className="flex items-center gap-2 text-sm font-bold text-white font-['Space_Grotesk']">
-                  <Building className="w-4 h-4 text-[#38bdf8] shrink-0" />
+              <div className="pt-4 border-t border-slate-100 space-y-1.5">
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-900 font-['Space_Grotesk']">
+                  <Building className="w-4 h-4 text-sky-600 shrink-0" />
                   <span className="truncate">{item.name ? `${item.name} • ${item.clientType}` : item.clientType}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs pt-0.5">
-                  <span className="flex items-center gap-1 text-[#38bdf8] font-medium">
-                    <Globe className="w-3 h-3 text-[#38bdf8]" />
+                  <span className="flex items-center gap-1 text-sky-700 font-medium">
+                    <Globe className="w-3 h-3 text-sky-600" />
                     {item.region}
                   </span>
                   <span className="font-mono text-[11px] text-slate-500">
@@ -320,7 +320,7 @@ const Testimonials = () => {
       {/* Subtle indicator hint */}
       <div className="text-center mt-6">
         <span className="inline-flex items-center gap-2 text-xs text-slate-500 font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-[#38bdf8]" />
+          <Sparkles className="w-3.5 h-3.5 text-sky-600" />
           <span>Real-time dynamic feed • Click &amp; drag or swipe to explore manually</span>
         </span>
       </div>

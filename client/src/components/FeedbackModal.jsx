@@ -97,32 +97,32 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-[#161b22] border border-[#30363d] rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white border border-slate-200 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative text-slate-800">
         
         {/* Close Button */}
         <button
           onClick={resetAndClose}
-          className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSuccess ? (
           <div className="text-center py-8 space-y-4 animate-in zoom-in-95 duration-200">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-white font-['Space_Grotesk']">
+            <h3 className="text-2xl font-bold text-slate-900 font-['Space_Grotesk']">
               Thank You for Your Feedback!
             </h3>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-sm mx-auto">
+            <p className="text-sm text-slate-600 leading-relaxed max-w-sm mx-auto">
               Your testimonial has been submitted. Our team reviews all client submissions, and it will be published to the live testimonials carousel shortly!
             </p>
             <div className="pt-4">
               <button
                 onClick={resetAndClose}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#0284c7] to-[#38bdf8] text-white font-semibold text-xs shadow-lg cursor-pointer"
+                className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-md cursor-pointer"
               >
                 Done
               </button>
@@ -133,21 +133,21 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
             
             {/* Header */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#21262d] border border-[#38bdf8]/30 text-xs font-semibold text-[#7dd3fc] mb-3">
-                <MessageSquareQuote className="w-3.5 h-3.5 text-[#38bdf8]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 mb-3">
+                <MessageSquareQuote className="w-3.5 h-3.5 text-sky-600" />
                 <span>Client Experience</span>
               </div>
-              <h3 className="text-2xl font-extrabold text-white font-['Space_Grotesk']">
+              <h3 className="text-2xl font-extrabold text-slate-900 font-['Space_Grotesk']">
                 Share Your Experience
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-500 mt-1">
                 Help international businesses discover the quality of DataGalactic's back-office services.
               </p>
             </div>
 
             {/* Error Message */}
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 text-red-400 text-xs">
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5 text-red-600 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{errorMsg}</span>
               </div>
@@ -157,7 +157,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
               
               {/* Star Rating Selector */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
                   Rating (1 to 5 Stars) *
                 </label>
                 <div className="flex items-center gap-2">
@@ -174,13 +174,13 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                       >
                         <Star
                           className={`w-6 h-6 ${
-                            active ? 'text-amber-400 fill-amber-400' : 'text-slate-600'
+                            active ? 'text-amber-400 fill-amber-400' : 'text-slate-300'
                           }`}
                         />
                       </button>
                     );
                   })}
-                  <span className="text-xs font-semibold text-amber-400 ml-2">
+                  <span className="text-xs font-semibold text-amber-500 ml-2">
                     {formData.rating} of 5 Stars
                   </span>
                 </div>
@@ -189,7 +189,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
               {/* Name & Company */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Your Name *
                   </label>
                   <input
@@ -199,11 +199,11 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                     onChange={handleInputChange}
                     placeholder="e.g. Sarah Jenkins"
                     required
-                    className="w-full px-3.5 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-white text-xs focus:outline-none focus:border-[#38bdf8]"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Role / Client Type
                   </label>
                   <input
@@ -212,7 +212,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                     value={formData.clientType}
                     onChange={handleInputChange}
                     placeholder="e.g. International E-commerce Brand"
-                    className="w-full px-3.5 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-white text-xs focus:outline-none focus:border-[#38bdf8]"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
                   />
                 </div>
               </div>
@@ -220,7 +220,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
               {/* Region & Service */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Country / Region
                   </label>
                   <input
@@ -229,21 +229,21 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                     value={formData.region}
                     onChange={handleInputChange}
                     placeholder="e.g. United States / Europe"
-                    className="w-full px-3.5 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-white text-xs focus:outline-none focus:border-[#38bdf8]"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Service Received
                   </label>
                   <select
                     name="serviceType"
                     value={formData.serviceType}
                     onChange={handleInputChange}
-                    className="w-full px-3.5 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-white text-xs focus:outline-none focus:border-[#38bdf8]"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
                   >
                     {servicesList.map((svc, idx) => (
-                      <option key={idx} value={svc} className="bg-[#161b22]">
+                      <option key={idx} value={svc}>
                         {svc}
                       </option>
                     ))}
@@ -253,7 +253,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
 
               {/* Feedback Quote */}
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                   Your Review / Testimonial *
                 </label>
                 <textarea
@@ -263,7 +263,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                   rows={4}
                   required
                   placeholder="Share details regarding accuracy, turnaround speed, and communication..."
-                  className="w-full p-3 bg-[#0d1117] border border-[#30363d] rounded-xl text-white text-xs focus:outline-none focus:border-[#38bdf8]"
+                  className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
                 />
               </div>
 
@@ -271,7 +271,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#0284c7] to-[#38bdf8] text-white font-semibold text-xs shadow-lg hover:shadow-[#38bdf8]/20 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3 rounded-xl bg-slate-900 hover:bg-sky-700 text-white font-semibold text-xs shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {loading ? (
                   <>
