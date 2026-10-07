@@ -213,33 +213,35 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Trust Highlight Cards — bottom of hero */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 mt-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {highlights.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={idx}
-                className="relative group p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#21262d]/95 to-[#161b22]/95 border border-[#30363d] hover:border-[#38bdf8]/50 backdrop-blur-xl shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#38bdf8]/10 border border-[#38bdf8]/20 group-hover:border-[#38bdf8]/60 flex items-center justify-center text-[#38bdf8] group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6" />
+      {/* Trust Highlight Cards — bottom strip with white background */}
+      <div className="relative z-20 w-full bg-white border-t border-b border-slate-200/80 py-10 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {highlights.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="relative group p-5 sm:p-6 rounded-2xl bg-sky-50/90 hover:bg-sky-50 border border-sky-200/90 hover:border-sky-400 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-white border border-sky-200 flex items-center justify-center text-blue-900 group-hover:scale-110 transition-transform shadow-sm">
+                      <Icon className="w-6 h-6 text-blue-950" />
+                    </div>
+                    <span className="text-[11px] font-semibold tracking-wider uppercase font-mono px-2.5 py-1 rounded-md bg-white border border-sky-200 text-blue-950 shadow-xs">
+                      {item.metric}
+                    </span>
                   </div>
-                  <span className="text-[11px] font-semibold tracking-wider uppercase font-mono px-2.5 py-1 rounded-md bg-[#0d1117] border border-[#21262d] text-[#7dd3fc]">
-                    {item.metric}
-                  </span>
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-900 transition-colors font-['Space_Grotesk']">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="text-base font-semibold text-white group-hover:text-[#38bdf8] transition-colors font-['Space_Grotesk']">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

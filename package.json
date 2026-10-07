@@ -5,7 +5,10 @@
   "scripts": {
     "server": "cd server && node src/server.js",
     "client": "cd client && npm run dev",
-    "build": "cd client && npm run build",
+    "admin": "cd admin && npm run dev",
+    "build:client": "cd client && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build": "npm run build:client && npm run build:admin",
     "start": "node server/src/server.js"
   },
   "keywords": [
