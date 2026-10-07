@@ -1,5 +1,45 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { MessageSquareQuote, Star, Building, Globe, Sparkles } from 'lucide-react';
+import axios from 'axios';
+import { MessageSquareQuote, Star, Building, Globe, Sparkles, PlusCircle } from 'lucide-react';
+import FeedbackModal from './FeedbackModal';
+
+const initialTestimonials = [
+  {
+    quote: 'DataGalactic simplified our monthly catalog updating cycle. The turnaround was prompt, and the double-key verification caught discrepancies our internal team previously missed.',
+    clientType: 'International E-commerce Brand',
+    region: 'United States',
+    serviceType: 'Catalog Management & SKU Data Entry',
+    rating: 5
+  },
+  {
+    quote: 'Handling thousands of monthly invoice extractions became seamless once we outsourced to DataGalactic. Clean spreadsheets delivered on schedule without supervision overhead.',
+    clientType: 'Logistics & Supply Chain Firm',
+    region: 'United Kingdom',
+    serviceType: 'Invoice Processing & Document Conversion',
+    rating: 5
+  },
+  {
+    quote: 'The team adhered strictly to our data security SOPs and confidentiality guidelines. A reliable and responsive back-office partner for ongoing data maintenance.',
+    clientType: 'Commercial Real Estate Agency',
+    region: 'Europe',
+    serviceType: 'Property Records & Lead Research',
+    rating: 5
+  },
+  {
+    quote: 'Exceptional accuracy and speed. DataGalactic handled our entire patient data migration with zero errors and maintained all compliance protocols throughout the project.',
+    clientType: 'Healthcare Technology Company',
+    region: 'Canada',
+    serviceType: 'Healthcare Data Entry & Compliance',
+    rating: 5
+  },
+  {
+    quote: "We scaled from 5,000 to 50,000 product listings in just two months. DataGalactic's team was professional, accurate, and incredibly responsive to our changing requirements.",
+    clientType: 'Retail & Consumer Goods Brand',
+    region: 'Australia',
+    serviceType: 'E-commerce Catalog & Data Entry',
+    rating: 5
+  }
+];
 
 const Testimonials = () => {
   const containerRef = useRef(null);
@@ -9,49 +49,70 @@ const Testimonials = () => {
   const startScrollLeftRef = useRef(0);
   const resumeTimeoutRef = useRef(null);
   const [isCursorGrabbing, setIsCursorGrabbing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const testimonials = [
-    {
-      quote: 'DataGalactic simplified our monthly catalog updating cycle. The turnaround was prompt, and the double-key verification caught discrepancies our internal team previously missed.',
-      clientType: 'International E-commerce Brand',
-      region: 'United States',
-      serviceType: 'Catalog Management & SKU Data Entry'
-    },
-    {
-      quote: 'Handling thousands of monthly invoice extractions became seamless once we outsourced to DataGalactic. Clean spreadsheets delivered on schedule without supervision overhead.',
-      clientType: 'Logistics & Supply Chain Firm',
-      region: 'United Kingdom',
-      serviceType: 'Invoice Processing & Document Conversion'
-    },
-    {
-      quote: 'The team adhered strictly to our data security SOPs and confidentiality guidelines. A reliable and responsive back-office partner for ongoing data maintenance.',
-      clientType: 'Commercial Real Estate Agency',
-      region: 'Europe',
-      serviceType: 'Property Records & Lead Research'
-    },
-    {
-      quote: 'Exceptional accuracy and speed. DataGalactic handled our entire patient data migration with zero errors and maintained all compliance protocols throughout the project.',
-      clientType: 'Healthcare Technology Company',
-      region: 'Canada',
-      serviceType: 'Healthcare Data Entry & Compliance'
-    },
-    {
-      quote: "We scaled from 5,000 to 50,000 product listings in just two months. DataGalactic's team was professional, accurate, and incredibly responsive to our changing requirements.",
-      clientType: 'Retail & Consumer Goods Brand',
-      region: 'Australia',
-      serviceType: 'E-commerce Catalog & Data Entry'
+  // Dynamic feedback list
+  const [testimonials, setTestimonials] = useState(initialTestimonials);
+
+  // Fetch published testimonials from the backend
+  const fetchPublishedFeedbacks = async () => {
+    try {
+      const res = await axios.get('/api/feedback/published');
+      if (res.data.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+        const dynamicList = res.data.data.map(item => ({
+          quote: item.quote,
+          clientType: item.clientType || 'Corporate Client',
+          region: item.region || 'Global',
+          serviceType: item.serviceType || 'B2B Data Services',
+          rating: item.rating || 5,
+          name: item.name
+        }));
+        setTestimonials(dynamicList);
+      }
+    } catch (e) {
+      // Fallback stays on initialTestimonials
     }
-  ];
+  };
 
-  // Quadruple items to guarantee infinite smooth seamless looping on any screen size
-  const allItems = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
+  useEffect(() => {
+    fetchPublishedFeedbacks();
+
+    // Auto-refresh testimonials every 10 seconds
+    const interval = setInterval(fetchPublishedFeedbacks, 10000);
+
+    // Live Server-Sent Events listener for instant updates when admin publishes
+    let eventSource;
+    try {
+      eventSource = new EventSource('/api/feedback/events');
+      eventSource.onmessage = (e) => {
+        try {
+          const payload = JSON.parse(e.data);
+          if (payload.type === 'feedback_updated') {
+            fetchPublishedFeedbacks();
+          }
+        } catch (err) {
+          // Ignored
+        }
+      };
+    } catch (err) {
+      // Ignored
+    }
+
+    return () => {
+      clearInterval(interval);
+      if (eventSource) eventSource.close();
+    };
+  }, []);
+
+  // Guarantee smooth continuous looping
+  const repeatCount = testimonials.length > 6 ? 2 : 4;
+  const allItems = Array(repeatCount).fill(testimonials).flat();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     let animId;
-    // Steady, even scrolling speed (in pixels per frame)
     const speed = 0.85;
 
     const step = () => {
@@ -67,7 +128,7 @@ const Testimonials = () => {
       cancelAnimationFrame(animId);
       if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     };
-  }, []);
+  }, [allItems.length]);
 
   // Infinite seamless wrap-around handler
   const handleScroll = () => {
@@ -121,7 +182,6 @@ const Testimonials = () => {
   };
 
   const handleMouseEnter = () => {
-    // Soft pause on hover so user can easily read cards
     isInteractingRef.current = true;
   };
 
@@ -146,7 +206,6 @@ const Testimonials = () => {
     }, 1500);
   };
 
-  // Trackpad / Wheel handler
   const handleWheel = () => {
     isInteractingRef.current = true;
     clearTimeout(resumeTimeoutRef.current);
@@ -177,6 +236,17 @@ const Testimonials = () => {
           <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
             See how international businesses leverage our precision data processing and back-office support to scale operations smoothly.
           </p>
+
+          {/* User Review Submission Button */}
+          <div className="pt-2">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#21262d] hover:bg-[#38bdf8]/15 border border-[#38bdf8]/40 text-[#7dd3fc] hover:text-white text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-md hover:shadow-[#38bdf8]/20 hover:scale-105"
+            >
+              <PlusCircle className="w-4 h-4 text-[#38bdf8]" />
+              <span>Leave Client Feedback / Review</span>
+            </button>
+          </div>
         </div>
 
       </div>
@@ -213,9 +283,9 @@ const Testimonials = () => {
               className="w-[320px] sm:w-[400px] flex-shrink-0 p-7 rounded-3xl bg-gradient-to-b from-[#21262d]/95 to-[#161b22]/95 border border-[#30363d] hover:border-[#38bdf8]/50 backdrop-blur-xl shadow-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
             >
               <div>
-                {/* 5 Stars */}
+                {/* Rating Stars */}
                 <div className="flex items-center gap-1 text-amber-400 mb-5">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(item.rating || 5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
@@ -230,7 +300,7 @@ const Testimonials = () => {
               <div className="pt-4 border-t border-[#30363d] space-y-1.5">
                 <div className="flex items-center gap-2 text-sm font-bold text-white font-['Space_Grotesk']">
                   <Building className="w-4 h-4 text-[#38bdf8] shrink-0" />
-                  <span className="truncate">{item.clientType}</span>
+                  <span className="truncate">{item.name ? `${item.name} • ${item.clientType}` : item.clientType}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs pt-0.5">
                   <span className="flex items-center gap-1 text-[#38bdf8] font-medium">
@@ -251,9 +321,18 @@ const Testimonials = () => {
       <div className="text-center mt-6">
         <span className="inline-flex items-center gap-2 text-xs text-slate-500 font-medium">
           <Sparkles className="w-3.5 h-3.5 text-[#38bdf8]" />
-          <span>Auto-scrolling stream • Click &amp; drag or swipe to explore manually</span>
+          <span>Real-time dynamic feed • Click &amp; drag or swipe to explore manually</span>
         </span>
       </div>
+
+      {/* Feedback Submission Modal */}
+      <FeedbackModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onFeedbackSubmitted={() => {
+          fetchPublishedFeedbacks();
+        }}
+      />
 
     </section>
   );

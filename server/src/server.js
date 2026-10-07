@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { connectDB } = require('./config/db');
 const enquiryRoutes = require('./routes/enquiryRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,23 +41,34 @@ app.use(
         callback(null, true); // Allow dev origins
       }
     },
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true
   })
 );
 
-// Rate limiting (60 requests per 15 minutes window)
-const limiter = rateLimit({
+// Rate limiting (exempt SSE streams and admin endpoints from strict limits)
+const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 60,
+  max: 1000, // Generous limit for normal dashboard auto-refresh
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => req.path.startsWith('/api/admin/events') || req.path.startsWith('/api/feedback/events'),
   message: {
     success: false,
-    message: 'Too many requests from this IP, please try again after 15 minutes.'
+    message: 'Too many requests, please slow down.'
   }
 });
-app.use('/api/', limiter);
+app.use('/api/', generalLimiter);
+
+// Public lead submission rate limiter (stricter against spam bots)
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    success: false,
+    message: 'Too many quote requests from this IP. Please try again after 15 minutes.'
+  }
+});
 
 // Body parsing
 app.use(express.json({ limit: '2mb' }));
@@ -76,7 +89,9 @@ app.get('/', (req, res) => {
 });
 
 // API Routes
-app.use('/api/contact', enquiryRoutes);
+app.use('/api/contact', contactLimiter, enquiryRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 Fallback
 app.use((req, res) => {

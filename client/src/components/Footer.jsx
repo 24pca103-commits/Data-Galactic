@@ -137,6 +137,9 @@ const Footer = () => {
           <div className="flex items-center gap-6">
             <a href="#security" className="hover:text-slate-300 transition-colors">Data Confidentiality</a>
             <a href="#about" className="hover:text-slate-300 transition-colors">Terms of Engagement</a>
+            <a href="#admin" className="text-slate-400 hover:text-[#38bdf8] transition-colors flex items-center gap-1 font-medium">
+              <span>Admin Portal</span>
+            </a>
             <a href="https://datagalactic.in" className="hover:text-[#38bdf8] transition-colors flex items-center gap-1">
               datagalactic.in <ArrowUpRight className="w-3 h-3" />
             </a>

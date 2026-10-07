@@ -1,6 +1,7 @@
 const validator = require('validator');
 const { Enquiry, memoryStore } = require('../models/Enquiry');
 const { getStatus } = require('../config/db');
+const eventBus = require('../utils/eventBus');
 
 // @desc    Submit a new B2B project enquiry / quote request
 // @route   POST /api/contact
@@ -86,6 +87,9 @@ const submitEnquiry = async (req, res) => {
       };
       memoryStore.push(savedRecord);
     }
+
+    // Broadcast to Admin live listeners
+    eventBus.emit('enquiry_created', savedRecord);
 
     // Return clean success response
     return res.status(201).json({
