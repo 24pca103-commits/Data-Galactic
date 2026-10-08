@@ -64,7 +64,7 @@ const Navbar = () => {
             />
             <div className="flex flex-col text-left">
               <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white font-['Rajdhani'] leading-tight">
-                DATA <span className="text-[#38bdf8]">GALACTIC</span>
+                Data<span className="text-[#38bdf8]">Galactic</span>
               </span>
               <span className="text-[9px] tracking-[0.25em] uppercase text-slate-500 font-medium leading-none mt-0.5">
                 Precision Beyond Limits

@@ -316,9 +316,14 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'quotes', onLogout, onB
           
           {/* Brand */}
           <div className="flex items-center gap-3">
+            <img
+              src="/logo-mark-white.png"
+              alt="DataGalactic Logo"
+              className="h-8 sm:h-9 w-auto object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]"
+            />
             <div className="flex items-center gap-2">
               <span className="text-xl font-extrabold tracking-tight text-white font-['Rajdhani']">
-                DATA <span className="text-[#38bdf8]">GALACTIC</span>
+                Data<span className="text-[#38bdf8]">Galactic</span>
               </span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/30">
                 Admin Console
