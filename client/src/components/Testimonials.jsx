@@ -239,13 +239,13 @@ const Testimonials = () => {
 
           {/* User Review Submission Button */}
           <div className="pt-2">
-            <button
-              onClick={() => setIsModalOpen(true)}
+            <a
+              href="#feedback"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-300 text-sky-700 hover:text-sky-800 text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-sm hover:shadow hover:scale-105"
             >
               <PlusCircle className="w-4 h-4 text-sky-600" />
               <span>Leave Client Feedback / Review</span>
-            </button>
+            </a>
           </div>
         </div>
 

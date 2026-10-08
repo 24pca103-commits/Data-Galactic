@@ -3,10 +3,8 @@ import axios from 'axios';
 import confetti from 'canvas-confetti';
 import {
   Send,
-  Upload,
   CheckCircle2,
   AlertCircle,
-  FileText,
   X,
   Lock,
   ShieldCheck,
@@ -30,8 +28,6 @@ const QuoteContactSection = () => {
     phone: ''
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [fileError, setFileError] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successData, setSuccessData] = useState(null);
@@ -59,25 +55,6 @@ const QuoteContactSection = () => {
     if (errorMsg) setErrorMsg('');
   };
 
-  const handleFileChange = (e) => {
-    setFileError('');
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (file.size > 10 * 1024 * 1024) {
-      setFileError('File size exceeds the 10MB limit. Please upload a smaller document.');
-      setSelectedFile(null);
-      return;
-    }
-
-    setSelectedFile(file);
-  };
-
-  const removeFile = () => {
-    setSelectedFile(null);
-    setFileError('');
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -90,26 +67,19 @@ const QuoteContactSection = () => {
     setLoading(true);
 
     try {
-      const data = new FormData();
-      data.append('name', formData.name.trim());
-      data.append('companyName', formData.companyName.trim());
-      data.append('email', formData.email.trim());
-      data.append('country', formData.country.trim());
-      data.append('service', formData.service);
-      data.append('projectType', formData.projectType);
-      data.append('estimatedVolume', formData.estimatedVolume.trim() || 'Not specified');
-      data.append('description', formData.description.trim());
-      data.append('phone', formData.phone.trim());
+      const payload = {
+        name: formData.name.trim(),
+        companyName: formData.companyName.trim(),
+        email: formData.email.trim(),
+        country: formData.country.trim(),
+        service: formData.service,
+        projectType: formData.projectType,
+        estimatedVolume: formData.estimatedVolume.trim() || 'Not specified',
+        description: formData.description.trim(),
+        phone: formData.phone.trim()
+      };
 
-      if (selectedFile) {
-        data.append('file', selectedFile);
-      }
-
-      const response = await axios.post('/api/contact', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await axios.post('/api/contact', payload);
 
       if (response.data.success) {
         setSuccessData(response.data);
@@ -143,7 +113,6 @@ const QuoteContactSection = () => {
       description: '',
       phone: ''
     });
-    setSelectedFile(null);
     setErrorMsg('');
   };
 
@@ -244,7 +213,7 @@ const QuoteContactSection = () => {
                 <span>NDA & Confidentiality</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                All sample files, schemas, and descriptions submitted are strictly protected under our client confidentiality policy. We never share or sell client data.
+                All requirements, schemas, and project descriptions submitted are strictly protected under our client confidentiality policy. We never share or sell client data.
               </p>
             </div>
 
@@ -453,49 +422,7 @@ const QuoteContactSection = () => {
                     />
                   </div>
 
-                  {/* File Upload */}
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-2">
-                      Attach Sample / Guideline Document (Optional, Max 10MB)
-                    </label>
-                    
-                    {!selectedFile ? (
-                      <label className="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-slate-50 hover:bg-sky-50/40 transition-all">
-                        <Upload className="w-8 h-8 text-sky-600 mb-2" />
-                        <span className="text-xs font-medium text-slate-700">
-                          Click to upload sample (PDF, DOCX, XLSX, CSV, ZIP, Images)
-                        </span>
-                        <span className="text-[10px] text-slate-400 mt-1">Up to 10MB per file</span>
-                        <input
-                          type="file"
-                          onChange={handleFileChange}
-                          accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.zip"
-                          className="hidden"
-                        />
-                      </label>
-                    ) : (
-                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <FileText className="w-6 h-6 text-sky-600 shrink-0" />
-                          <div>
-                            <p className="text-xs font-medium text-slate-900 line-clamp-1">{selectedFile.name}</p>
-                            <p className="text-[10px] text-slate-500">{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB</p>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={removeFile}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-slate-100 transition-colors cursor-pointer"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    )}
 
-                    {fileError && (
-                      <p className="text-xs text-red-500 mt-2">{fileError}</p>
-                    )}
-                  </div>
 
                   {/* Submit Button */}
                   <div className="pt-4">

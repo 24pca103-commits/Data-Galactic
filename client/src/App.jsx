@@ -9,6 +9,7 @@ import IndustriesSection from './components/IndustriesSection';
 import HowItWorks from './components/HowItWorks';
 import DataSecurity from './components/DataSecurity';
 import Testimonials from './components/Testimonials';
+import FeedbackSection from './components/FeedbackSection';
 import FinalCTA from './components/FinalCTA';
 import QuoteContactSection from './components/QuoteContactSection';
 import FloatingActions from './components/FloatingActions';
@@ -44,6 +45,10 @@ function App() {
 
         {/* Proof, Trust & Final CTA with Dynamic Published Testimonials */}
         <Testimonials />
+
+        {/* Client Feedback & Review Submission Section */}
+        <FeedbackSection />
+
         <FinalCTA />
 
         {/* NAV LINK 7: CONTACT / GET A QUOTE */}
