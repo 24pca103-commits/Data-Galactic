@@ -63,7 +63,7 @@ const Navbar = () => {
               className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105 duration-200 drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]"
             />
             <div className="flex flex-col text-left">
-              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white font-['Rajdhani'] leading-tight">
+              <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white font-['Outfit'] leading-tight">
                 Data<span className="text-[#38bdf8]">Galactic</span>
               </span>
               <span className="text-[9px] tracking-[0.25em] uppercase text-slate-500 font-medium leading-none mt-0.5">

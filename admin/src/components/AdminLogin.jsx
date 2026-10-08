@@ -80,7 +80,7 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
               alt="DataGalactic Logo"
               className="h-12 w-auto mx-auto mb-3 object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]"
             />
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Rajdhani']">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Outfit']">
               Data<span className="text-[#38bdf8]">Galactic</span>
             </h1>
             <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-mono">

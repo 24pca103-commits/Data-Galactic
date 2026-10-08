@@ -322,7 +322,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'quotes', onLogout, onB
               className="h-8 sm:h-9 w-auto object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]"
             />
             <div className="flex items-center gap-2">
-              <span className="text-xl font-extrabold tracking-tight text-white font-['Rajdhani']">
+              <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white font-['Outfit']">
                 Data<span className="text-[#38bdf8]">Galactic</span>
               </span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/30">
