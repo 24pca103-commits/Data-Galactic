@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowRight, ShieldCheck, Database, FileSpreadsheet, CheckCircle2, Lock, Cpu, Globe2, Sparkles, Layers, CheckCircle, Zap, Shield, Sliders } from 'lucide-react';
+import { ArrowRight, ShieldCheck, FileSpreadsheet, CheckCircle2, Lock, Cpu, Globe2, Sparkles, Layers, CheckCircle, Zap, Shield, Sliders } from 'lucide-react';
 import DataVisualizer3D from './DataVisualizer3D';
+import heroImage from '../assets/hero.png';
 
 const Hero = () => {
   const highlights = [
@@ -31,13 +32,13 @@ const Hero = () => {
   ];
 
   return (
-    <section id="home" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-28 pb-0 overflow-hidden bg-gradient-to-b from-[#0d1117] via-[#161b22] to-[#0d1117]">
+    <section id="home" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-28 pb-0 overflow-hidden bg-gradient-to-b from-[#05142f] via-[#0a1f45] to-[#05142f]">
       <DataVisualizer3D />
 
       {/* Sky blue ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#38bdf8]/8 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[300px] bg-[#0284c7]/10 blur-[130px] rounded-full pointer-events-none" />
-      <div className="absolute top-20 left-10 w-[250px] h-[250px] bg-[#38bdf8]/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#4c8df7]/8 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[400px] h-[300px] bg-[#0d4ba3]/10 blur-[130px] rounded-full pointer-events-none" />
+      <div className="absolute top-20 left-10 w-[250px] h-[250px] bg-[#4c8df7]/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full flex-1 flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
@@ -46,16 +47,16 @@ const Hero = () => {
           <div className="lg:col-span-7 text-center lg:text-left space-y-7">
 
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#21262d]/80 border border-[#38bdf8]/30 text-xs font-semibold text-[#7dd3fc] shadow-inner">
-              <span className="flex h-2 w-2 rounded-full bg-[#38bdf8] animate-ping" />
-              <Globe2 className="w-3.5 h-3.5 text-[#38bdf8]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#122f5c]/80 border border-[#4c8df7]/30 text-xs font-semibold text-[#aac7ee] shadow-inner">
+              <span className="flex h-2 w-2 rounded-full bg-[#4c8df7] animate-ping" />
+              <Globe2 className="w-3.5 h-3.5 text-[#4c8df7]" />
               <span>International B2B Data &amp; Operations Partner</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] font-['Space_Grotesk']">
               Your Data. Our Expertise.{' '}
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#7dd3fc] via-[#38bdf8] to-[#0284c7]">
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#aac7ee] via-[#4c8df7] to-[#0d4ba3]">
                 Your Business, Simplified.
               </span>
             </h1>
@@ -68,15 +69,15 @@ const Hero = () => {
             {/* Checklist */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1 text-xs sm:text-sm text-slate-300 max-w-xl mx-auto lg:mx-0 font-medium">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
                 <span>99.9% Accuracy SLA</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
                 <span>Strict Confidentiality</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
                 <span>Cost-Efficient Scaling</span>
               </div>
             </div>
@@ -85,31 +86,31 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
               <a
                 href="#contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#0284c7] hover:bg-[#0369a1] rounded-xl shadow-lg shadow-[#0284c7]/30 border border-[#38bdf8]/40 transition-all active:scale-[0.98] group"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#0d4ba3] hover:bg-[#0a3b80] rounded-xl shadow-lg shadow-[#0d4ba3]/30 border border-[#4c8df7]/40 transition-all active:scale-[0.98] group"
               >
                 <span>Get a Free Quote</span>
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#services"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-medium text-slate-200 bg-[#21262d]/70 hover:bg-[#21262d] border border-[#30363d] rounded-xl transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-medium text-slate-200 bg-[#122f5c]/70 hover:bg-[#122f5c] border border-[#1e4480] rounded-xl transition-all"
               >
                 <span>Explore Our Services</span>
               </a>
             </div>
 
             {/* Metrics Bar */}
-            <div className="pt-6 border-t border-[#21262d] grid grid-cols-3 gap-4 text-center lg:text-left">
+            <div className="pt-6 border-t border-[#122f5c] grid grid-cols-3 gap-4 text-center lg:text-left">
               <div>
                 <p className="text-xl sm:text-2xl font-bold text-white font-['Space_Grotesk']">100%</p>
                 <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Confidentiality</p>
               </div>
               <div>
-                <p className="text-xl sm:text-2xl font-bold text-[#38bdf8] font-['Space_Grotesk']">24-48h</p>
+                <p className="text-xl sm:text-2xl font-bold text-[#4c8df7] font-['Space_Grotesk']">24-48h</p>
                 <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Rapid Turnaround</p>
               </div>
               <div>
-                <p className="text-xl sm:text-2xl font-bold text-[#7dd3fc] font-['Space_Grotesk']">60%+</p>
+                <p className="text-xl sm:text-2xl font-bold text-[#aac7ee] font-['Space_Grotesk']">60%+</p>
                 <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Cost Savings</p>
               </div>
             </div>
@@ -120,12 +121,12 @@ const Hero = () => {
             <div className="relative mx-auto max-w-md lg:max-w-none">
 
               {/* Main Card */}
-              <div className="relative rounded-3xl p-6 bg-gradient-to-b from-[#21262d]/95 to-[#161b22]/98 border border-[#30363d] backdrop-blur-xl shadow-2xl space-y-5">
+              <div className="relative rounded-3xl p-6 bg-gradient-to-b from-[#122f5c]/95 to-[#0a1f45]/98 border border-[#1e4480] backdrop-blur-xl shadow-2xl space-y-5">
 
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-[#21262d] pb-4 min-w-0">
+                <div className="flex items-center justify-between border-b border-[#122f5c] pb-4 min-w-0">
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className="w-8 h-8 rounded-lg bg-[#38bdf8]/15 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-[#4c8df7]/15 border border-[#4c8df7]/30 flex items-center justify-center text-[#4c8df7] shrink-0">
                       <Cpu className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
@@ -141,9 +142,9 @@ const Hero = () => {
 
                 {/* Steps */}
                 <div className="space-y-3">
-                  <div className="p-3.5 rounded-xl bg-[#0d1117]/60 border border-[#21262d] flex items-center justify-between hover:border-[#38bdf8]/30 transition-colors">
+                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] shrink-0">
+                      <div className="p-2 rounded-lg bg-[#4c8df7]/10 text-[#4c8df7] shrink-0">
                         <FileSpreadsheet className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
@@ -151,12 +152,12 @@ const Hero = () => {
                         <p className="text-[10px] text-slate-500 truncate">PDF, Excel, Sheets, Forms</p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-mono text-[#38bdf8] font-medium shrink-0 ml-2">99.98% Parsed</span>
+                    <span className="text-[11px] font-mono text-[#4c8df7] font-medium shrink-0 ml-2">99.98% Parsed</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#0d1117]/60 border border-[#21262d] flex items-center justify-between hover:border-[#38bdf8]/30 transition-colors">
+                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#0284c7]/20 text-[#7dd3fc] shrink-0">
+                      <div className="p-2 rounded-lg bg-[#0d4ba3]/20 text-[#aac7ee] shrink-0">
                         <Layers className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
@@ -167,9 +168,9 @@ const Hero = () => {
                     <span className="text-[11px] font-mono text-emerald-400 font-medium shrink-0 ml-2">Verified</span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#0d1117]/60 border border-[#21262d] flex items-center justify-between hover:border-[#38bdf8]/30 transition-colors">
+                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] shrink-0">
+                      <div className="p-2 rounded-lg bg-[#4c8df7]/10 text-[#4c8df7] shrink-0">
                         <ShieldCheck className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
@@ -177,13 +178,13 @@ const Hero = () => {
                         <p className="text-[10px] text-slate-500 truncate">Zero Error Tolerance Protocol</p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-mono text-[#7dd3fc] font-medium shrink-0 ml-2">100% Passed</span>
+                    <span className="text-[11px] font-mono text-[#aac7ee] font-medium shrink-0 ml-2">100% Passed</span>
                   </div>
                 </div>
 
                 {/* Footer */}
                 <div className="pt-2 flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5 text-[#38bdf8]">
+                  <div className="flex items-center gap-1.5 text-[#4c8df7]">
                     <Lock className="w-3.5 h-3.5" />
                     <span>Encrypted &amp; Confidential Handover</span>
                   </div>
@@ -191,16 +192,16 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Floating Cards */}
-              <div className="hidden sm:flex absolute -top-5 -right-5 p-3 rounded-xl bg-[#21262d] border border-[#38bdf8]/30 backdrop-blur-md shadow-xl items-center gap-2.5">
-                <Database className="w-4 h-4 text-[#38bdf8]" />
-                <div>
-                  <p className="text-[11px] font-semibold text-white">Database Synchronization</p>
-                  <p className="text-[9px] text-[#7dd3fc]">Clean Records Structured</p>
-                </div>
+              {/* Floating Image Badge */}
+              <div className="hidden sm:block absolute -top-5 -right-5 p-1.5 rounded-xl bg-[#122f5c]/90 border border-[#4c8df7]/30 backdrop-blur-md shadow-xl">
+                <img
+                  src={heroImage}
+                  alt="DataGalactic data operations"
+                  className="w-28 h-auto object-contain rounded-lg"
+                />
               </div>
 
-              <div className="hidden sm:flex absolute -bottom-5 -left-5 p-3 rounded-xl bg-[#161b22] border border-[#30363d] backdrop-blur-md shadow-xl items-center gap-2.5">
+              <div className="hidden sm:flex absolute -bottom-5 -left-5 p-3 rounded-xl bg-[#0a1f45] border border-[#1e4480] backdrop-blur-md shadow-xl items-center gap-2.5">
                 <Sparkles className="w-4 h-4 text-emerald-400" />
                 <div>
                   <p className="text-[11px] font-semibold text-white">Dedicated Support</p>
