@@ -23,7 +23,7 @@ const FeedbackSection = () => {
     serviceType: 'Data Entry Services',
     clientType: '',
     region: '',
-    rating: 5,
+    rating: 0,
     quote: ''
   });
 
@@ -116,7 +116,7 @@ const FeedbackSection = () => {
   };
 
   return (
-    <section id="feedback" className="py-20 bg-slate-50 relative overflow-hidden border-t border-slate-200">
+    <section id="feedback" className="scroll-mt-24 lg:scroll-mt-28 py-20 bg-slate-50 relative overflow-hidden border-t border-slate-200">
       {/* Background Soft Glows */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-sky-200/40 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl pointer-events-none" />

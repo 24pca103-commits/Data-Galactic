@@ -1,9 +1,69 @@
-import React from 'react';
-import { ArrowRight, ShieldCheck, FileSpreadsheet, CheckCircle2, Lock, Cpu, Globe2, Sparkles, Layers, CheckCircle, Zap, Shield, Sliders } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, ShieldCheck, FileSpreadsheet, CheckCircle2, Lock, Cpu, Globe2, Sparkles, Layers, CheckCircle, Zap, Shield, Sliders, ChevronLeft, ChevronRight, Users, Award } from 'lucide-react';
 import DataVisualizer3D from './DataVisualizer3D';
-import heroImage from '../assets/hero.png';
+import heroOperationsImage from '../assets/hero-operations.png';
 
 const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      badge: 'International Data & Operations Partner',
+      titleLine1: 'Your Data. Our Expertise.',
+      titleLine2: 'Your Business, Simplified.',
+      description: 'Reliable data entry and back-office support that helps global businesses save time, reduce operational costs, and focus on what matters most.',
+      checkpoints: ['99.9% Accuracy SLA', 'Strict Confidentiality', 'Cost-Efficient Scaling'],
+      ctaText: 'Get a Free Quote',
+      image: '/human-team-hero.jpg',
+      imageBadge: 'Dedicated Global Operations Team',
+      metrics: [
+        { val: '100%', label: 'Confidentiality' },
+        { val: '24-48h', label: 'Rapid Turnaround' },
+        { val: '60%+', label: 'Cost Savings' }
+      ]
+    },
+    {
+      badge: 'High-Throughput Enterprise Data Cleansing',
+      titleLine1: 'Precision Data Processing.',
+      titleLine2: 'Near-Zero Error Rates.',
+      description: 'From high-volume spreadsheets to complex document conversion, our dual-key QA workflow audits every single data point for mission-critical accuracy.',
+      checkpoints: ['Double-Key QA Audits', 'Structured Formatting', 'Seamless Document Conversion'],
+      ctaText: 'Explore Data Services',
+      image: '/human-qa-hero.jpg',
+      imageBadge: 'Dual QA Verification Specialists',
+      metrics: [
+        { val: '99.98%', label: 'Quality Verification' },
+        { val: 'Same-Day', label: 'Batch Execution' },
+        { val: 'Dual QA', label: 'Manual & System Check' }
+      ]
+    },
+    {
+      badge: 'Dedicated Back-Office Operations Backbone',
+      titleLine1: 'Scale Global Workloads.',
+      titleLine2: 'Without In-House Overhead.',
+      description: 'Serving international clients across the US, UK, Europe, and worldwide with reliable operational delivery, predictable SLAs, and direct supervisory communication.',
+      checkpoints: ['ISO SLA Standards', 'Dedicated Project Leads', 'Flexible On-Demand Scale'],
+      ctaText: 'Schedule Consultation',
+      image: '/human-global-hero.jpg',
+      imageBadge: '24/7 Enterprise Client Operations',
+      metrics: [
+        { val: '24/7', label: 'Secure Portal Sync' },
+        { val: '100%', label: 'Strict NDA Compliance' },
+        { val: 'Global', label: 'Enterprise Delivery' }
+      ]
+    }
+  ];
+
+  // Auto-slide every 5.5 seconds (bg remains static, only font & text slide smoothly)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const active = slides[currentSlide];
+
   const highlights = [
     {
       icon: CheckCircle,
@@ -32,190 +92,148 @@ const Hero = () => {
   ];
 
   return (
-    <section id="home" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-28 pb-0 overflow-hidden bg-gradient-to-b from-[#05142f] via-[#0a1f45] to-[#05142f]">
+    <section id="home" className="relative flex flex-col items-center pt-28 sm:pt-32 lg:pt-36 pb-0 overflow-hidden bg-gradient-to-b from-[#05142f] via-[#0a1f45] to-[#05142f]">
       <DataVisualizer3D />
 
-      {/* Sky blue ambient glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#4c8df7]/8 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[300px] bg-[#0d4ba3]/10 blur-[130px] rounded-full pointer-events-none" />
-      <div className="absolute top-20 left-10 w-[250px] h-[250px] bg-[#4c8df7]/5 blur-[100px] rounded-full pointer-events-none" />
+      {/* Dynamic Slide Background Ambient Glow */}
+      <div
+        className={`absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[320px] blur-[150px] rounded-full pointer-events-none transition-all duration-1000 ${
+          currentSlide === 0
+            ? 'bg-[#0047AB]/15'
+            : currentSlide === 1
+            ? 'bg-[#4c8df7]/18'
+            : 'bg-[#6366f1]/15'
+        }`}
+      />
+      <div className="absolute bottom-6 right-10 w-[400px] h-[250px] bg-[#0d4ba3]/10 blur-[140px] rounded-full pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full pt-4 pb-4">
 
-          {/* Left Column */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-7">
+          {/* Left Column: 3 Smooth Sliding Text Content Sets */}
+          <div className="lg:col-span-7 text-center lg:text-left">
 
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#122f5c]/80 border border-[#4c8df7]/30 text-xs font-semibold text-[#aac7ee] shadow-inner">
-              <span className="flex h-2 w-2 rounded-full bg-[#4c8df7] animate-ping" />
-              <Globe2 className="w-3.5 h-3.5 text-[#4c8df7]" />
-              <span>International B2B Data &amp; Operations Partner</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] font-['Space_Grotesk']">
-              Your Data. Our Expertise.{' '}
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#aac7ee] via-[#4c8df7] to-[#0d4ba3]">
-                Your Business, Simplified.
-              </span>
-            </h1>
-
-            {/* Supporting Text */}
-            <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Reliable data entry and back-office support that helps global businesses save time, reduce operational costs, and focus on what matters most.
-            </p>
-
-            {/* Checklist */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1 text-xs sm:text-sm text-slate-300 max-w-xl mx-auto lg:mx-0 font-medium">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
-                <span>99.9% Accuracy SLA</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
-                <span>Strict Confidentiality</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
-                <span>Cost-Efficient Scaling</span>
-              </div>
-            </div>
-
-            {/* CTA Group */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
-              <a
-                href="#contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#0d4ba3] hover:bg-[#0a3b80] rounded-xl shadow-lg shadow-[#0d4ba3]/30 border border-[#4c8df7]/40 transition-all active:scale-[0.98] group"
-              >
-                <span>Get a Free Quote</span>
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#services"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-medium text-slate-200 bg-[#122f5c]/70 hover:bg-[#122f5c] border border-[#1e4480] rounded-xl transition-all"
-              >
-                <span>Explore Our Services</span>
-              </a>
-            </div>
-
-            {/* Metrics Bar */}
-            <div className="pt-6 border-t border-[#122f5c] grid grid-cols-3 gap-4 text-center lg:text-left">
+            {/* Content Container with Uniform Even Spacing */}
+            <div
+              key={currentSlide}
+              className="space-y-4 sm:space-y-4.5 animate-in fade-in slide-in-from-right-4 duration-700 ease-out"
+            >
+              {/* Pill Badge (No dot) */}
               <div>
-                <p className="text-xl sm:text-2xl font-bold text-white font-['Space_Grotesk']">100%</p>
-                <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Confidentiality</p>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#122f5c]/90 border border-[#4c8df7]/40 text-xs font-semibold text-[#aac7ee] shadow-sm backdrop-blur-md">
+                  <Globe2 className="w-3.5 h-3.5 text-[#4c8df7]" />
+                  <span>{active.badge}</span>
+                </div>
               </div>
-              <div>
-                <p className="text-xl sm:text-2xl font-bold text-[#4c8df7] font-['Space_Grotesk']">24-48h</p>
-                <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Rapid Turnaround</p>
+
+              {/* Main Headline - Strictly Two Clean Lines with Even Line Spacing */}
+              <h1 className="text-2xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold tracking-tight text-white leading-[1.22] font-['Space_Grotesk']">
+                <span className="block whitespace-nowrap">{active.titleLine1}</span>
+                <span className="block whitespace-nowrap mt-1.5 text-transparent bg-clip-text bg-gradient-to-r from-[#aac7ee] via-[#4c8df7] to-[#818cf8]">
+                  {active.titleLine2}
+                </span>
+              </h1>
+
+              {/* Supporting Text */}
+              <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                {active.description}
+              </p>
+
+              {/* Checklist */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm text-slate-300 max-w-xl mx-auto lg:mx-0 font-medium">
+                {active.checkpoints.map((pt, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
+                    <span>{pt}</span>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="text-xl sm:text-2xl font-bold text-[#aac7ee] font-['Space_Grotesk']">60%+</p>
-                <p className="text-xs text-slate-500 uppercase tracking-wider mt-0.5 font-medium">Cost Savings</p>
+
+              {/* CTA Group */}
+              <div className="flex items-center justify-center lg:justify-start">
+                <a
+                  href="#contact"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white bg-[#002b66] hover:bg-[#0047AB] rounded-xl shadow-lg border border-[#4c8df7]/40 transition-all group cursor-pointer"
+                >
+                  <span>{active.ctaText}</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+
+              {/* Metrics Bar */}
+              <div className="pt-4 border-t border-[#122f5c] grid grid-cols-3 gap-4 text-center lg:text-left">
+                {active.metrics.map((m, mi) => (
+                  <div key={mi}>
+                    <p className="text-xl sm:text-2xl font-bold text-white font-['Space_Grotesk']">{m.val}</p>
+                    <p className="text-xs text-slate-400 uppercase tracking-wider mt-0.5 font-medium">{m.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
+
           </div>
 
-          {/* Right Column: Pipeline Card */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-
-              {/* Main Card */}
-              <div className="relative rounded-3xl p-6 bg-gradient-to-b from-[#122f5c]/95 to-[#0a1f45]/98 border border-[#1e4480] backdrop-blur-xl shadow-2xl space-y-5">
-
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-[#122f5c] pb-4 min-w-0">
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className="w-8 h-8 rounded-lg bg-[#4c8df7]/15 border border-[#4c8df7]/30 flex items-center justify-center text-[#4c8df7] shrink-0">
-                      <Cpu className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-semibold text-white truncate">Data Processing Pipeline</h4>
-                      <p className="text-[11px] text-slate-500 truncate">Live Enterprise Workflow</p>
-                    </div>
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0 ml-2 whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                    Active SLA
-                  </span>
-                </div>
-
-                {/* Steps */}
-                <div className="space-y-3">
-                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#4c8df7]/10 text-[#4c8df7] shrink-0">
-                        <FileSpreadsheet className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-medium text-slate-200 truncate">Raw Data Ingestion &amp; OCR</p>
-                        <p className="text-[10px] text-slate-500 truncate">PDF, Excel, Sheets, Forms</p>
-                      </div>
-                    </div>
-                    <span className="text-[11px] font-mono text-[#4c8df7] font-medium shrink-0 ml-2">99.98% Parsed</span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#0d4ba3]/20 text-[#aac7ee] shrink-0">
-                        <Layers className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-medium text-slate-200 truncate">Data Cleansing &amp; Formatting</p>
-                        <p className="text-[10px] text-slate-500 truncate">Deduplication &amp; Alignment</p>
-                      </div>
-                    </div>
-                    <span className="text-[11px] font-mono text-emerald-400 font-medium shrink-0 ml-2">Verified</span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-[#05142f]/60 border border-[#122f5c] flex items-center justify-between hover:border-[#4c8df7]/30 transition-colors">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded-lg bg-[#4c8df7]/10 text-[#4c8df7] shrink-0">
-                        <ShieldCheck className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-medium text-slate-200 truncate">Double-Key QA &amp; Verification</p>
-                        <p className="text-[10px] text-slate-500 truncate">Zero Error Tolerance Protocol</p>
-                      </div>
-                    </div>
-                    <span className="text-[11px] font-mono text-[#aac7ee] font-medium shrink-0 ml-2">100% Passed</span>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="pt-2 flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5 text-[#4c8df7]">
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>Encrypted &amp; Confidential Handover</span>
-                  </div>
-                  <span className="font-mono text-slate-500">Tier-1 Security</span>
-                </div>
-              </div>
-
-              {/* Floating Image Badge */}
-              <div className="hidden sm:block absolute -top-5 -right-5 p-1.5 rounded-xl bg-[#122f5c]/90 border border-[#4c8df7]/30 backdrop-blur-md shadow-xl">
+          {/* Right Column: Slide-Specific Human Image with 4 Animated Glowing Edge Badges (matching reference) */}
+          <div className="lg:col-span-5 relative flex justify-center px-3 sm:px-6 py-6">
+            <div key={currentSlide} className="relative w-full max-w-md group animate-in fade-in zoom-in-95 duration-500">
+              {/* Soft ambient glow behind card */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/20 via-blue-600/25 to-purple-600/20 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition duration-700 pointer-events-none" />
+              
+              {/* Clean Image Card with Floating Animation */}
+              <div className="relative rounded-3xl overflow-visible shadow-2xl bg-[#0a1f45] animate-image-float">
                 <img
-                  src={heroImage}
-                  alt="DataGalactic data operations"
-                  className="w-28 h-auto object-contain rounded-lg"
+                  src={active.image}
+                  alt={active.imageBadge}
+                  className="w-full h-[280px] sm:h-[340px] object-cover rounded-3xl border border-white/10 shadow-2xl transition-transform duration-700"
                 />
-              </div>
 
-              <div className="hidden sm:flex absolute -bottom-5 -left-5 p-3 rounded-xl bg-[#0a1f45] border border-[#1e4480] backdrop-blur-md shadow-xl items-center gap-2.5">
-                <Sparkles className="w-4 h-4 text-emerald-400" />
-                <div>
-                  <p className="text-[11px] font-semibold text-white">Dedicated Support</p>
-                  <p className="text-[9px] text-slate-400">Direct Project Supervision</p>
+                {/* 1. Top-Left Badge: 99.9% Accuracy */}
+                <div className="absolute -top-3.5 left-2 sm:-left-4 z-20 px-3.5 sm:px-4 py-2 rounded-full bg-[#0a0f2d]/95 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] backdrop-blur-md flex items-center gap-2 text-white animate-float-gentle">
+                  <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span className="font-semibold text-xs sm:text-[13px] text-white tracking-wide">99.9% Accuracy</span>
+                </div>
+
+                {/* 2. Top-Right Badge: Modern Tech */}
+                <div className="absolute top-5 right-2 sm:-right-4 z-20 px-3.5 sm:px-4 py-2 rounded-full bg-[#0a0f2d]/95 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] backdrop-blur-md flex items-center gap-2 text-white animate-float-delayed">
+                  <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span className="font-semibold text-xs sm:text-[13px] text-white tracking-wide">Modern Tech</span>
+                </div>
+
+                {/* 3. Bottom-Left Badge: Zero Error SLA */}
+                <div className="absolute bottom-9 left-2 sm:-left-4 z-20 px-3.5 sm:px-4 py-2 rounded-full bg-[#0a0f2d]/95 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] backdrop-blur-md flex items-center gap-2 text-white animate-float-slow">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="font-semibold text-xs sm:text-[13px] text-white tracking-wide">Zero Error SLA</span>
+                </div>
+
+                {/* 4. Bottom-Right Badge: Pure Precision */}
+                <div className="absolute -bottom-3.5 right-2 sm:-right-4 z-20 px-3.5 sm:px-4 py-2 rounded-full bg-[#0a0f2d]/95 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] backdrop-blur-md flex items-center gap-2 text-white animate-float-gentle">
+                  <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-semibold text-xs sm:text-[13px] text-white tracking-wide">Pure Precision</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Center Bottom Sliding Controls (No numbers, purely smooth rounded pills) */}
+        <div className="flex items-center justify-center gap-2 pt-4 pb-4 z-20">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
+                currentSlide === idx
+                  ? 'w-10 bg-[#4c8df7] shadow-lg shadow-[#4c8df7]/50'
+                  : 'w-2.5 bg-slate-600/80 hover:bg-slate-400'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </div>
 
       {/* Trust Highlight Cards — bottom strip with white background */}
-      <div className="relative z-20 w-full bg-white border-t border-b border-slate-200/80 py-10 mt-12">
+      <div className="relative z-20 w-full bg-white border-t border-b border-slate-200/80 py-8 mt-2 sm:mt-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {highlights.map((item, idx) => {

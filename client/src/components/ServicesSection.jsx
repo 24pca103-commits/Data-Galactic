@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   FileSpreadsheet,
   Filter,
@@ -64,12 +65,12 @@ const ServicesSection = () => {
     {
       id: 'web-research',
       title: 'Web Research & Intelligence',
-      tagline: 'Targeted market intelligence, B2B lead generation, and competitive data aggregation.',
+      tagline: 'Targeted market intelligence, verified lead generation, and competitive data aggregation.',
       icon: Search,
       subServices: [
         { name: 'Market Research', desc: 'Industry landscape data aggregation, pricing trends, and competitor benchmarking.' },
         { name: 'Product Research', desc: 'SKU research, vendor pricing comparisons, specification aggregation.' },
-        { name: 'Contact Research', desc: 'B2B decision-maker prospecting, verified email discovery, and LinkedIn mining.' },
+        { name: 'Contact Research', desc: 'Decision-maker prospecting, verified email discovery, and professional network research.' },
         { name: 'Data Collection', desc: 'Custom scraping, targeted list compilation, and directory validation.' }
       ],
       turnaround: 'Tailored Daily Feeds',
@@ -105,17 +106,16 @@ const ServicesSection = () => {
     }
   ];
 
-  // Auto-slide every 4 seconds (pauses on hover)
+  // Active auto-slide every 3.5 seconds (supports both auto sliding + manual sliding)
   useEffect(() => {
-    if (!isHovered) {
-      autoPlayRef.current = setInterval(() => {
-        setActiveIdx((prev) => (prev + 1) % services.length);
-      }, 4000);
-    }
+    autoPlayRef.current = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % services.length);
+    }, 3500);
+
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [isHovered, services.length]);
+  }, [services.length]);
 
   const handleNext = () => {
     setActiveIdx((prev) => (prev + 1) % services.length);
@@ -138,10 +138,26 @@ const ServicesSection = () => {
 
   const currentService = services[currentIdx];
 
+  // Check URL hash on load or change to select service tab
+  useEffect(() => {
+    const handleHashCheck = () => {
+      const h = window.location.hash.replace('#', '');
+      if (h) {
+        const found = services.findIndex(s => s.id === h);
+        if (found !== -1) {
+          setActiveIdx(found);
+        }
+      }
+    };
+    handleHashCheck();
+    window.addEventListener('hashchange', handleHashCheck);
+    return () => window.removeEventListener('hashchange', handleHashCheck);
+  }, []);
+
   return (
     <section
       id="services"
-      className="py-24 relative bg-slate-50 overflow-hidden border-b border-slate-200"
+      className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-slate-50 overflow-hidden border-b border-slate-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -283,13 +299,19 @@ const ServicesSection = () => {
               </div>
 
               {/* CTA Action */}
-              <div className="pt-2">
+              <div className="pt-2 flex flex-wrap gap-3">
+                <Link
+                  to={`/services/${currentService.id}`}
+                  className="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl transition-all"
+                >
+                  <span>Explore Dedicated Page</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Link>
                 <a
                   href="#contact"
-                  className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl shadow-md transition-all group"
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl shadow-md transition-all group"
                 >
-                  <span>Request Quote for {currentService.title}</span>
-                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                  <span>Request Quote</span>
                 </a>
               </div>
             </div>

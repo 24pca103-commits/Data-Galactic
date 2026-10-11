@@ -23,7 +23,7 @@ const feedbackSchema = new mongoose.Schema(
     serviceType: {
       type: String,
       trim: true,
-      default: 'B2B Data Services',
+      default: 'Data Support Services',
       maxlength: [120, 'Service type cannot exceed 120 characters']
     },
     rating: {

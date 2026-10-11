@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
   res.json({
     company: 'DataGalactic',
     tagline: 'Precision Beyond Limits',
-    businessType: 'B2B Data & Business Support Services',
+    businessType: 'Enterprise Data & Business Support Services',
     location: 'Tamil Nadu, India',
     email: 'hello@datagalactic.in',
     phone: '+91 9363164608',

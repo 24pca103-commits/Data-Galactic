@@ -2,8 +2,104 @@ const validator = require('validator');
 const { Enquiry, memoryStore } = require('../models/Enquiry');
 const { getStatus } = require('../config/db');
 const eventBus = require('../utils/eventBus');
+const { otpStore, sendOtpEmail, sendEnquiryEmails } = require('../utils/mailService');
 
-// @desc    Submit a new B2B project enquiry / quote request
+// @desc    Send OTP to email in real time
+// @route   POST /api/contact/send-otp
+// @access  Public
+const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || !validator.isEmail(email.trim())) {
+      return res.status(400).json({
+        success: false,
+        message: 'A valid email address is required to send verification OTP.'
+      });
+    }
+
+    const cleanEmail = validator.normalizeEmail(email.trim());
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    otpStore.set(cleanEmail, { otp, expiresAt, verified: false });
+
+    // Send real-time email
+    const mailResult = await sendOtpEmail(cleanEmail, otp);
+
+    return res.status(200).json({
+      success: true,
+      message: `A 6-digit verification code has been dispatched to ${cleanEmail}. Please check your inbox.`,
+      // Expose OTP in development if using test mailer for immediate client feedback
+      devOtp: process.env.NODE_ENV !== 'production' ? otp : undefined,
+      previewUrl: mailResult.previewUrl || undefined
+    });
+  } catch (error) {
+    console.error('[sendOtp Error]:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to send OTP email. Please verify your email or try again later.'
+    });
+  }
+};
+
+// @desc    Verify OTP for email
+// @route   POST /api/contact/verify-otp
+// @access  Public
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Both email and 6-digit OTP are required.'
+      });
+    }
+
+    const cleanEmail = validator.normalizeEmail(email.trim());
+    const stored = otpStore.get(cleanEmail);
+
+    if (!stored) {
+      return res.status(400).json({
+        success: false,
+        message: 'No OTP requested for this email. Please request a new code.'
+      });
+    }
+
+    if (Date.now() > stored.expiresAt) {
+      otpStore.delete(cleanEmail);
+      return res.status(400).json({
+        success: false,
+        message: 'This OTP has expired. Please request a new verification code.'
+      });
+    }
+
+    if (stored.otp !== otp.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Incorrect OTP code. Please enter the 6-digit code received in your email.'
+      });
+    }
+
+    // Mark as verified
+    stored.verified = true;
+    otpStore.set(cleanEmail, stored);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Email successfully verified! You may now submit your project enquiry.'
+    });
+  } catch (error) {
+    console.error('[verifyOtp Error]:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error verifying OTP.'
+    });
+  }
+};
+
+// @desc    Submit a new project enquiry / quote request
 // @route   POST /api/contact
 // @access  Public
 const submitEnquiry = async (req, res) => {
@@ -88,8 +184,13 @@ const submitEnquiry = async (req, res) => {
       memoryStore.push(savedRecord);
     }
 
-    // Broadcast to Admin live listeners
+    // Broadcast to Admin live SSE listeners
     eventBus.emit('enquiry_created', savedRecord);
+
+    // Send Real-Time Confirmation & Notification Emails
+    sendEnquiryEmails(enquiryData, savedRecord._id).catch(err => {
+      console.error('[sendEnquiryEmails Background Error]:', err.message);
+    });
 
     // Return clean success response
     return res.status(201).json({
@@ -132,7 +233,7 @@ const getHealth = async (req, res) => {
     status: 'healthy',
     company: 'DataGalactic',
     tagline: 'Precision Beyond Limits',
-    businessType: 'B2B Data & Business Support Services',
+    businessType: 'Enterprise Data & Business Support Services',
     database: dbConnected ? 'MongoDB Connected' : 'In-Memory Storage Mode',
     totalEnquiries: count,
     timestamp: new Date().toISOString()
@@ -140,6 +241,8 @@ const getHealth = async (req, res) => {
 };
 
 module.exports = {
+  sendOtp,
+  verifyOtp,
   submitEnquiry,
   getHealth
 };

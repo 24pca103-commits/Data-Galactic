@@ -81,3 +81,111 @@
 ::-webkit-scrollbar-track { background: #05142f; }
 ::-webkit-scrollbar-thumb { background: #122f5c; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #4c8df7; }
+
+/* Smooth button color change, subtle gradient hover, glowing shadow & lift animation */
+button, a[role="button"], input[type="submit"], .btn-action {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  will-change: transform, box-shadow;
+}
+
+/* Primary Action Buttons: blue-to-purple gradient hover, subtle glowing shadow and slight lift */
+button.bg-\[\#002b66\],
+button.bg-\[\#05142f\],
+button.bg-\[\#0d4ba3\],
+button.bg-slate-900,
+a.bg-\[\#002b66\],
+a.bg-\[\#05142f\],
+a.bg-\[\#0d4ba3\],
+a.bg-slate-900 {
+  background-size: 200% 200%;
+  transition: background-position 0.4s ease, transform 0.25s ease, box-shadow 0.3s ease, filter 0.2s ease;
+}
+
+button.bg-\[\#002b66\]:hover,
+button.bg-\[\#05142f\]:hover,
+button.bg-\[\#0d4ba3\]:hover,
+button.bg-slate-900:hover,
+a.bg-\[\#002b66\]:hover,
+a.bg-\[\#05142f\]:hover,
+a.bg-\[\#0d4ba3\]:hover,
+a.bg-slate-900:hover {
+  background-image: linear-gradient(135deg, #002b66 0%, #3b82f6 50%, #7c3aed 100%) !important;
+  background-position: right center;
+  box-shadow: 0 8px 24px -4px rgba(59, 130, 246, 0.45), 0 4px 12px -2px rgba(124, 58, 237, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Smooth right-arrow slide on hover */
+button:hover svg.lucide-arrow-right,
+a:hover svg.lucide-arrow-right {
+  transform: translateX(4px);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+svg.lucide-arrow-right {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active click state: gentle spring press */
+button:active, a[role="button"]:active, a.bg-\[\#002b66\]:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px -1px rgba(59, 130, 246, 0.3);
+}
+
+/* Smooth floating animations for badges and hero image */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.01);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 3.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatReverse 4.2s ease-in-out infinite 0.7s;
+}
+
+.animate-float-slow {
+  animation: floatGentle 4.8s ease-in-out infinite 1.4s;
+}
+
+.animate-image-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+/* Footer Link Slide to Right on hover and click */
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-link:active {
+  transform: translateX(6px);
+}
+

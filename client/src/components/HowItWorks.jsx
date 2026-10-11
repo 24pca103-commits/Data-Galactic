@@ -30,7 +30,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
+    <section id="how-it-works" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
       
       {/* Background Subtle Gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-sky-100/60 blur-[150px] rounded-full pointer-events-none" />
@@ -66,33 +66,36 @@ const HowItWorks = () => {
               return (
                 <div
                   key={index}
-                  className="group relative p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/90 hover:border-sky-400 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between"
+                  className="group relative p-6 sm:p-7 rounded-3xl bg-white hover:bg-[#05142f] border border-slate-200/90 hover:border-[#0047AB] shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between cursor-pointer"
                 >
                   <div>
-                    {/* Top Row: Icon */}
+                    {/* Top Row: Icon + Step Number */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 group-hover:border-sky-300 flex items-center justify-center text-sky-600 group-hover:scale-110 shadow-sm transition-transform">
+                      <div className="w-14 h-14 rounded-2xl bg-sky-50 group-hover:bg-[#122f5c] border border-sky-100 group-hover:border-[#4c8df7]/40 flex items-center justify-center text-sky-600 group-hover:text-white group-hover:scale-110 shadow-sm transition-all duration-300">
                         <Icon className="w-6 h-6" />
                       </div>
+                      <span className="text-2xl font-black font-mono text-slate-300 group-hover:text-[#4c8df7] transition-colors">
+                        0{index + 1}
+                      </span>
                     </div>
 
                     {/* Step Title */}
-                    <h3 className="text-lg font-bold text-slate-800 group-hover:text-sky-600 transition-colors font-['Space_Grotesk'] mb-3">
+                    <h3 className="text-lg font-bold text-slate-800 group-hover:text-white transition-colors font-['Space_Grotesk'] mb-3">
                       {item.title}
                     </h3>
 
                     {/* Step Description */}
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 group-hover:text-slate-300 transition-colors leading-relaxed">
                       {item.description}
                     </p>
                   </div>
 
                   {/* Highlight pill bottom */}
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] font-mono text-sky-700 font-semibold uppercase tracking-wider">
+                  <div className="mt-6 pt-4 border-t border-slate-100 group-hover:border-[#122f5c] flex items-center justify-between transition-colors">
+                    <span className="text-[11px] font-mono text-sky-700 group-hover:text-[#4c8df7] font-semibold uppercase tracking-wider transition-colors">
                       {item.highlight}
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-sky-500" />
+                    <span className="w-2 h-2 rounded-full bg-sky-500 group-hover:bg-[#4c8df7] transition-colors" />
                   </div>
                 </div>
               );

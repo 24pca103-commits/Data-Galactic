@@ -9,7 +9,7 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
     clientType: '',
     region: '',
     serviceType: 'Data Entry Services',
-    rating: 5,
+    rating: 0,
     quote: '',
     email: '',
     company: ''

@@ -63,7 +63,7 @@ const Testimonials = () => {
           quote: item.quote,
           clientType: item.clientType || 'Corporate Client',
           region: item.region || 'Global',
-          serviceType: item.serviceType || 'B2B Data Services',
+          serviceType: item.serviceType || 'Data Support Services',
           rating: item.rating || 5,
           name: item.name
         }));
@@ -215,7 +215,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
+    <section id="testimonials" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-sky-100/60 blur-[120px] rounded-full pointer-events-none" />
 
@@ -236,17 +236,6 @@ const Testimonials = () => {
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             See how international businesses leverage our precision data processing and back-office support to scale operations smoothly.
           </p>
-
-          {/* User Review Submission Button */}
-          <div className="pt-2">
-            <a
-              href="#feedback"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-300 text-sky-700 hover:text-sky-800 text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer shadow-sm hover:shadow hover:scale-105"
-            >
-              <PlusCircle className="w-4 h-4 text-sky-600" />
-              <span>Leave Client Feedback / Review</span>
-            </a>
-          </div>
         </div>
 
       </div>
@@ -300,7 +289,7 @@ const Testimonials = () => {
               <div className="pt-4 border-t border-slate-100 space-y-1.5">
                 <div className="flex items-center gap-2 text-sm font-bold text-slate-900 font-['Space_Grotesk']">
                   <Building className="w-4 h-4 text-sky-600 shrink-0" />
-                  <span className="truncate">{item.name ? `${item.name} • ${item.clientType}` : item.clientType}</span>
+                  <span className="truncate">{item.name ? `${item.name} | ${item.clientType}` : item.clientType}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs pt-0.5">
                   <span className="flex items-center gap-1 text-sky-700 font-medium">
@@ -317,13 +306,7 @@ const Testimonials = () => {
         </div>
       </div>
 
-      {/* Subtle indicator hint */}
-      <div className="text-center mt-6">
-        <span className="inline-flex items-center gap-2 text-xs text-slate-500 font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-          <span>Real-time dynamic feed • Click &amp; drag or swipe to explore manually</span>
-        </span>
-      </div>
+
 
       {/* Feedback Submission Modal */}
       <FeedbackModal

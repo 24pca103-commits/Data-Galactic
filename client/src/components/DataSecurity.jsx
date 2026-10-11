@@ -26,7 +26,7 @@ const DataSecurity = () => {
   ];
 
   return (
-    <section id="security" className="py-24 relative bg-white border-b border-slate-200/80 overflow-hidden">
+    <section id="security" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-white border-b border-slate-200/80 overflow-hidden">
       
       {/* Background Accent */}
       <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-sky-100/50 blur-[150px] rounded-full pointer-events-none" />

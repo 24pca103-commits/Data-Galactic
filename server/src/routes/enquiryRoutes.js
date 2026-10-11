@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/upload');
-const { submitEnquiry, getHealth } = require('../controllers/enquiryController');
+const { submitEnquiry, getHealth, sendOtp, verifyOtp } = require('../controllers/enquiryController');
 
 // Health check endpoint
 router.get('/health', getHealth);
+
+// Real-time OTP endpoints
+router.post('/send-otp', sendOtp);
+router.post('/verify-otp', verifyOtp);
 
 // Lead submission endpoint (supporting optional single file attachment)
 router.post('/', (req, res, next) => {

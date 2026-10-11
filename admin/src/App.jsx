@@ -45,10 +45,15 @@ function App() {
     localStorage.removeItem('dg_admin_user');
   };
 
+  const handleBackToSite = () => {
+    window.location.href = 'http://localhost:5173';
+  };
+
   if (!adminToken) {
     return (
       <AdminLogin
         onLoginSuccess={handleLoginSuccess}
+        onBackToSite={handleBackToSite}
       />
     );
   }
@@ -57,7 +62,9 @@ function App() {
     <AdminDashboard
       token={adminToken}
       adminUser={adminUser}
+      initialTab="overview"
       onLogout={handleLogout}
+      onBackToSite={handleBackToSite}
     />
   );
 }

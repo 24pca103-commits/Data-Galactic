@@ -35,7 +35,7 @@ const submitFeedback = async (req, res) => {
       name: validator.escape(name.trim()),
       clientType: clientType ? validator.escape(clientType.trim()) : 'Corporate Client',
       region: region ? validator.escape(region.trim()) : 'Global',
-      serviceType: serviceType ? validator.escape(serviceType.trim()) : 'B2B Data Services',
+      serviceType: serviceType ? validator.escape(serviceType.trim()) : 'Data Support Services',
       rating: numericRating,
       quote: validator.escape(quote.trim()),
       email: email && validator.isEmail(email.trim()) ? validator.normalizeEmail(email.trim()) : '',
