@@ -116,48 +116,42 @@ const Navbar = () => {
     }
   };
 
-  // Submenu Definitions with Section Targets
+  // Submenu Definitions with Dedicated Page Routes
   const servicesSubmenu = [
     {
       name: 'Data Entry Services',
       desc: 'Online & offline entry with 99.9% accuracy SLA',
-      href: '/#data-entry',
-      sectionId: 'data-entry',
+      href: '/services/data-entry',
       icon: FileSpreadsheet
     },
     {
       name: 'Data Processing & Cleansing',
       desc: 'Deduplication, schema normalization & enrichment',
-      href: '/#data-processing',
-      sectionId: 'data-processing',
+      href: '/services/data-processing',
       icon: Filter
     },
     {
       name: 'Data Conversion (OCR / PDF)',
       desc: 'PDF to Excel, scanned sheets & automated OCR',
-      href: '/#data-conversion',
-      sectionId: 'data-conversion',
+      href: '/services/data-conversion',
       icon: FileCode
     },
     {
       name: 'Web Research & Mining',
       desc: 'Business lead generation, market data & price monitoring',
-      href: '/#web-research',
-      sectionId: 'web-research',
+      href: '/services/web-research',
       icon: Search
     },
     {
       name: 'E-commerce Data Services',
       desc: 'Multi-channel product listings & inventory updates',
-      href: '/#ecommerce-data',
-      sectionId: 'ecommerce-data',
+      href: '/services/ecommerce-data',
       icon: ShoppingCart
     },
     {
       name: 'Back Office Support',
       desc: 'Dedicated teams for ongoing admin & operations',
-      href: '/#back-office-support',
-      sectionId: 'back-office-support',
+      href: '/services/back-office-support',
       icon: Briefcase
     }
   ];
@@ -166,43 +160,37 @@ const Navbar = () => {
     {
       name: 'E-commerce & Retail',
       desc: 'High-speed SKU population & catalog syncing',
-      href: '/#ecommerce',
-      sectionId: 'ecommerce',
+      href: '/industries/ecommerce',
       icon: ShoppingBag
     },
     {
       name: 'Healthcare & Medical',
       desc: 'Patient intake charts & insurance claims entry',
-      href: '/#healthcare',
-      sectionId: 'healthcare',
+      href: '/industries/healthcare',
       icon: HeartPulse
     },
     {
       name: 'Real Estate & Properties',
       desc: 'MLS listing management & county deeds indexing',
-      href: '/#real-estate',
-      sectionId: 'real-estate',
+      href: '/industries/real-estate',
       icon: Building2
     },
     {
       name: 'Banking & Financial',
       desc: 'Ledger reconciliation & KYC document parsing',
-      href: '/#finance',
-      sectionId: 'finance',
+      href: '/industries/finance',
       icon: BadgeDollarSign
     },
     {
       name: 'Logistics & Supply Chain',
       desc: 'Bill of Lading processing & shipping manifests',
-      href: '/#logistics',
-      sectionId: 'logistics',
+      href: '/industries/logistics',
       icon: Truck
     },
     {
       name: 'Education & EdTech',
       desc: 'Student admissions digitization & archives',
-      href: '/#education',
-      sectionId: 'education',
+      href: '/industries/education',
       icon: GraduationCap
     }
   ];
@@ -211,29 +199,25 @@ const Navbar = () => {
     {
       name: 'About Us',
       desc: 'Our mission, leadership & operational standards',
-      href: '/#about',
-      sectionId: 'about',
+      href: '/about',
       icon: Users
     },
     {
       name: 'How It Works',
       desc: '5-stage precision SLA workflow & delivery',
-      href: '/#how-it-works',
-      sectionId: 'how-it-works',
+      href: '/how-it-works',
       icon: Workflow
     },
     {
       name: 'Data Security & NDA',
       desc: 'Tier-1 confidentiality, ISO protocols & encryption',
-      href: '/#security',
-      sectionId: 'security',
+      href: '/security',
       icon: Lock
     },
     {
       name: 'Client Testimonials',
       desc: 'Verified enterprise endorsements & reviews',
-      href: '/#testimonials',
-      sectionId: 'testimonials',
+      href: '/testimonials',
       icon: Star
     }
   ];
@@ -307,24 +291,35 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter('about')}
                 onMouseLeave={handleMouseLeave}
               >
-                <button
-                  type="button"
-                  onClick={(e) => toggleDropdown('about', e)}
-                  className={`flex items-center gap-1 px-3.5 py-2 text-sm font-semibold rounded-xl transition-all cursor-pointer ${
+                <div
+                  className={`flex items-center rounded-xl transition-all ${
                     activeDropdown === 'about' || location.pathname.startsWith('/about') || location.pathname === '/how-it-works' || location.pathname === '/security'
                       ? 'text-white bg-[#002b66] shadow-xs'
                       : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
                   }`}
                 >
-                  <span>About</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
-                </button>
+                  <Link
+                    to="/about"
+                    onClick={() => setActiveDropdown(null)}
+                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
+                  >
+                    About
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleDropdown('about', e)}
+                    aria-label="Toggle About submenu"
+                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
                 {activeDropdown === 'about' && (
                   <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <a
-                      href="/#about"
-                      onClick={(e) => handleScrollToSection('about', e)}
+                    <Link
+                      to="/about"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Users className="w-4 h-4 text-sky-600 group-hover:text-white" />
@@ -332,10 +327,10 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">Company Profile</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Our mission, leadership &amp; vision</p>
                       </div>
-                    </a>
-                    <a
-                      href="/#how-it-works"
-                      onClick={(e) => handleScrollToSection('how-it-works', e)}
+                    </Link>
+                    <Link
+                      to="/how-it-works"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Workflow className="w-4 h-4 text-sky-600 group-hover:text-white" />
@@ -343,10 +338,10 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">How It Works</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">5-stage precision SLA workflow</p>
                       </div>
-                    </a>
-                    <a
-                      href="/#security"
-                      onClick={(e) => handleScrollToSection('security', e)}
+                    </Link>
+                    <Link
+                      to="/security"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Lock className="w-4 h-4 text-sky-600 group-hover:text-white" />
@@ -354,7 +349,7 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">Security &amp; NDA</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Bank-grade data confidentiality</p>
                       </div>
-                    </a>
+                    </Link>
                     <div className="pt-2 border-t border-slate-100 mt-1">
                       <Link
                         to="/about"
@@ -375,37 +370,46 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter('services')}
                 onMouseLeave={handleMouseLeave}
               >
-                <button
-                  type="button"
-                  onClick={(e) => toggleDropdown('services', e)}
-                  className={`flex items-center gap-1 px-3.5 py-2 text-sm font-semibold rounded-xl transition-all cursor-pointer ${
+                <div
+                  className={`flex items-center rounded-xl transition-all ${
                     activeDropdown === 'services' || location.pathname.startsWith('/services')
                       ? 'text-white bg-[#002b66] shadow-xs'
                       : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
                   }`}
                 >
-                  <span>Services</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
-                </button>
+                  <Link
+                    to="/services"
+                    onClick={() => setActiveDropdown(null)}
+                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
+                  >
+                    Services
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleDropdown('services', e)}
+                    aria-label="Toggle Services submenu"
+                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
                 {activeDropdown === 'services' && (
                   <div className="absolute top-full left-0 w-[580px] p-4 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50">
                     <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
                       <span className="uppercase tracking-wider font-bold text-slate-700">Enterprise Data Services</span>
                       <div className="flex items-center gap-3">
-                        <a href="/#services" onClick={(e) => handleScrollToSection('services', e)} className="text-[#002b66] font-semibold hover:underline cursor-pointer">Scroll to Overview ↓</a>
-                        <span className="text-slate-300">|</span>
-                        <Link to="/services" onClick={() => setActiveDropdown(null)} className="text-sky-700 font-bold hover:underline cursor-pointer">All Services Page →</Link>
+                        <Link to="/services" onClick={() => setActiveDropdown(null)} className="text-[#002b66] font-bold hover:underline cursor-pointer">All Services Catalog →</Link>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       {servicesSubmenu.map((item, idx) => {
                         const Icon = item.icon;
                         return (
-                          <a
+                          <Link
                             key={idx}
-                            href={item.href}
-                            onClick={(e) => handleScrollToSection(item.sectionId, e)}
+                            to={item.href}
+                            onClick={() => setActiveDropdown(null)}
                             className="flex items-start gap-3 p-2.5 rounded-xl transition-all duration-200 group hover:bg-[#002b66] hover:text-white text-slate-800 cursor-pointer"
                           >
                             <div className="p-2 rounded-lg shrink-0 transition-colors bg-slate-100 text-slate-700 group-hover:bg-[#122f5c] group-hover:text-white">
@@ -419,7 +423,7 @@ const Navbar = () => {
                                 {item.desc}
                               </p>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })}
                     </div>
@@ -443,37 +447,46 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter('industries')}
                 onMouseLeave={handleMouseLeave}
               >
-                <button
-                  type="button"
-                  onClick={(e) => toggleDropdown('industries', e)}
-                  className={`flex items-center gap-1 px-3.5 py-2 text-sm font-semibold rounded-xl transition-all cursor-pointer ${
+                <div
+                  className={`flex items-center rounded-xl transition-all ${
                     activeDropdown === 'industries' || location.pathname.startsWith('/industries')
                       ? 'text-white bg-[#002b66] shadow-xs'
                       : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
                   }`}
                 >
-                  <span>Industries</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'industries' ? 'rotate-180' : ''}`} />
-                </button>
+                  <Link
+                    to="/industries"
+                    onClick={() => setActiveDropdown(null)}
+                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
+                  >
+                    Industries
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleDropdown('industries', e)}
+                    aria-label="Toggle Industries submenu"
+                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'industries' ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
                 {activeDropdown === 'industries' && (
                   <div className="absolute top-full left-0 w-[580px] p-4 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50">
                     <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
                       <span className="uppercase tracking-wider font-bold text-slate-700">Specialized Industry Solutions</span>
                       <div className="flex items-center gap-3">
-                        <a href="/#industries" onClick={(e) => handleScrollToSection('industries', e)} className="text-[#002b66] font-semibold hover:underline cursor-pointer">Scroll to Sectors ↓</a>
-                        <span className="text-slate-300">|</span>
-                        <Link to="/industries" onClick={() => setActiveDropdown(null)} className="text-sky-700 font-bold hover:underline cursor-pointer">All Industries Page →</Link>
+                        <Link to="/industries" onClick={() => setActiveDropdown(null)} className="text-[#002b66] font-bold hover:underline cursor-pointer">All Industries Overview →</Link>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       {industriesSubmenu.map((item, idx) => {
                         const Icon = item.icon;
                         return (
-                          <a
+                          <Link
                             key={idx}
-                            href={item.href}
-                            onClick={(e) => handleScrollToSection(item.sectionId, e)}
+                            to={item.href}
+                            onClick={() => setActiveDropdown(null)}
                             className="flex items-start gap-3 p-2.5 rounded-xl transition-all duration-200 group hover:bg-[#002b66] hover:text-white text-slate-800 cursor-pointer"
                           >
                             <div className="p-2 rounded-lg shrink-0 transition-colors bg-slate-100 text-slate-700 group-hover:bg-[#122f5c] group-hover:text-white">
@@ -487,7 +500,7 @@ const Navbar = () => {
                                 {item.desc}
                               </p>
                             </div>
-                          </a>
+                          </Link>
                         );
                       })}
                     </div>
@@ -511,24 +524,35 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter('testimonials')}
                 onMouseLeave={handleMouseLeave}
               >
-                <button
-                  type="button"
-                  onClick={(e) => toggleDropdown('testimonials', e)}
-                  className={`flex items-center gap-1 px-3.5 py-2 text-sm font-semibold rounded-xl transition-all cursor-pointer ${
+                <div
+                  className={`flex items-center rounded-xl transition-all ${
                     activeDropdown === 'testimonials' || location.pathname.startsWith('/testimonials')
                       ? 'text-white bg-[#002b66] shadow-xs'
                       : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
                   }`}
                 >
-                  <span>Testimonials</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'testimonials' ? 'rotate-180' : ''}`} />
-                </button>
+                  <Link
+                    to="/testimonials"
+                    onClick={() => setActiveDropdown(null)}
+                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
+                  >
+                    Testimonials
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleDropdown('testimonials', e)}
+                    aria-label="Toggle Testimonials submenu"
+                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'testimonials' ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
                 {activeDropdown === 'testimonials' && (
                   <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <a
-                      href="/#testimonials"
-                      onClick={(e) => handleScrollToSection('testimonials', e)}
+                    <Link
+                      to="/testimonials"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Star className="w-4 h-4 text-amber-500 group-hover:text-white" />
@@ -536,7 +560,7 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">Client Endorsements</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Verified global partner reviews</p>
                       </div>
-                    </a>
+                    </Link>
                     <a
                       href="/#feedback"
                       onClick={(e) => handleScrollToSection('feedback', e)}
@@ -568,24 +592,35 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter('contact')}
                 onMouseLeave={handleMouseLeave}
               >
-                <button
-                  type="button"
-                  onClick={(e) => toggleDropdown('contact', e)}
-                  className={`flex items-center gap-1 px-3.5 py-2 text-sm font-semibold rounded-xl transition-all cursor-pointer ${
+                <div
+                  className={`flex items-center rounded-xl transition-all ${
                     activeDropdown === 'contact' || location.pathname === '/contact'
                       ? 'text-white bg-[#002b66] shadow-xs'
                       : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
                   }`}
                 >
-                  <span>Contact</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'contact' ? 'rotate-180' : ''}`} />
-                </button>
+                  <Link
+                    to="/contact"
+                    onClick={() => setActiveDropdown(null)}
+                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
+                  >
+                    Contact
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleDropdown('contact', e)}
+                    aria-label="Toggle Contact submenu"
+                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'contact' ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
                 {activeDropdown === 'contact' && (
                   <div className="absolute top-full right-0 w-80 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <a
-                      href="/#contact"
-                      onClick={(e) => handleScrollToSection('contact', e)}
+                    <Link
+                      to="/contact"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Mail className="w-4 h-4 text-sky-600 group-hover:text-white" />
@@ -593,7 +628,7 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">Request Free Quote</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Instant proposal in 12–24h</p>
                       </div>
-                    </a>
+                    </Link>
                     <a
                       href="https://wa.me/919363164608"
                       target="_blank"
@@ -624,14 +659,13 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden sm:flex items-center">
-            <a
-              href="/#contact"
-              onClick={(e) => handleScrollToSection('contact', e)}
+            <Link
+              to="/contact"
               className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#002b66] hover:bg-[#05142f] rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
             >
               <span>Get a Free Quote</span>
               <ArrowRight className="w-4 h-4 ml-2" />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile hamburger toggle */}
@@ -663,15 +697,25 @@ const Navbar = () => {
             </Link>
 
             {/* Mobile About Accordion */}
+            {/* Mobile About Accordion */}
             <div className="border-b border-slate-100 py-1">
-              <button
-                type="button"
-                onClick={() => toggleMobileSubmenu('about')}
-                className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800 hover:text-[#002b66]"
-              >
-                <span>About</span>
-                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileExpanded['about'] ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
+                <Link
+                  to="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#002b66] py-1 flex-grow"
+                >
+                  About
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSubmenu('about')}
+                  aria-label="Toggle About submenu"
+                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['about'] ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
               {mobileExpanded['about'] && (
                 <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
                   <Link
@@ -681,41 +725,50 @@ const Navbar = () => {
                   >
                     View Dedicated About Page →
                   </Link>
-                  <a
-                    href="/#about"
-                    onClick={(e) => handleScrollToSection('about', e)}
+                  <Link
+                    to="/about"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                   >
-                    Company Profile (Overview)
-                  </a>
-                  <a
-                    href="/#how-it-works"
-                    onClick={(e) => handleScrollToSection('how-it-works', e)}
+                    Company Profile
+                  </Link>
+                  <Link
+                    to="/how-it-works"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                   >
                     How It Works
-                  </a>
-                  <a
-                    href="/#security"
-                    onClick={(e) => handleScrollToSection('security', e)}
+                  </Link>
+                  <Link
+                    to="/security"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                   >
                     Security &amp; NDA
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
 
             {/* Mobile Services Accordion */}
             <div className="border-b border-slate-100 py-1">
-              <button
-                type="button"
-                onClick={() => toggleMobileSubmenu('services')}
-                className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800 hover:text-[#002b66]"
-              >
-                <span>Services</span>
-                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileExpanded['services'] ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
+                <Link
+                  to="/services"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#002b66] py-1 flex-grow"
+                >
+                  Services
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSubmenu('services')}
+                  aria-label="Toggle Services submenu"
+                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['services'] ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
               {mobileExpanded['services'] && (
                 <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
                   <Link
@@ -725,22 +778,15 @@ const Navbar = () => {
                   >
                     View All Services Page →
                   </Link>
-                  <a
-                    href="/#services"
-                    onClick={(e) => handleScrollToSection('services', e)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Scroll to Services Overview ↓
-                  </a>
                   {servicesSubmenu.map((item, idx) => (
-                    <a
+                    <Link
                       key={idx}
-                      href={item.href}
-                      onClick={(e) => handleScrollToSection(item.sectionId, e)}
+                      to={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -748,14 +794,23 @@ const Navbar = () => {
 
             {/* Mobile Industries Accordion */}
             <div className="border-b border-slate-100 py-1">
-              <button
-                type="button"
-                onClick={() => toggleMobileSubmenu('industries')}
-                className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800 hover:text-[#002b66]"
-              >
-                <span>Industries</span>
-                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileExpanded['industries'] ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
+                <Link
+                  to="/industries"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#002b66] py-1 flex-grow"
+                >
+                  Industries
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSubmenu('industries')}
+                  aria-label="Toggle Industries submenu"
+                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['industries'] ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
               {mobileExpanded['industries'] && (
                 <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
                   <Link
@@ -765,22 +820,15 @@ const Navbar = () => {
                   >
                     View All Industries Page →
                   </Link>
-                  <a
-                    href="/#industries"
-                    onClick={(e) => handleScrollToSection('industries', e)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Scroll to Industries Sectors ↓
-                  </a>
                   {industriesSubmenu.map((item, idx) => (
-                    <a
+                    <Link
                       key={idx}
-                      href={item.href}
-                      onClick={(e) => handleScrollToSection(item.sectionId, e)}
+                      to={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -788,14 +836,23 @@ const Navbar = () => {
 
             {/* Mobile Testimonials Accordion */}
             <div className="border-b border-slate-100 py-1">
-              <button
-                type="button"
-                onClick={() => toggleMobileSubmenu('testimonials')}
-                className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800 hover:text-[#002b66]"
-              >
-                <span>Testimonials</span>
-                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileExpanded['testimonials'] ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
+                <Link
+                  to="/testimonials"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#002b66] py-1 flex-grow"
+                >
+                  Testimonials
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSubmenu('testimonials')}
+                  aria-label="Toggle Testimonials submenu"
+                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['testimonials'] ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
               {mobileExpanded['testimonials'] && (
                 <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
                   <Link
@@ -805,13 +862,6 @@ const Navbar = () => {
                   >
                     View All Reviews Page →
                   </Link>
-                  <a
-                    href="/#testimonials"
-                    onClick={(e) => handleScrollToSection('testimonials', e)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Client Endorsements (Scroll)
-                  </a>
                   <a
                     href="/#feedback"
                     onClick={(e) => handleScrollToSection('feedback', e)}
@@ -825,14 +875,23 @@ const Navbar = () => {
 
             {/* Mobile Contact */}
             <div className="border-b border-slate-100 py-1">
-              <button
-                type="button"
-                onClick={() => toggleMobileSubmenu('contact')}
-                className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800 hover:text-[#002b66]"
-              >
-                <span>Contact</span>
-                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileExpanded['contact'] ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#002b66] py-1 flex-grow"
+                >
+                  Contact
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSubmenu('contact')}
+                  aria-label="Toggle Contact submenu"
+                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['contact'] ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
               {mobileExpanded['contact'] && (
                 <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
                   <Link
@@ -843,11 +902,12 @@ const Navbar = () => {
                     Visit Dedicated Contact Page →
                   </Link>
                   <a
-                    href="/#contact"
-                    onClick={(e) => handleScrollToSection('contact', e)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
+                    href="https://wa.me/919363164608"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-emerald-700 hover:text-white hover:bg-emerald-600 transition-colors cursor-pointer"
                   >
-                    Request Free Quote (Scroll)
+                    WhatsApp Direct Chat (+91 9363164608)
                   </a>
                 </div>
               )}
@@ -860,13 +920,13 @@ const Navbar = () => {
               <span>📧 hello@datagalactic.in</span>
               <span>📞 +91 9363164608</span>
             </div>
-            <a
-              href="/#contact"
-              onClick={(e) => handleScrollToSection('contact', e)}
+            <Link
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
               className="w-full text-center px-5 py-3 text-sm font-bold text-white bg-[#05142f] hover:bg-sky-600 rounded-xl shadow-lg transition-colors cursor-pointer"
             >
               Get a Free Quote
-            </a>
+            </Link>
           </div>
         </div>
       )}
