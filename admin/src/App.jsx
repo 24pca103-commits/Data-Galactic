@@ -25,8 +25,20 @@ function App() {
             handleLogout();
           }
         })
-        .catch(() => {
-          handleLogout();
+        .catch(async (err) => {
+          if (err.response?.status === 405 || err.response?.status === 404 || err.code === 'ERR_NETWORK') {
+            try {
+              const retry = await axios.get('http://127.0.0.1:5000/api/admin/verify', {
+                headers: { Authorization: `Bearer ${adminToken}` },
+                withCredentials: true
+              });
+              if (!retry.data.success) handleLogout();
+            } catch {
+              handleLogout();
+            }
+          } else {
+            handleLogout();
+          }
         });
     }
   }, [adminToken]);

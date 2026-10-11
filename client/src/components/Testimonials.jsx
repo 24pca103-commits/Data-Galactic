@@ -77,30 +77,11 @@ const Testimonials = () => {
   useEffect(() => {
     fetchPublishedFeedbacks();
 
-    // Auto-refresh testimonials every 10 seconds
-    const interval = setInterval(fetchPublishedFeedbacks, 10000);
-
-    // Live Server-Sent Events listener for instant updates when admin publishes
-    let eventSource;
-    try {
-      eventSource = new EventSource('/api/feedback/events');
-      eventSource.onmessage = (e) => {
-        try {
-          const payload = JSON.parse(e.data);
-          if (payload.type === 'feedback_updated') {
-            fetchPublishedFeedbacks();
-          }
-        } catch (err) {
-          // Ignored
-        }
-      };
-    } catch (err) {
-      // Ignored
-    }
+    // Auto-refresh testimonials cleanly every 15 seconds
+    const interval = setInterval(fetchPublishedFeedbacks, 15000);
 
     return () => {
       clearInterval(interval);
-      if (eventSource) eventSource.close();
     };
   }, []);
 

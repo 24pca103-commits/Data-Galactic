@@ -16,6 +16,12 @@ const {
 
 // Public admin routes
 router.post('/login', adminLogin);
+router.all('/login', (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: `Method ${req.method} is not allowed on /api/admin/login. Please use POST with email and password.`
+  });
+});
 
 // Protected routes (Admin token required)
 router.use(verifyAdminAuth);
