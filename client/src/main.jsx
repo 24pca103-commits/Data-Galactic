@@ -5,8 +5,9 @@ import './index.css'
 import App from './App.jsx'
 
 // Support backend API URL in dev/production via env variable
-if (import.meta.env.VITE_API_BASE_URL) {
-  axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+const apiUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5000' : '');
+if (apiUrl) {
+  axios.defaults.baseURL = apiUrl;
 }
 
 createRoot(document.getElementById('root')).render(

@@ -945,7 +945,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                         <td className="py-4 px-4">
                           {q.file && q.file.storedName ? (
                             <a
-                              href={`/api/admin/download/${encodeURIComponent(q.file.storedName)}?token=${encodeURIComponent(token)}`}
+                              href={`${axios.defaults.baseURL || ''}/api/admin/download/${encodeURIComponent(q.file.storedName)}?token=${encodeURIComponent(token)}`}
                               target="_blank"
                               rel="noreferrer"
                               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-[#0047AB] border border-blue-200 hover:bg-blue-100 text-xs font-semibold transition-colors"
@@ -1255,7 +1255,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                   </div>
                 </div>
                 <a
-                  href={`/api/admin/download/${encodeURIComponent(selectedQuote.file.storedName)}?token=${encodeURIComponent(token)}`}
+                  href={`${axios.defaults.baseURL || ''}/api/admin/download/${encodeURIComponent(selectedQuote.file.storedName)}?token=${encodeURIComponent(token)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="px-3 py-1.5 rounded-lg bg-[#0047AB] text-white font-bold text-xs hover:bg-[#003893] transition-colors flex items-center gap-1.5"

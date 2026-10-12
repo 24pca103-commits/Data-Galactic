@@ -34,8 +34,10 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://datagalactic.in',
   'https://www.datagalactic.in',
-  'https://admin.datagalactic.in'
-];
+  'https://admin.datagalactic.in',
+  process.env.CLIENT_URL,
+  process.env.ADMIN_URL
+].filter(Boolean);
 
 app.use(
   cors({
