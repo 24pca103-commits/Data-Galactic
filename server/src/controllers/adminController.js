@@ -165,7 +165,7 @@ const getDashboardStats = async (req, res) => {
           pending: pendingFeedbacks,
           published: publishedFeedbacks
         },
-        database: getStatus() ? 'MongoDB Connected' : 'In-Memory Store Mode'
+        database: getStatus() ? 'MySQL Connected' : 'In-Memory Store Mode'
       }
     });
   } catch (err) {
@@ -197,6 +197,7 @@ const getQuotes = async (req, res) => {
       if (search && search.trim()) {
         const regex = new RegExp(validator.escape(search.trim()), 'i');
         query.$or = [{ name: regex }, { companyName: regex }, { email: regex }, { service: regex }];
+        query._search = search.trim();
       }
       list = await Enquiry.find(query).sort({ createdAt: -1 }).lean();
     } else {

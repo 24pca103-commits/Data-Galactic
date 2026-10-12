@@ -1,68 +1,4 @@
-const mongoose = require('mongoose');
-
-const feedbackSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'Name is required'],
-      trim: true,
-      maxlength: [100, 'Name cannot exceed 100 characters']
-    },
-    clientType: {
-      type: String,
-      trim: true,
-      default: 'Corporate Client',
-      maxlength: [120, 'Client type cannot exceed 120 characters']
-    },
-    region: {
-      type: String,
-      trim: true,
-      default: 'Global',
-      maxlength: [80, 'Region cannot exceed 80 characters']
-    },
-    serviceType: {
-      type: String,
-      trim: true,
-      default: 'Data Support Services',
-      maxlength: [120, 'Service type cannot exceed 120 characters']
-    },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5,
-      default: 5
-    },
-    quote: {
-      type: String,
-      required: [true, 'Feedback quote is required'],
-      trim: true,
-      maxlength: [2000, 'Feedback cannot exceed 2000 characters']
-    },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-      maxlength: [120, 'Email cannot exceed 120 characters']
-    },
-    company: {
-      type: String,
-      trim: true,
-      maxlength: [120, 'Company cannot exceed 120 characters']
-    },
-    isPublished: {
-      type: Boolean,
-      default: false
-    },
-    status: {
-      type: String,
-      enum: ['pending', 'published', 'rejected'],
-      default: 'pending'
-    }
-  },
-  {
-    timestamps: true
-  }
-);
+const { getStatus, getPool } = require('../config/db');
 
 // Fallback in-memory store initialized with default published testimonials
 const feedbackMemoryStore = [
@@ -101,34 +37,169 @@ const feedbackMemoryStore = [
     isPublished: true,
     status: 'published',
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
-  },
-  {
-    _id: 'fb-seed-4',
-    name: 'Marcus Chen',
-    clientType: 'Healthcare Technology Company',
-    region: 'Canada',
-    serviceType: 'Healthcare Data Entry & Compliance',
-    rating: 5,
-    quote: 'Exceptional accuracy and speed. DataGalactic handled our entire patient data migration with zero errors and maintained all compliance protocols throughout the project.',
-    isPublished: true,
-    status: 'published',
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-  },
-  {
-    _id: 'fb-seed-5',
-    name: 'Olivia Martin',
-    clientType: 'Retail & Consumer Goods Brand',
-    region: 'Australia',
-    serviceType: 'E-commerce Catalog & Data Entry',
-    rating: 5,
-    quote: "We scaled from 5,000 to 50,000 product listings in just two months. DataGalactic's team was professional, accurate, and incredibly responsive to our changing requirements.",
-    isPublished: true,
-    status: 'published',
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
   }
 ];
 
-const Feedback = mongoose.models.Feedback || mongoose.model('Feedback', feedbackSchema);
+function mapRowToFeedback(row) {
+  if (!row) return null;
+  return {
+    _id: row._id || String(row.id),
+    id: row.id,
+    name: row.name,
+    clientType: row.clientType,
+    region: row.region,
+    serviceType: row.serviceType,
+    rating: row.rating,
+    quote: row.quote,
+    email: row.email || '',
+    company: row.company || '',
+    isPublished: Boolean(row.isPublished),
+    status: row.status,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt
+  };
+}
+
+const Feedback = {
+  create: async (data) => {
+    const _id = data._id || `fb-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    const pool = getPool();
+    if (getStatus() && pool) {
+      const query = `
+        INSERT INTO feedbacks (
+          _id, name, clientType, region, serviceType, rating, quote, email, company, isPublished, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+      const params = [
+        _id,
+        data.name,
+        data.clientType || 'Corporate Client',
+        data.region || 'Global',
+        data.serviceType || 'Data Support Services',
+        data.rating || 5,
+        data.quote,
+        data.email || '',
+        data.company || '',
+        data.isPublished ? 1 : 0,
+        data.status || 'pending'
+      ];
+      await pool.execute(query, params);
+      const [rows] = await pool.execute('SELECT * FROM feedbacks WHERE _id = ? LIMIT 1', [_id]);
+      return mapRowToFeedback(rows[0]);
+    } else {
+      const record = {
+        _id,
+        ...data,
+        isPublished: Boolean(data.isPublished),
+        status: data.status || 'pending',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      feedbackMemoryStore.unshift(record);
+      return record;
+    }
+  },
+
+  find: (query = {}) => {
+    const executeQuery = async () => {
+      const pool = getPool();
+      if (getStatus() && pool) {
+        let sql = 'SELECT * FROM feedbacks WHERE 1=1';
+        const params = [];
+
+        if (query.isPublished !== undefined) {
+          sql += ' AND isPublished = ?';
+          params.push(query.isPublished ? 1 : 0);
+        }
+        if (query.status && query.status !== 'all') {
+          sql += ' AND status = ?';
+          params.push(query.status);
+        }
+        if (query._search) {
+          sql += ' AND (name LIKE ? OR company LIKE ? OR quote LIKE ? OR clientType LIKE ?)';
+          const pattern = `%${query._search}%`;
+          params.push(pattern, pattern, pattern, pattern);
+        }
+        sql += ' ORDER BY createdAt DESC';
+        const [rows] = await pool.execute(sql, params);
+        return rows.map(mapRowToFeedback);
+      } else {
+        let list = [...feedbackMemoryStore];
+        if (query.isPublished !== undefined) {
+          list = list.filter(item => item.isPublished === query.isPublished);
+        }
+        if (query.status && query.status !== 'all') {
+          list = list.filter(item => item.status === query.status);
+        }
+        return list;
+      }
+    };
+
+    return {
+      sort: () => ({
+        lean: executeQuery
+      }),
+      lean: executeQuery,
+      then: (resolve, reject) => executeQuery().then(resolve, reject)
+    };
+  },
+
+  findByIdAndUpdate: async (id, updateData, options = {}) => {
+    const pool = getPool();
+    if (getStatus() && pool) {
+      const updates = [];
+      const params = [];
+      if (updateData.isPublished !== undefined) {
+        updates.push('isPublished = ?');
+        params.push(updateData.isPublished ? 1 : 0);
+      }
+      if (updateData.status !== undefined) {
+        updates.push('status = ?');
+        params.push(updateData.status);
+      }
+      if (updates.length > 0) {
+        params.push(id, id);
+        const sql = `UPDATE feedbacks SET ${updates.join(', ')} WHERE _id = ? OR id = ?`;
+        await pool.execute(sql, params);
+        const [rows] = await pool.execute('SELECT * FROM feedbacks WHERE _id = ? OR id = ? LIMIT 1', [id, id]);
+        return mapRowToFeedback(rows[0]);
+      }
+    } else {
+      const idx = feedbackMemoryStore.findIndex(item => String(item._id) === String(id) || String(item.id) === String(id));
+      if (idx !== -1) {
+        if (updateData.isPublished !== undefined) feedbackMemoryStore[idx].isPublished = updateData.isPublished;
+        if (updateData.status !== undefined) feedbackMemoryStore[idx].status = updateData.status;
+        feedbackMemoryStore[idx].updatedAt = new Date();
+        return feedbackMemoryStore[idx];
+      }
+    }
+    return null;
+  },
+
+  findByIdAndDelete: async (id) => {
+    const pool = getPool();
+    if (getStatus() && pool) {
+      const [res] = await pool.execute('DELETE FROM feedbacks WHERE _id = ? OR id = ?', [id, id]);
+      return res.affectedRows > 0;
+    } else {
+      const idx = feedbackMemoryStore.findIndex(item => String(item._id) === String(id) || String(item.id) === String(id));
+      if (idx !== -1) {
+        feedbackMemoryStore.splice(idx, 1);
+        return true;
+      }
+    }
+    return false;
+  },
+
+  countDocuments: async () => {
+    const pool = getPool();
+    if (getStatus() && pool) {
+      const [rows] = await pool.execute('SELECT COUNT(*) as count FROM feedbacks');
+      return rows[0].count;
+    }
+    return feedbackMemoryStore.length;
+  }
+};
 
 module.exports = {
   Feedback,
