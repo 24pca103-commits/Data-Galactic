@@ -138,43 +138,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
     return () => clearInterval(interval);
   }, [autoRefreshEnabled, token]);
 
-  // Real-Time Server-Sent Events (SSE) Listener
-  useEffect(() => {
-    if (!token) return;
 
-    let eventSource = null;
-    try {
-      eventSource = new EventSource(`/api/admin/events?token=${encodeURIComponent(token)}`);
-
-      eventSource.onmessage = (e) => {
-        try {
-          const payload = JSON.parse(e.data);
-
-          if (payload.type === 'enquiry_created') {
-            showToast(`🔔 New lead received from ${payload.data.companyName || payload.data.name}!`, 'enquiry');
-            fetchData(false);
-          } else if (payload.type === 'feedback_created') {
-            showToast(`⭐ New customer review submitted by ${payload.data.name}!`, 'feedback');
-            fetchData(false);
-          } else if (payload.type === 'feedback_updated') {
-            fetchData(false);
-          }
-        } catch (err) {
-          // heartbeat or unparseable
-        }
-      };
-
-      eventSource.onerror = () => {
-        eventSource.close();
-      };
-    } catch (err) {
-      console.warn('SSE stream initialization skipped:', err);
-    }
-
-    return () => {
-      if (eventSource) eventSource.close();
-    };
-  }, [token]);
 
   // Update Quote Status
   const handleUpdateQuoteStatus = async (quoteId, newStatus) => {

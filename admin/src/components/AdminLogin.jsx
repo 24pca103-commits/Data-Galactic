@@ -37,29 +37,10 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
 
     setLoading(true);
     try {
-      let response;
-      try {
-        response = await axios.post('/api/admin/login', {
-          email: cleanEmail,
-          password: cleanPassword
-        });
-      } catch (proxyErr) {
-        // Fallback directly to backend port 5000 if proxy gave 405, 404, or network error
-        if (
-          proxyErr.response?.status === 405 ||
-          proxyErr.response?.status === 404 ||
-          proxyErr.response?.status === 502 ||
-          proxyErr.code === 'ERR_NETWORK' ||
-          !proxyErr.response
-        ) {
-          response = await axios.post('http://127.0.0.1:5000/api/admin/login', {
-            email: cleanEmail,
-            password: cleanPassword
-          }, { withCredentials: true });
-        } else {
-          throw proxyErr;
-        }
-      }
+      const response = await axios.post('/api/admin/login', {
+        email: cleanEmail,
+        password: cleanPassword
+      }, { withCredentials: true });
 
       if (response && response.data && response.data.success) {
         const { token, admin } = response.data;

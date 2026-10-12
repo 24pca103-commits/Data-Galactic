@@ -2,6 +2,7 @@ const validator = require('validator');
 const { Feedback, feedbackMemoryStore } = require('../models/Feedback');
 const { getStatus } = require('../config/db');
 const eventBus = require('../utils/eventBus');
+const { sendFeedbackEmails } = require('../utils/mailService');
 
 // @desc    Submit a new client feedback / review (Public)
 // @route   POST /api/feedback
@@ -59,6 +60,11 @@ const submitFeedback = async (req, res) => {
 
     // Broadcast event to admin SSE listeners in real time
     eventBus.emit('feedback_created', savedRecord);
+
+    // Send real-time notification emails to Admin and User
+    sendFeedbackEmails(feedbackData, savedRecord._id).catch(mailErr => {
+      console.error('[sendFeedbackEmails Background Error]:', mailErr.message);
+    });
 
     return res.status(201).json({
       success: true,

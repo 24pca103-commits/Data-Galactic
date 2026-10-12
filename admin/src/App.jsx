@@ -18,27 +18,16 @@ function App() {
     if (adminToken) {
       axios
         .get('/api/admin/verify', {
-          headers: { Authorization: `Bearer ${adminToken}` }
+          headers: { Authorization: `Bearer ${adminToken}` },
+          withCredentials: true
         })
         .then((res) => {
           if (!res.data.success) {
             handleLogout();
           }
         })
-        .catch(async (err) => {
-          if (err.response?.status === 405 || err.response?.status === 404 || err.code === 'ERR_NETWORK') {
-            try {
-              const retry = await axios.get('http://127.0.0.1:5000/api/admin/verify', {
-                headers: { Authorization: `Bearer ${adminToken}` },
-                withCredentials: true
-              });
-              if (!retry.data.success) handleLogout();
-            } catch {
-              handleLogout();
-            }
-          } else {
-            handleLogout();
-          }
+        .catch(() => {
+          handleLogout();
         });
     }
   }, [adminToken]);

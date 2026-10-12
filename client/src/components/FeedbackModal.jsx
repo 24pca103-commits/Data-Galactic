@@ -204,6 +204,36 @@ const FeedbackModal = ({ isOpen, onClose, onFeedbackSubmitted }) => {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    Work Email (For notification)
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="e.g. sarah@enterprise.com"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              {/* Company & Role */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    Company Name
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Apex Global Corp"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:border-sky-500 focus:bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Role / Client Type
                   </label>
                   <input
