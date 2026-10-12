@@ -53,8 +53,10 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
     } catch (err) {
       if (err.response?.data?.message) {
         setError(err.response.data.message);
-      } else if (err.code === 'ERR_NETWORK' || !err.response) {
-        setError('Cannot connect to API server at http://127.0.0.1:5000. Please ensure the backend server is running.');
+      } else if (err.response?.status === 405) {
+        setError('405 Method Not Allowed: Backend API is not active. If hosted on Render, please set VITE_API_BASE_URL to your Render URL. For local testing, run "npm run server".');
+      } else if (err.code === 'ERR_NETWORK' || !err.response || err.response?.status === 502) {
+        setError('Cannot connect to API server. If hosted on Render, free instances can take ~30-50s to wake up. For local development, make sure the backend is running with "npm run server".');
       } else {
         setError('Authentication failed. Please verify your credentials or server status.');
       }

@@ -15,6 +15,7 @@ const {
 } = require('../controllers/adminController');
 
 // Public admin routes
+router.options('/login', (req, res) => res.sendStatus(204));
 router.post('/login', adminLogin);
 router.all('/login', (req, res) => {
   res.status(405).json({
