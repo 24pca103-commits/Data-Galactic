@@ -130,6 +130,24 @@ const connectDB = async () => {
       };
     }
 
+    const dbName = process.env.MYSQL_DATABASE || 'datagalactic';
+
+    if (!process.env.MYSQL_URL) {
+      // Ensure database exists before creating the pool
+      try {
+        const rootConn = await mysql.createConnection({
+          host: process.env.MYSQL_HOST || '127.0.0.1',
+          port: Number(process.env.MYSQL_PORT) || 3306,
+          user: process.env.MYSQL_USER || 'root',
+          password: process.env.MYSQL_PASSWORD || ''
+        });
+        await rootConn.execute(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+        await rootConn.end();
+      } catch (dbCreateErr) {
+        // If user does not have permission to create DB, proceed to pool creation
+      }
+    }
+
     pool = mysql.createPool(poolConfig);
 
     // Test connection

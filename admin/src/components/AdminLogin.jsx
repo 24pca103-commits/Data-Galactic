@@ -37,10 +37,28 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
 
     setLoading(true);
     try {
-      const response = await axios.post('/api/admin/login', {
-        email: cleanEmail,
-        password: cleanPassword
-      }, { withCredentials: true });
+      let response;
+      try {
+        response = await axios.post('/api/admin/login', {
+          email: cleanEmail,
+          password: cleanPassword
+        }, { withCredentials: true });
+      } catch (postErr) {
+        // If on localhost/dev and relative call failed, retry directly against local backend port 5000
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocal) {
+          try {
+            response = await axios.post('http://127.0.0.1:5000/api/admin/login', {
+              email: cleanEmail,
+              password: cleanPassword
+            }, { withCredentials: true });
+          } catch (localErr) {
+            throw postErr;
+          }
+        } else {
+          throw postErr;
+        }
+      }
 
       if (response && response.data && response.data.success) {
         const { token, admin } = response.data;
