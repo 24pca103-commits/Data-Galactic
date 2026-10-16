@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowLeft, AlertCircle, Loader2, KeyRound, CheckCircle2 } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
+import AdminLogin3DBackground from './AdminLogin3DBackground';
 
 const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
   const [email, setEmail] = useState('');
@@ -8,20 +9,6 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [filledSuccess, setFilledSuccess] = useState(false);
-
-  const handleFillCredentials = (type = 'default') => {
-    if (type === 'simple') {
-      setEmail('admin');
-      setPassword('admin123');
-    } else {
-      setEmail('admin@datagalactic.in');
-      setPassword('Admin@DG2026!');
-    }
-    setError('');
-    setFilledSuccess(true);
-    setTimeout(() => setFilledSuccess(false), 2500);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,49 +141,39 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-blue-50/50 text-slate-800 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden font-sans selection:bg-[#0047AB] selection:text-white">
-      {/* Background ambient royal-blue glows and geometric precision accents */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[360px] bg-[#0047AB]/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute -bottom-20 -right-20 w-[450px] h-[450px] bg-[#0A58CA]/5 blur-[100px] rounded-full pointer-events-none" />
-      
-      {/* Subtle modern grid overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(#0047AB 1px, transparent 1px)`,
-          backgroundSize: '24px 24px'
-        }}
-      />
+    <div className="min-h-screen w-full bg-[#020813] text-slate-100 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden font-sans selection:bg-[#0047AB] selection:text-white">
+      {/* Interactive 3D Animated Background Canvas */}
+      <AdminLogin3DBackground />
 
       {/* Top back button */}
       <button
         type="button"
         onClick={handleBack}
-        className="absolute top-6 left-6 inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-[#0047AB] transition-all py-2 px-3.5 rounded-xl bg-white/90 border border-slate-200 shadow-sm hover:shadow hover:border-[#0047AB]/30 backdrop-blur-md cursor-pointer z-20 group"
+        className="absolute top-6 left-6 inline-flex items-center gap-2 text-xs font-semibold text-blue-200 hover:text-white transition-all py-2 px-3.5 rounded-xl bg-slate-900/80 border border-blue-500/30 shadow-lg hover:shadow-cyan-500/20 hover:border-cyan-400/50 backdrop-blur-md cursor-pointer z-20 group"
       >
-        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5 text-[#0047AB]" />
+        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5 text-[#38BDF8]" />
         <span>Back to DataGalactic Website</span>
       </button>
 
       {/* Login Card - Dark Blue Theme */}
-      <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-300">
+      <div className="w-full max-w-[390px] relative z-10 animate-in fade-in zoom-in-95 duration-300">
         <div 
-          className="admin-card-dark rounded-3xl p-8 sm:p-10 shadow-[0_25px_70px_-15px_rgba(0,25,80,0.6)] relative text-white border"
+          className="admin-card-dark rounded-2xl p-6 sm:p-7 shadow-[0_25px_70px_-15px_rgba(0,25,80,0.7)] relative text-white border"
           style={{ backgroundColor: '#002244', borderColor: '#003875', color: '#ffffff' }}
         >
           
           {/* Brand Header: Logo mark on left, text on the right side (Side-by-Side) */}
-          <div className="flex items-center justify-center gap-3.5 mb-7 select-none">
+          <div className="flex items-center justify-center gap-3 mb-5 select-none">
             <img
               src="/dg-monogram.png"
               alt="Data Galactic"
-              className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-md"
+              className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-md"
             />
             <div className="flex flex-col text-left">
-              <span className="text-2xl sm:text-3xl font-black tracking-tight text-white font-['Outfit'] leading-tight">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-white font-['Outfit'] leading-tight">
                 Data<span className="text-[#38BDF8]">Galactic</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-blue-200/80 font-bold leading-none mt-1">
+              <span className="text-[9px] tracking-[0.25em] uppercase text-blue-200/80 font-bold leading-none mt-1">
                 Precision Beyond Limits
               </span>
             </div>
@@ -204,7 +181,7 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
 
           {/* Error notice */}
           {error && (
-            <div className="mb-6 p-3.5 rounded-xl bg-red-950/60 border border-red-500/50 flex items-start gap-3 text-red-200 text-xs sm:text-sm animate-in fade-in">
+            <div className="mb-5 p-3 rounded-xl bg-red-950/60 border border-red-500/50 flex items-start gap-3 text-red-200 text-xs animate-in fade-in">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
               <div className="flex-1 font-medium leading-relaxed">{error}</div>
             </div>
@@ -214,15 +191,15 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-blue-100 uppercase tracking-wider mb-1.5">
-                Administrator Email or Username
+                Username
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8]" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8]" />
                 <input
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@datagalactic.in or admin"
+                  placeholder="Enter username or email"
                   required
                   autoComplete="username"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl text-white text-sm focus:outline-none focus:ring-4 focus:ring-sky-500/20 transition-all placeholder:text-blue-300/40 font-medium border"
@@ -276,65 +253,10 @@ const AdminLogin = ({ onLoginSuccess, onBackToSite }) => {
             </button>
           </form>
 
-          {/* Quick Credential Helpers */}
-          <div className="mt-6 pt-5 border-t" style={{ borderColor: '#0f2744' }}>
-            <div className="rounded-2xl p-3.5 border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-blue-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <KeyRound className="w-3.5 h-3.5 text-[#38BDF8]" />
-                  <span>Default Admin Access</span>
-                </span>
-                {filledSuccess && (
-                  <span className="text-[11px] font-semibold text-emerald-400 flex items-center gap-1 animate-in fade-in">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Auto-filled!
-                  </span>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-[11px] text-blue-100 mb-2.5 font-mono">
-                <div className="px-2.5 py-1.5 rounded-lg border truncate" style={{ backgroundColor: '#002244', borderColor: '#003875', color: '#ffffff' }}>
-                  <span className="text-blue-300/60 block text-[9px] uppercase font-sans font-bold">User</span>
-                  admin@datagalactic.in
-                </div>
-                <div className="px-2.5 py-1.5 rounded-lg border truncate" style={{ backgroundColor: '#002244', borderColor: '#003875', color: '#ffffff' }}>
-                  <span className="text-blue-300/60 block text-[9px] uppercase font-sans font-bold">Pass</span>
-                  Admin@DG2026!
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleFillCredentials('default')}
-                  className="flex-1 text-center py-1.5 px-2 rounded-lg bg-blue-600/30 text-blue-200 hover:bg-blue-600/50 text-xs font-semibold transition-colors cursor-pointer border border-blue-400/40"
-                >
-                  Auto-fill standard
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleFillCredentials('simple')}
-                  className="flex-1 text-center py-1.5 px-2 rounded-lg bg-[#0B1E3D] text-blue-200 hover:bg-[#0e274f] text-xs font-semibold transition-colors cursor-pointer border border-blue-800/60"
-                >
-                  Auto-fill simple (admin)
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleEnterStandaloneMode}
-                className="w-full mt-2.5 text-center py-2 px-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/70 text-emerald-300 text-xs font-bold transition-all cursor-pointer border border-emerald-500/40 flex items-center justify-center gap-1.5 shadow-2xs hover:shadow-xs"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Instant Standalone Access (Offline / Demo)</span>
-              </button>
-            </div>
-          </div>
-
         </div>
 
         {/* Security watermark */}
-        <p className="text-center text-[11px] text-slate-500 mt-6 font-medium">
+        <p className="text-center text-[11px] text-blue-300/70 mt-5 font-medium">
           Data Galactic Internal Ops • Secure End-to-End Cryptographic Portal
         </p>
       </div>

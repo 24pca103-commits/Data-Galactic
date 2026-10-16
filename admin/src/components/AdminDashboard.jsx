@@ -38,6 +38,7 @@ import {
   MapPin,
   Calendar
 } from 'lucide-react';
+import Admin3DBackground from './Admin3DBackground';
 
 const initialFallbackQuotes = [
   {
@@ -491,11 +492,13 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-[#0047AB] selection:text-white">
+    <div className="min-h-screen bg-[#020b18] text-slate-100 flex flex-col font-sans selection:bg-[#0047AB] selection:text-white relative overflow-x-hidden">
+      {/* Full-screen 3D Animated Background with Rectangles & Nodes */}
+      <Admin3DBackground variant="dashboard" />
       
       {/* ----------------- Top Header Navbar ----------------- */}
       {/* Requirement 1: Logo on Left side; Requirement 4: System Controls in navbar */}
-      <header className="bg-white/95 border-b border-slate-200 sticky top-0 z-30 backdrop-blur-md shadow-xs">
+      <header className="bg-[#002244]/90 border-b border-[#003875] sticky top-0 z-30 backdrop-blur-md shadow-lg text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
           
           {/* Left Side: 3-line Menu Button + Logo (PNG format, NO box) */}
@@ -506,9 +509,9 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               onClick={() => setSidebarOpen(true)}
               aria-label="Open navigation menu"
               title="Open navigation menu"
-              className="p-2 rounded-xl hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-all cursor-pointer border border-slate-200 active:scale-95 shrink-0"
+              className="p-2 rounded-xl hover:bg-blue-900/40 text-blue-200 hover:text-white transition-all cursor-pointer border border-blue-800/60 active:scale-95 shrink-0"
             >
-              <Menu className="w-5 h-5 text-[#0047AB]" />
+              <Menu className="w-5 h-5 text-[#38BDF8]" />
             </button>
 
             {/* Logo on the left side: Monogram with brand text side-by-side, no box */}
@@ -520,13 +523,13 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               <img
                 src="/dg-monogram.png"
                 alt="Data Galactic"
-                className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+                className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-md"
               />
               <div className="flex flex-col text-left">
-                <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
-                  Data<span className="text-[#0047AB]">Galactic</span>
+                <span className="text-base sm:text-lg font-black tracking-tight text-white font-['Outfit'] leading-tight">
+                  Data<span className="text-[#38BDF8]">Galactic</span>
                 </span>
-                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-slate-500 font-bold leading-none mt-0.5">
+                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-blue-200/70 font-bold leading-none mt-0.5">
                   Precision Beyond Limits
                 </span>
               </div>
@@ -542,8 +545,8 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               title={autoRefreshEnabled ? 'Live Auto-Sync: Active (5s)' : 'Auto-Sync Paused (click to resume)'}
               className={`flex items-center gap-2 py-1.5 px-2.5 sm:px-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
                 autoRefreshEnabled
-                  ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
-                  : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                  ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/70'
+                  : 'bg-[#051426] border-slate-700 text-slate-400 hover:bg-slate-800'
               }`}
             >
               <span className={`w-2 h-2 rounded-full ${autoRefreshEnabled ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'}`} />
@@ -558,9 +561,9 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               onClick={() => fetchData(true)}
               disabled={refreshing}
               title="Refresh data now"
-              className="py-1.5 px-2.5 sm:px-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#0047AB] text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              className="py-1.5 px-2.5 sm:px-3 rounded-xl bg-[#002244] hover:bg-[#003875] border border-[#003875] text-blue-100 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-[#0047AB] ${refreshing ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-[#38BDF8] ${refreshing ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">Refresh</span>
             </button>
 
@@ -570,7 +573,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 type="button"
                 onClick={onBackToSite}
                 title="View public website"
-                className="hidden md:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 text-slate-700 hover:text-[#0047AB] text-xs font-semibold transition-colors cursor-pointer"
+                className="hidden md:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-[#002244] hover:bg-[#003875] border border-[#003875] text-blue-200 hover:text-white text-xs font-semibold transition-colors cursor-pointer"
               >
                 <span>View Site</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -582,7 +585,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               type="button"
               onClick={onLogout}
               title="Sign out"
-              className="inline-flex items-center gap-1.5 py-1.5 px-2.5 sm:px-3 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 hover:text-red-700 text-xs font-semibold transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 py-1.5 px-2.5 sm:px-3 rounded-xl bg-red-950/60 hover:bg-red-900/70 border border-red-500/40 text-red-200 hover:text-white text-xs font-semibold transition-colors cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Logout</span>
@@ -602,21 +605,24 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
           />
 
           {/* Sidebar Drawer */}
-          <aside className="relative w-80 max-w-[85vw] bg-white border-r border-slate-200 shadow-2xl h-full flex flex-col p-6 z-10 animate-in slide-in-from-left duration-200">
+          <aside 
+            className="relative w-80 max-w-[85vw] border-r shadow-2xl h-full flex flex-col p-6 z-10 animate-in slide-in-from-left duration-200 text-white"
+            style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+          >
             
             {/* Header: Logo & Close Button */}
-            <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-5 border-b border-blue-900/40">
               <div className="flex items-center gap-2.5">
                 <img
                   src="/dg-monogram.png"
                   alt="Data Galactic"
-                  className="h-8 w-auto object-contain"
+                  className="h-8 w-auto object-contain drop-shadow"
                 />
                 <div className="flex flex-col text-left">
-                  <span className="text-base font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
-                    Data<span className="text-[#0047AB]">Galactic</span>
+                  <span className="text-base font-black tracking-tight text-white font-['Outfit'] leading-tight">
+                    Data<span className="text-[#38BDF8]">Galactic</span>
                   </span>
-                  <span className="text-[8px] tracking-[0.2em] uppercase text-slate-500 font-bold leading-none mt-0.5">
+                  <span className="text-[8px] tracking-[0.2em] uppercase text-blue-200/70 font-bold leading-none mt-0.5">
                     Precision Beyond Limits
                   </span>
                 </div>
@@ -624,7 +630,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               <button
                 type="button"
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                className="p-2 rounded-xl text-blue-300 hover:text-white hover:bg-blue-900/40 transition-colors cursor-pointer"
                 title="Close menu"
               >
                 <X className="w-5 h-5" />
@@ -633,7 +639,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
 
             {/* Navigation Tabs */}
             <div className="py-6 space-y-2 flex-grow overflow-y-auto">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 block mb-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300/60 px-3 block mb-2">
                 Operations Menu
               </span>
 
@@ -643,12 +649,12 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 onClick={() => handleTabSwitch('overview')}
                 className={`w-full text-left py-3 px-3.5 rounded-xl font-semibold text-sm flex items-center justify-between transition-all cursor-pointer ${
                   activeTab === 'overview'
-                    ? 'bg-blue-50 text-[#0047AB] border border-blue-200/80 shadow-xs'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white border border-[#38BDF8]/40 shadow-xs'
+                    : 'text-blue-100 hover:bg-[#003875] hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <LayoutDashboard className="w-4 h-4 text-[#0047AB]" />
+                  <LayoutDashboard className="w-4 h-4 text-[#38BDF8]" />
                   <span>Dashboard &amp; Overview</span>
                 </div>
               </button>
@@ -659,16 +665,16 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 onClick={() => handleTabSwitch('quotes')}
                 className={`w-full text-left py-3 px-3.5 rounded-xl font-semibold text-sm flex items-center justify-between transition-all cursor-pointer ${
                   activeTab === 'quotes'
-                    ? 'bg-blue-50 text-[#0047AB] border border-blue-200/80 shadow-xs'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white border border-[#38BDF8]/40 shadow-xs'
+                    : 'text-blue-100 hover:bg-[#003875] hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Inbox className="w-4 h-4 text-[#0047AB]" />
+                  <Inbox className="w-4 h-4 text-[#38BDF8]" />
                   <span>Project Submissions &amp; Quotes</span>
                 </div>
                 {stats?.quotes?.newLeads > 0 && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#0047AB] text-white font-bold">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#38BDF8] text-slate-900 font-bold">
                     {stats.quotes.newLeads}
                   </span>
                 )}
@@ -680,12 +686,12 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 onClick={() => handleTabSwitch('feedback')}
                 className={`w-full text-left py-3 px-3.5 rounded-xl font-semibold text-sm flex items-center justify-between transition-all cursor-pointer ${
                   activeTab === 'feedback'
-                    ? 'bg-blue-50 text-[#0047AB] border border-blue-200/80 shadow-xs'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white border border-[#38BDF8]/40 shadow-xs'
+                    : 'text-blue-100 hover:bg-[#003875] hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <MessageSquare className="w-4 h-4 text-[#0047AB]" />
+                  <MessageSquare className="w-4 h-4 text-[#38BDF8]" />
                   <span>Customer Feedback</span>
                 </div>
                 {stats?.feedback?.pending > 0 && (
@@ -697,11 +703,11 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
 
               {/* Quick Website Navigation */}
               {onBackToSite && (
-                <div className="pt-6 border-t border-slate-100">
+                <div className="pt-6 border-t border-blue-900/40">
                   <button
                     type="button"
                     onClick={onBackToSite}
-                    className="w-full py-2.5 px-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs font-medium text-slate-700 hover:text-[#0047AB] hover:bg-blue-50 transition-colors cursor-pointer"
+                    className="w-full py-2.5 px-3.5 rounded-xl bg-[#051426] border border-[#0f2744] flex items-center justify-between text-xs font-medium text-blue-200 hover:text-white hover:bg-blue-900/40 transition-colors cursor-pointer"
                   >
                     <span>View Public Website</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -711,23 +717,23 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
             </div>
 
             {/* Bottom: Admin User & Sign Out */}
-            <div className="pt-4 border-t border-slate-200 space-y-3">
+            <div className="pt-4 border-t border-blue-900/40 space-y-3">
               <div className="flex items-center gap-3 px-2">
-                <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-[#0047AB]">
+                <div className="w-8 h-8 rounded-full bg-[#051426] border border-blue-800/60 flex items-center justify-center text-[#38BDF8]">
                   <User className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-slate-800 truncate">
+                  <div className="text-xs font-bold text-white truncate">
                     {adminUser?.email || 'admin@datagalactic.in'}
                   </div>
-                  <div className="text-[10px] text-slate-500 font-medium">Administrator</div>
+                  <div className="text-[10px] text-blue-300/70 font-medium">Administrator</div>
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={onLogout}
-                className="w-full py-2.5 px-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 flex items-center justify-center gap-2 font-semibold text-xs transition-colors cursor-pointer"
+                className="w-full py-2.5 px-3 rounded-xl bg-red-950/60 text-red-200 hover:text-white hover:bg-red-900/70 border border-red-500/40 flex items-center justify-center gap-2 font-semibold text-xs transition-colors cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Sign Out</span>
@@ -755,16 +761,16 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
       )}
 
       {/* ----------------- Main Dashboard Content ----------------- */}
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 w-full">
+      <main className="relative z-10 flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 w-full">
         
         {/* Section Header with Quick Tab Switches */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-blue-900/40">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-[#0047AB] uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#38BDF8] uppercase tracking-wider mb-1">
               <ShieldCheck className="w-4 h-4" />
               <span>DataGalactic Operations</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-['Outfit']">
               {activeTab === 'overview' && 'Dashboard Overview & Analytics'}
               {activeTab === 'quotes' && 'Project Submissions & Quotes'}
               {activeTab === 'feedback' && 'Customer Feedback & Reviews'}
@@ -773,13 +779,13 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
 
           <div className="flex items-center gap-3">
             {/* Quick tab switcher pills */}
-            <div className="inline-flex rounded-xl bg-slate-200/70 p-1 border border-slate-200">
+            <div className="inline-flex rounded-xl bg-[#002244]/80 p-1 border border-[#003875] backdrop-blur-sm">
               <button
                 onClick={() => handleTabSwitch('overview')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   activeTab === 'overview'
-                    ? 'bg-white text-[#0047AB] shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white shadow-xs'
+                    : 'text-blue-200 hover:text-white'
                 }`}
               >
                 Dashboard
@@ -788,8 +794,8 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 onClick={() => handleTabSwitch('quotes')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   activeTab === 'quotes'
-                    ? 'bg-white text-[#0047AB] shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white shadow-xs'
+                    : 'text-blue-200 hover:text-white'
                 }`}
               >
                 Quotes ({quotes.length})
@@ -798,8 +804,8 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 onClick={() => handleTabSwitch('feedback')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   activeTab === 'feedback'
-                    ? 'bg-white text-[#0047AB] shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-[#0047AB] text-white shadow-xs'
+                    : 'text-blue-200 hover:text-white'
                 }`}
               >
                 Feedback ({feedbacks.length})
@@ -814,64 +820,64 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
         {activeTab === 'overview' && (
           <div className="space-y-8 animate-in fade-in duration-200">
             
-            {/* Top Metrics Cards */}
+            {/* Top Metrics Cards - High Contrast Dark Blue */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               
-              {/* Card 1: Total Quotes (Dark Blue Card) */}
+              {/* Card 1: Total Quotes */}
               <div
                 onClick={() => handleTabSwitch('quotes')}
-                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
-                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+                className="p-6 rounded-2xl border-2 transition-all cursor-pointer group shadow-lg text-white hover:brightness-110 hover:border-[#38BDF8]"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
               >
-                <div className="flex items-center justify-between text-blue-200 mb-3">
-                  <span className="text-xs uppercase font-bold tracking-wider">Total Quotes &amp; Bookings</span>
-                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
+                <div className="flex items-center justify-between text-blue-200 mb-2">
+                  <span className="text-xs uppercase font-extrabold tracking-wider text-sky-300">Total Quotes &amp; Bookings</span>
+                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051833', borderColor: '#1E40AF' }}>
                     <Inbox className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-white font-['Outfit']">
+                <div className="text-4xl sm:text-5xl font-black text-white font-['Outfit'] my-2 tracking-tight drop-shadow-sm">
                   {stats?.quotes?.total ?? quotes.length}
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-xs text-blue-200">
-                  <span className="px-2 py-0.5 rounded-full font-bold border" style={{ backgroundColor: '#051426', borderColor: '#0f2744', color: '#38BDF8' }}>
+                <div className="mt-3 flex items-center gap-2 text-xs text-blue-100 font-medium">
+                  <span className="px-2 py-0.5 rounded-full font-bold border" style={{ backgroundColor: '#051833', borderColor: '#38BDF8', color: '#38BDF8' }}>
                     {stats?.quotes?.newLeads ?? 0} New
                   </span>
-                  <span>• {stats?.quotes?.underReview ?? 0} In Review</span>
+                  <span className="text-blue-200">• {stats?.quotes?.underReview ?? 0} In Review</span>
                 </div>
               </div>
 
-              {/* Card 2: Closed / Won (Dark Blue Card) */}
+              {/* Card 2: Closed / Won */}
               <div 
-                className="p-6 rounded-2xl border transition-all shadow-sm text-white"
-                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+                className="p-6 rounded-2xl border-2 transition-all shadow-lg text-white hover:border-emerald-400"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
               >
-                <div className="flex items-center justify-between text-blue-200 mb-3">
-                  <span className="text-xs uppercase font-bold tracking-wider">Completed / Closed</span>
-                  <div className="p-2 rounded-xl text-emerald-400 border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
+                <div className="flex items-center justify-between text-blue-200 mb-2">
+                  <span className="text-xs uppercase font-extrabold tracking-wider text-emerald-300">Completed / Closed</span>
+                  <div className="p-2 rounded-xl text-emerald-400 border" style={{ backgroundColor: '#051833', borderColor: '#065F46' }}>
                     <CheckCheck className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-white font-['Outfit']">
+                <div className="text-4xl sm:text-5xl font-black text-white font-['Outfit'] my-2 tracking-tight drop-shadow-sm">
                   {stats?.quotes?.closed ?? 0}
                 </div>
-                <p className="mt-3 text-xs text-emerald-300 font-medium">
+                <p className="mt-3 text-xs text-emerald-300 font-semibold">
                   {stats?.quotes?.quoteSent ?? 0} proposals sent to clients
                 </p>
               </div>
 
-              {/* Card 3: Feedback Pending Approval (Dark Blue Card) */}
+              {/* Card 3: Feedback Pending Approval */}
               <div
                 onClick={() => { handleTabSwitch('feedback'); setFeedbackStatusFilter('pending'); }}
-                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
-                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+                className="p-6 rounded-2xl border-2 transition-all cursor-pointer group shadow-lg text-white hover:brightness-110 hover:border-amber-400"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
               >
-                <div className="flex items-center justify-between text-blue-200 mb-3">
-                  <span className="text-xs uppercase font-bold tracking-wider">Feedback Pending Review</span>
-                  <div className="p-2 rounded-xl text-amber-400 group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
+                <div className="flex items-center justify-between text-blue-200 mb-2">
+                  <span className="text-xs uppercase font-extrabold tracking-wider text-amber-300">Feedback Pending Review</span>
+                  <div className="p-2 rounded-xl text-amber-400 group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051833', borderColor: '#92400E' }}>
                     <Clock className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-white font-['Outfit']">
+                <div className="text-4xl sm:text-5xl font-black text-white font-['Outfit'] my-2 tracking-tight drop-shadow-sm">
                   {stats?.feedback?.pending ?? 0}
                 </div>
                 <p className="mt-3 text-xs text-amber-300 font-semibold">
@@ -879,22 +885,22 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                 </p>
               </div>
 
-              {/* Card 4: Published Testimonials (Dark Blue Card) */}
+              {/* Card 4: Published Testimonials */}
               <div
                 onClick={() => { handleTabSwitch('feedback'); setFeedbackStatusFilter('published'); }}
-                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
-                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+                className="p-6 rounded-2xl border-2 transition-all cursor-pointer group shadow-lg text-white hover:brightness-110 hover:border-[#38BDF8]"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
               >
-                <div className="flex items-center justify-between text-blue-200 mb-3">
-                  <span className="text-xs uppercase font-bold tracking-wider">Live on Website</span>
-                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
+                <div className="flex items-center justify-between text-blue-200 mb-2">
+                  <span className="text-xs uppercase font-extrabold tracking-wider text-sky-300">Live on Website</span>
+                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051833', borderColor: '#1E40AF' }}>
                     <Star className="w-5 h-5 fill-[#38BDF8]/40" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-white font-['Outfit']">
+                <div className="text-4xl sm:text-5xl font-black text-white font-['Outfit'] my-2 tracking-tight drop-shadow-sm">
                   {stats?.feedback?.published ?? 0}
                 </div>
-                <p className="mt-3 text-xs text-blue-200/80">
+                <p className="mt-3 text-xs text-blue-200 font-medium">
                   Visible in client testimonials scroller
                 </p>
               </div>
@@ -905,42 +911,44 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div
                 onClick={() => handleTabSwitch('quotes')}
-                className="p-6 rounded-2xl bg-white border-2 border-blue-200 hover:border-[#0047AB] flex items-center justify-between cursor-pointer group shadow-xs hover:shadow-md transition-all"
+                className="p-6 rounded-2xl border-2 transition-all cursor-pointer group shadow-sm hover:shadow-md hover:border-[#38BDF8]"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#0047AB] group-hover:scale-105 transition-transform">
+                  <div className="w-12 h-12 rounded-xl border flex items-center justify-center text-[#38BDF8] group-hover:scale-105 transition-transform" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
                     <Inbox className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors">
+                    <h3 className="text-base font-bold text-white group-hover:text-[#38BDF8] transition-colors">
                       1. Project Submissions &amp; Quotes
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-blue-200/80 mt-0.5">
                       Review incoming client lead specifications, estimated volume &amp; requirements
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#0047AB] group-hover:translate-x-1 transition-all" />
+                <ChevronRight className="w-5 h-5 text-blue-300/60 group-hover:text-[#38BDF8] group-hover:translate-x-1 transition-all" />
               </div>
 
               <div
                 onClick={() => handleTabSwitch('feedback')}
-                className="p-6 rounded-2xl bg-white border-2 border-blue-200 hover:border-[#0047AB] flex items-center justify-between cursor-pointer group shadow-xs hover:shadow-md transition-all"
+                className="p-6 rounded-2xl border-2 transition-all cursor-pointer group shadow-sm hover:shadow-md hover:border-[#38BDF8]"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#0047AB] group-hover:scale-105 transition-transform">
+                  <div className="w-12 h-12 rounded-xl border flex items-center justify-center text-[#38BDF8] group-hover:scale-105 transition-transform" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
                     <MessageSquare className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors">
+                    <h3 className="text-base font-bold text-white group-hover:text-[#38BDF8] transition-colors">
                       2. Customer Feedback &amp; Publishing
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-blue-200/80 mt-0.5">
                       Inspect client testimonials in full table format and publish live
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#0047AB] group-hover:translate-x-1 transition-all" />
+                <ChevronRight className="w-5 h-5 text-blue-300/60 group-hover:text-[#38BDF8] group-hover:translate-x-1 transition-all" />
               </div>
             </div>
 
@@ -948,15 +956,18 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               
               {/* Latest Quotes Preview */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+              <div 
+                className="rounded-2xl p-6 shadow-lg border-2 text-white"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
+              >
                 <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                    <Inbox className="w-4 h-4 text-[#0047AB]" />
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <Inbox className="w-4 h-4 text-[#38BDF8]" />
                     <span>Latest Quote Submissions</span>
                   </h3>
                   <button
                     onClick={() => setActiveTab('quotes')}
-                    className="text-xs text-[#0047AB] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs text-sky-300 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <span>View all ({quotes.length})</span>
                     <ChevronRight className="w-3.5 h-3.5" />
@@ -968,39 +979,43 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                     <div
                       key={q._id}
                       onClick={() => { setSelectedQuote(q); setAdminNotes(q.adminNotes || ''); }}
-                      className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#0047AB]/50 hover:bg-blue-50/20 transition-all cursor-pointer flex items-center justify-between gap-3"
+                      className="p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 hover:border-[#38BDF8]"
+                      style={{ backgroundColor: '#051833', borderColor: '#0f2c59' }}
                     >
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-slate-900 text-sm truncate">{q.companyName || q.name}</span>
+                          <span className="font-bold text-white text-sm truncate">{q.companyName || q.name}</span>
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${getStatusBadgeClass(q.status)}`}>
                             {q.status}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">{q.service} • {q.name}</p>
+                        <p className="text-xs text-blue-200 truncate mt-0.5">{q.service} • {q.name}</p>
                       </div>
-                      <span className="text-[11px] text-slate-400 whitespace-nowrap font-mono">
+                      <span className="text-[11px] text-blue-300 whitespace-nowrap font-mono">
                         {new Date(q.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                   ))}
 
                   {quotes.length === 0 && (
-                    <p className="text-center py-8 text-xs text-slate-400">No quotes received yet.</p>
+                    <p className="text-center py-8 text-xs text-blue-200">No quotes received yet.</p>
                   )}
                 </div>
               </div>
 
               {/* Feedbacks Pending Approval Preview */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+              <div 
+                className="rounded-2xl p-6 shadow-lg border-2 text-white"
+                style={{ backgroundColor: '#002554', borderColor: '#1D4ED8' }}
+              >
                 <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-amber-500" />
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 text-amber-400" />
                     <span>Customer Reviews Awaiting Approval</span>
                   </h3>
                   <button
                     onClick={() => { setActiveTab('feedback'); setFeedbackStatusFilter('pending'); }}
-                    className="text-xs text-amber-600 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs text-amber-300 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <span>Manage all</span>
                     <ChevronRight className="w-3.5 h-3.5" />
@@ -1011,12 +1026,13 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                   {feedbacks.filter(f => !f.isPublished).slice(0, 4).map((fb) => (
                     <div
                       key={fb._id}
-                      className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col gap-2"
+                      className="p-3.5 rounded-xl border flex flex-col gap-2"
+                      style={{ backgroundColor: '#051833', borderColor: '#0f2c59' }}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-slate-900 text-sm">{fb.name}</span>
-                          <span className="text-xs text-slate-500 font-normal">({fb.clientType})</span>
+                          <span className="font-bold text-white text-sm">{fb.name}</span>
+                          <span className="text-xs text-blue-200 font-normal">({fb.clientType})</span>
                         </div>
                         <div className="flex text-amber-400">
                           {[...Array(fb.rating || 5)].map((_, i) => (
@@ -1024,12 +1040,12 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                           ))}
                         </div>
                       </div>
-                      <p className="text-xs text-slate-600 line-clamp-2 italic">"{fb.quote}"</p>
+                      <p className="text-xs text-blue-100 line-clamp-2 italic">"{fb.quote}"</p>
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[11px] text-slate-500">{fb.serviceType}</span>
+                        <span className="text-[11px] text-blue-300">{fb.serviceType}</span>
                         <button
                           onClick={() => handleTogglePublishFeedback(fb._id, false)}
-                          className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-[#0047AB] hover:bg-[#0047AB] hover:text-white font-semibold text-xs transition-colors cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg bg-[#0047AB] border border-blue-400 text-white hover:bg-blue-600 font-semibold text-xs transition-colors cursor-pointer"
                         >
                           Publish to Website
                         </button>
@@ -1038,8 +1054,8 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
                   ))}
 
                   {feedbacks.filter(f => !f.isPublished).length === 0 && (
-                    <div className="text-center py-8 text-xs text-slate-400 flex flex-col items-center gap-2">
-                      <CheckCircle className="w-6 h-6 text-emerald-500" />
+                    <div className="text-center py-8 text-xs text-blue-200 flex flex-col items-center gap-2">
+                      <CheckCircle className="w-6 h-6 text-emerald-400" />
                       <span>All client feedback submissions have been reviewed and published.</span>
                     </div>
                   )}
