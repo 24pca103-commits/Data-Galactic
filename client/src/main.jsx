@@ -18,6 +18,11 @@ if (rawUrl.includes(':5173') || rawUrl.includes(':5174')) {
 
 const isLocalHost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
+// If in production and VITE_API_BASE_URL accidentally points to localhost or is empty, use relative path (/api) for Vercel Serverless
+if (!isLocalHost && (rawUrl.includes('127.0.0.1') || rawUrl.includes('localhost'))) {
+  rawUrl = '';
+}
+
 if (!rawUrl || rawUrl.includes('render.com/docs') || rawUrl.includes('#')) {
   rawUrl = (import.meta.env.DEV || isLocalHost) ? 'http://127.0.0.1:5000' : '';
 }

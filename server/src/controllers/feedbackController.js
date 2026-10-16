@@ -65,10 +65,10 @@ const submitFeedback = async (req, res) => {
     try {
       await Promise.race([
         sendFeedbackEmails(feedbackData, savedRecord._id),
-        new Promise((resolve) => setTimeout(resolve, 4000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 12s')), 12000))
       ]);
     } catch (mailErr) {
-      console.error('[sendFeedbackEmails Background Error]:', mailErr.message);
+      console.error('[sendFeedbackEmails Error]:', mailErr.message);
     }
 
     return res.status(201).json({

@@ -18,23 +18,24 @@ const getTransporter = async () => {
   if (transporter) return transporter;
 
   const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const service = process.env.SMTP_SERVICE;
+  const user = process.env.SMTP_USER || 'kan93095@gmail.com';
+  const pass = process.env.SMTP_PASS || 'mewirvlmupfpdwbg';
+  const service = process.env.SMTP_SERVICE || (user && user.includes('@gmail.com') ? 'gmail' : undefined);
 
   // 1. Direct Service (e.g. Gmail with App Password)
   if (service && user && pass) {
+    const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
     transporter = nodemailer.createTransport({
       service,
       auth: { user, pass },
-      pool: true,
+      pool: !isVercel, // in serverless environments, disable pooling to prevent frozen connections
       maxConnections: 5,
       maxMessages: 100,
       tls: {
         rejectUnauthorized: false
       }
     });
-    console.log(`[MailService] Configured with ${service} SMTP service for: ${user}`);
+    console.log(`[MailService] Configured with ${service} SMTP service for: ${user} (serverless=${isVercel})`);
     return transporter;
   }
 

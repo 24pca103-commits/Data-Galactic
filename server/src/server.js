@@ -118,10 +118,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
-const server = app.listen(PORT, HOST, () => {
-  console.log(`[DataGalactic Server] Running on http://${HOST}:${PORT}`);
-  console.log(`[DataGalactic Server] Endpoints: http://${HOST}:${PORT}/api/contact`);
-});
+// Start Server (only when run directly or locally, not as Vercel serverless function)
+let server;
+if (!process.env.VERCEL) {
+  server = app.listen(PORT, HOST, () => {
+    console.log(`[DataGalactic Server] Running on http://${HOST}:${PORT}`);
+    console.log(`[DataGalactic Server] Endpoints: http://${HOST}:${PORT}/api/contact`);
+  });
+}
 
 module.exports = { app, server };

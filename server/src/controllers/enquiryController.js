@@ -191,10 +191,10 @@ const submitEnquiry = async (req, res) => {
     try {
       await Promise.race([
         sendEnquiryEmails(enquiryData, savedRecord._id),
-        new Promise((resolve) => setTimeout(resolve, 4000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 12s')), 12000))
       ]);
     } catch (err) {
-      console.error('[sendEnquiryEmails Background Error]:', err.message);
+      console.error('[sendEnquiryEmails Error]:', err.message);
     }
 
     // Return clean success response
