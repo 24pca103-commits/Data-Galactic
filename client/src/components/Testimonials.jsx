@@ -196,14 +196,14 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
+    <section id="testimonials" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-sky-100/60 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
             <MessageSquareQuote className="w-3.5 h-3.5 text-sky-600" />
             <span>Client Experiences</span>
@@ -214,7 +214,7 @@ const Testimonials = () => {
               Say
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-normal">
             See how international businesses leverage our precision data processing and back-office support to scale operations smoothly.
           </p>
         </div>

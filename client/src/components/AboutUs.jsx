@@ -26,14 +26,14 @@ const AboutUs = () => {
   ];
 
   return (
-    <section id="about" className="scroll-mt-24 lg:scroll-mt-28 py-20 relative bg-slate-50/80 overflow-hidden border-b border-slate-200/80">
+    <section id="about" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50/80 overflow-hidden border-b border-slate-200/80">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-blue-100/50 blur-[130px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header with Short, Focused Content */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-[#0047AB] shadow-sm">
             <Eye className="w-3.5 h-3.5 text-[#0047AB]" />
             <span>Company Snapshot &amp; Operational Standards</span>
@@ -46,8 +46,8 @@ const AboutUs = () => {
             </span>
           </h2>
 
-          {/* Short, crisp main lines as requested */}
-          <p className="text-base sm:text-lg text-slate-700 font-medium max-w-2xl mx-auto leading-relaxed">
+          {/* Short, crisp main lines */}
+          <p className="text-base sm:text-lg text-slate-700 font-medium max-w-2xl mx-auto leading-normal">
             DataGalactic is a specialized data entry and business support operations firm based in Tamil Nadu, India, partnering with international enterprises across the US, UK, and Europe.
           </p>
 
@@ -57,7 +57,7 @@ const AboutUs = () => {
         </div>
 
         {/* Fresh 4-Card Modern Grid Format */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {pillars.map((item, idx) => {
             const Icon = item.icon;
             return (
@@ -72,7 +72,7 @@ const AboutUs = () => {
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors font-['Space_Grotesk'] mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-normal font-normal">
                     {item.desc}
                   </p>
                 </div>

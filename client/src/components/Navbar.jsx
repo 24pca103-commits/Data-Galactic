@@ -89,32 +89,6 @@ const Navbar = () => {
     }));
   };
 
-  // Smooth scroll handler for all sub menu clicks
-  const handleScrollToSection = (targetId, e) => {
-    if (e) e.preventDefault();
-    setActiveDropdown(null);
-    setMobileMenuOpen(false);
-
-    const serviceIds = ['data-entry', 'data-processing', 'data-conversion', 'web-research', 'ecommerce-data', 'back-office-support'];
-    const industryIds = ['ecommerce', 'healthcare', 'real-estate', 'finance', 'logistics', 'education'];
-    
-    const scrollTargetId = serviceIds.includes(targetId)
-      ? 'services'
-      : industryIds.includes(targetId)
-      ? 'industries'
-      : targetId;
-
-    if (location.pathname === '/') {
-      const el = document.getElementById(scrollTargetId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-      window.history.pushState(null, '', `/#${targetId}`);
-      window.dispatchEvent(new Event('hashchange'));
-    } else {
-      navigate(`/#${targetId}`);
-    }
-  };
 
   // Submenu Definitions with Dedicated Page Routes
   const servicesSubmenu = [
@@ -318,7 +292,7 @@ const Navbar = () => {
                 {activeDropdown === 'about' && (
                   <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
                     <Link
-                      to="/about"
+                      to="/about#about"
                       onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
@@ -326,6 +300,17 @@ const Navbar = () => {
                       <div>
                         <p className="text-xs font-bold leading-snug">Company Profile</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Our mission, leadership &amp; vision</p>
+                      </div>
+                    </Link>
+                    <Link
+                      to="/about#why-choose-us"
+                      onClick={() => setActiveDropdown(null)}
+                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
+                    >
+                      <ShieldCheck className="w-4 h-4 text-sky-600 group-hover:text-white" />
+                      <div>
+                        <p className="text-xs font-bold leading-snug">Why Choose Us</p>
+                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">The enterprise outsourcing advantage</p>
                       </div>
                     </Link>
                     <Link
@@ -551,7 +536,7 @@ const Navbar = () => {
                 {activeDropdown === 'testimonials' && (
                   <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
                     <Link
-                      to="/testimonials"
+                      to="/testimonials#testimonials"
                       onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
@@ -561,9 +546,9 @@ const Navbar = () => {
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Verified global partner reviews</p>
                       </div>
                     </Link>
-                    <a
-                      href="/#feedback"
-                      onClick={(e) => handleScrollToSection('feedback', e)}
+                    <Link
+                      to="/testimonials#feedback"
+                      onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
                       <Sparkles className="w-4 h-4 text-sky-600 group-hover:text-white" />
@@ -571,7 +556,7 @@ const Navbar = () => {
                         <p className="text-xs font-bold leading-snug">Submit Feedback</p>
                         <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Share your experience with us</p>
                       </div>
-                    </a>
+                    </Link>
                     <div className="pt-2 border-t border-slate-100 mt-1">
                       <Link
                         to="/testimonials"
@@ -619,7 +604,7 @@ const Navbar = () => {
                 {activeDropdown === 'contact' && (
                   <div className="absolute top-full right-0 w-80 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
                     <Link
-                      to="/contact"
+                      to="/contact#contact"
                       onClick={() => setActiveDropdown(null)}
                       className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
                     >
@@ -660,7 +645,7 @@ const Navbar = () => {
           {/* CTA Button */}
           <div className="hidden sm:flex items-center">
             <Link
-              to="/contact"
+              to="/contact#contact"
               className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#002b66] hover:bg-[#05142f] rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
             >
               <span>Get a Free Quote</span>
@@ -726,11 +711,18 @@ const Navbar = () => {
                     View Dedicated About Page →
                   </Link>
                   <Link
-                    to="/about"
+                    to="/about#about"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                   >
                     Company Profile
+                  </Link>
+                  <Link
+                    to="/about#why-choose-us"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
+                  >
+                    Why Choose Us
                   </Link>
                   <Link
                     to="/how-it-works"
@@ -862,13 +854,20 @@ const Navbar = () => {
                   >
                     View All Reviews Page →
                   </Link>
-                  <a
-                    href="/#feedback"
-                    onClick={(e) => handleScrollToSection('feedback', e)}
+                  <Link
+                    to="/testimonials#testimonials"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
+                  >
+                    Client Endorsements
+                  </Link>
+                  <Link
+                    to="/testimonials#feedback"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
                   >
                     Submit Feedback
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -901,6 +900,13 @@ const Navbar = () => {
                   >
                     Visit Dedicated Contact Page →
                   </Link>
+                  <Link
+                    to="/contact#contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
+                  >
+                    Request Free Quote &amp; Proposal
+                  </Link>
                   <a
                     href="https://wa.me/919363164608"
                     target="_blank"
@@ -921,7 +927,7 @@ const Navbar = () => {
               <span>📞 +91 9363164608</span>
             </div>
             <Link
-              to="/contact"
+              to="/contact#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full text-center px-5 py-3 text-sm font-bold text-white bg-[#05142f] hover:bg-sky-600 rounded-xl shadow-lg transition-colors cursor-pointer"
             >

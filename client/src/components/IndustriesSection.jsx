@@ -150,15 +150,15 @@ const IndustriesSection = () => {
   }, []);
 
   return (
-    <section id="industries" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-white overflow-hidden border-b border-slate-200">
+    <section id="industries" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-white overflow-hidden border-b border-slate-200">
       
       {/* Glow */}
       <div className="absolute top-1/4 right-10 w-[450px] h-[450px] bg-sky-200/30 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
             <Layers className="w-3.5 h-3.5 text-sky-600" />
             <span>Cross-Sector Domain Expertise</span>
@@ -169,7 +169,7 @@ const IndustriesSection = () => {
               Across Industries
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-normal">
             Every sector has unique data schemas, regulatory demands, and processing standards. We adapt our operations to fit your industry's exact specifications.
           </p>
         </div>

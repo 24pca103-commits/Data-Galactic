@@ -157,7 +157,7 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-slate-50 overflow-hidden border-b border-slate-200"
+      className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50 overflow-hidden border-b border-slate-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -167,8 +167,8 @@ const ServicesSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
             <Layers className="w-3.5 h-3.5 text-sky-600" />
             <span>Comprehensive Enterprise Capabilities</span>
@@ -179,13 +179,13 @@ const ServicesSection = () => {
               Your Business
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-normal">
             From granular spreadsheet data entry to end-to-end e-commerce catalog operations, we deliver accurate, secure, and cost-efficient back-office support tailored for international companies.
           </p>
         </div>
 
         {/* 3-Visible Round Icon Carousel Bar */}
-        <div className="relative max-w-2xl mx-auto mb-12">
+        <div className="relative max-w-2xl mx-auto mb-8">
           
           {/* Slider Container with Left/Right Arrows */}
           <div className="flex items-center justify-between gap-4">

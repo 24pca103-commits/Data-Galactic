@@ -3,14 +3,14 @@ import { ArrowRight, ShieldCheck, Sparkles, CheckCircle2, Clock } from 'lucide-r
 
 const FinalCTA = () => {
   return (
-    <section className="py-20 relative bg-white border-b border-slate-200/80 overflow-hidden">
+    <section className="py-10 sm:py-12 relative bg-white border-b border-slate-200/80 overflow-hidden">
       
       {/* Ambient background glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-sky-100/60 blur-[150px] rounded-full pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-sky-50/70 via-white to-blue-50/70 border border-sky-200/80 shadow-xl text-center space-y-8 relative overflow-hidden">
+        <div className="p-6 sm:p-10 rounded-3xl bg-gradient-to-br from-sky-50/70 via-white to-blue-50/70 border border-sky-200/80 shadow-xl text-center space-y-4 relative overflow-hidden">
           
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-sky-600" />
@@ -24,7 +24,7 @@ const FinalCTA = () => {
             </span>
           </h2>
 
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-normal">
             Let our team handle your data workload while you focus on growing your business.
           </p>
 

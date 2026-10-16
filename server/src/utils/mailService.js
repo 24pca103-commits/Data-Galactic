@@ -100,11 +100,17 @@ const renderStars = (rating) => {
 };
 
 /**
- * Helper to get sender and admin email addresses
+ * Helper to get sender and admin email addresses safely
  */
 const getMailAddresses = () => {
-  const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER || process.env.COMPANY_EMAIL || 'hello@datagalactic.in';
-  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL || process.env.COMPANY_EMAIL || 'admin@datagalactic.in';
+  const rawFrom = process.env.SMTP_FROM || process.env.SMTP_USER || process.env.COMPANY_EMAIL || 'kan93095@gmail.com';
+  const fromMatch = rawFrom.match(/<([^>]+)>/);
+  const fromEmail = fromMatch ? fromMatch[1].trim() : rawFrom.replace(/["']/g, '').trim();
+
+  const rawAdmin = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL || process.env.COMPANY_EMAIL || 'kan93095@gmail.com';
+  const adminMatch = rawAdmin.match(/<([^>]+)>/);
+  const adminEmail = adminMatch ? adminMatch[1].trim() : rawAdmin.replace(/["']/g, '').trim();
+
   return { fromEmail, adminEmail };
 };
 
@@ -169,6 +175,7 @@ const sendEnquiryEmails = async (enquiryData, enquiryId) => {
   const clientOptions = {
     from: `"DataGalactic Client Support" <${fromEmail}>`,
     to: enquiryData.email,
+    replyTo: adminEmail,
     subject: `Enquiry Received: ${enquiryData.service} [Ref: #DG-${refCode}]`,
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
@@ -218,6 +225,7 @@ const sendEnquiryEmails = async (enquiryData, enquiryId) => {
   const adminOptions = {
     from: `"DataGalactic Alert System" <${fromEmail}>`,
     to: adminEmail,
+    replyTo: enquiryData.email,
     subject: `🚨 [New Lead #DG-${refCode}] ${enquiryData.name} (${enquiryData.companyName}) - ${enquiryData.service}`,
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 24px; background: #f1f5f9;">
@@ -303,6 +311,7 @@ const sendFeedbackEmails = async (feedbackData, feedbackId) => {
   const adminOptions = {
     from: `"DataGalactic Feedback Alert" <${fromEmail}>`,
     to: adminEmail,
+    replyTo: feedbackData.email || fromEmail,
     subject: `⭐ [New Feedback: ${feedbackData.rating}/5★] ${feedbackData.name} - ${feedbackData.serviceType}`,
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 24px; background: #f8fafc;">
@@ -347,6 +356,7 @@ const sendFeedbackEmails = async (feedbackData, feedbackId) => {
     const userOptions = {
       from: `"DataGalactic Client Care" <${fromEmail}>`,
       to: feedbackData.email,
+      replyTo: adminEmail,
       subject: `Thank You for Your Feedback! — DataGalactic`,
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">

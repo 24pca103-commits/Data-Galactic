@@ -62,9 +62,14 @@ const submitFeedback = async (req, res) => {
     eventBus.emit('feedback_created', savedRecord);
 
     // Send real-time notification emails to Admin and User
-    sendFeedbackEmails(feedbackData, savedRecord._id).catch(mailErr => {
+    try {
+      await Promise.race([
+        sendFeedbackEmails(feedbackData, savedRecord._id),
+        new Promise((resolve) => setTimeout(resolve, 4000))
+      ]);
+    } catch (mailErr) {
       console.error('[sendFeedbackEmails Background Error]:', mailErr.message);
-    });
+    }
 
     return res.status(201).json({
       success: true,

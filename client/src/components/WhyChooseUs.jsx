@@ -52,15 +52,15 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-24 relative bg-slate-50 overflow-hidden border-b border-slate-200">
+    <section id="why-choose-us" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50 overflow-hidden border-b border-slate-200">
       
       {/* Background Subtle Shapes */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-sky-200/30 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
             <Award className="w-3.5 h-3.5 text-sky-600" />
             <span>The Enterprise Advantage</span>
@@ -71,7 +71,7 @@ const WhyChooseUs = () => {
               Work With Us
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-normal">
             International enterprises partner with DataGalactic because we blend human precision, systematic workflows, and uncompromising data security.
           </p>
         </div>

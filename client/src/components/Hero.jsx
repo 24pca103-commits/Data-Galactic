@@ -110,8 +110,8 @@ const Hero = () => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full pt-4 pb-4">
 
-          {/* Left Column: 3 Smooth Sliding Text Content Sets */}
-          <div className="lg:col-span-7 text-center lg:text-left">
+          {/* Left Column: 3 Smooth Sliding Text Content Sets starting from the left matching logo */}
+          <div className="lg:col-span-7 text-left">
 
             {/* Content Container with Uniform Even Spacing */}
             <div
@@ -127,7 +127,7 @@ const Hero = () => {
               </div>
 
               {/* Main Headline - Strictly Two Clean Lines with Even Line Spacing */}
-              <h1 className="text-2xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold tracking-tight text-white leading-[1.22] font-['Space_Grotesk']">
+              <h1 className="text-2xl sm:text-4xl lg:text-[40px] xl:text-[44px] font-extrabold tracking-tight text-white leading-[1.22] font-['Space_Grotesk'] text-left">
                 <span className="block whitespace-nowrap">{active.titleLine1}</span>
                 <span className="block whitespace-nowrap mt-1.5 text-transparent bg-clip-text bg-gradient-to-r from-[#aac7ee] via-[#4c8df7] to-[#818cf8]">
                   {active.titleLine2}
@@ -135,12 +135,12 @@ const Hero = () => {
               </h1>
 
               {/* Supporting Text */}
-              <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-slate-300 max-w-2xl text-left leading-normal font-normal">
                 {active.description}
               </p>
 
               {/* Checklist */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm text-slate-300 max-w-xl mx-auto lg:mx-0 font-medium">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm text-slate-300 max-w-xl text-left font-medium">
                 {active.checkpoints.map((pt, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
@@ -150,7 +150,7 @@ const Hero = () => {
               </div>
 
               {/* CTA Group */}
-              <div className="flex items-center justify-center lg:justify-start">
+              <div className="flex items-center justify-start">
                 <a
                   href="#contact"
                   className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white bg-[#002b66] hover:bg-[#0047AB] rounded-xl shadow-lg border border-[#4c8df7]/40 transition-all group cursor-pointer"
@@ -161,7 +161,7 @@ const Hero = () => {
               </div>
 
               {/* Metrics Bar */}
-              <div className="pt-4 border-t border-[#122f5c] grid grid-cols-3 gap-4 text-center lg:text-left">
+              <div className="pt-4 border-t border-[#122f5c] grid grid-cols-3 gap-4 text-left">
                 {active.metrics.map((m, mi) => (
                   <div key={mi}>
                     <p className="text-xl sm:text-2xl font-bold text-white font-['Space_Grotesk']">{m.val}</p>
@@ -233,7 +233,7 @@ const Hero = () => {
       </div>
 
       {/* Trust Highlight Cards — bottom strip with white background */}
-      <div className="relative z-20 w-full bg-white border-t border-b border-slate-200/80 py-8 mt-2 sm:mt-4">
+      <div className="relative z-20 w-full bg-white border-t border-b border-slate-200/80 py-6 sm:py-7 mt-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {highlights.map((item, idx) => {
@@ -254,7 +254,7 @@ const Hero = () => {
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-900 transition-colors font-['Space_Grotesk']">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-normal">
                     {item.description}
                   </p>
                 </div>

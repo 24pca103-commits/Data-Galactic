@@ -22,11 +22,11 @@ const QuoteCalculator = () => {
   const outsourcedCost = Math.round((recordCount / 1000) * currentService.baseRatePer1000);
 
   return (
-    <section className="py-20 relative bg-white overflow-hidden border-b border-slate-200">
+    <section id="calculator" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-white overflow-hidden border-b border-slate-200">
       
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
             <Calculator className="w-3.5 h-3.5 text-sky-600" />
             <span>Interactive Cost & Time Estimator</span>
@@ -37,7 +37,7 @@ const QuoteCalculator = () => {
               Efficiency & Savings
             </span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
+          <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto">
             See how much operational budget and time you can save by partnering with DataGalactic.
           </p>
         </div>

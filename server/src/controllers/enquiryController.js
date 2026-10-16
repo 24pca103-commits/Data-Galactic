@@ -187,10 +187,15 @@ const submitEnquiry = async (req, res) => {
     // Broadcast to Admin live SSE listeners
     eventBus.emit('enquiry_created', savedRecord);
 
-    // Send Real-Time Confirmation & Notification Emails
-    sendEnquiryEmails(enquiryData, savedRecord._id).catch(err => {
+    // Send Real-Time Confirmation & Notification Emails to User and Admin
+    try {
+      await Promise.race([
+        sendEnquiryEmails(enquiryData, savedRecord._id),
+        new Promise((resolve) => setTimeout(resolve, 4000))
+      ]);
+    } catch (err) {
       console.error('[sendEnquiryEmails Background Error]:', err.message);
-    });
+    }
 
     // Return clean success response
     return res.status(201).json({

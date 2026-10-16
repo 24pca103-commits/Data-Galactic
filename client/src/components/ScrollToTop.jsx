@@ -19,15 +19,19 @@ const ScrollToTop = () => {
         : targetId;
 
       const scrollToElement = () => {
-        const el = document.getElementById(elementId);
+        const el = document.getElementById(targetId) || document.getElementById(elementId);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
         }
       };
 
       scrollToElement();
-      const timer = setTimeout(scrollToElement, 180);
-      return () => clearTimeout(timer);
+      const timer1 = setTimeout(scrollToElement, 100);
+      const timer2 = setTimeout(scrollToElement, 300);
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
     }
   }, [pathname, hash]);
 

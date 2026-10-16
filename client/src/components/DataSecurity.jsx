@@ -26,15 +26,15 @@ const DataSecurity = () => {
   ];
 
   return (
-    <section id="security" className="scroll-mt-24 lg:scroll-mt-28 py-24 relative bg-white border-b border-slate-200/80 overflow-hidden">
+    <section id="security" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-white border-b border-slate-200/80 overflow-hidden">
       
       {/* Background Accent */}
       <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-sky-100/50 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        {/* Section Header: Center aligned */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
             <span>Uncompromising Data Protection</span>
@@ -45,7 +45,7 @@ const DataSecurity = () => {
               Highest Level of Care
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg leading-normal">
             Data security is not an afterthought at DataGalactic—it is engineered into every stage of our daily operational workflow.
           </p>
         </div>
