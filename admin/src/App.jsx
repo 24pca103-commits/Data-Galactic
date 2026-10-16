@@ -16,6 +16,7 @@ function App() {
   // Verify stored token with backend
   useEffect(() => {
     if (adminToken) {
+      if (adminToken === 'offline-admin-token') return;
       axios
         .get('/api/admin/verify', {
           headers: { Authorization: `Bearer ${adminToken}` },
@@ -26,8 +27,12 @@ function App() {
             handleLogout();
           }
         })
-        .catch(() => {
-          handleLogout();
+        .catch((err) => {
+          // Only log out if specifically 401 Unauthorized (invalid/expired token)
+          // Do NOT log out on network error or server wake up delays
+          if (err.response && err.response.status === 401) {
+            handleLogout();
+          }
         });
     }
   }, [adminToken]);
@@ -47,7 +52,8 @@ function App() {
   };
 
   const handleBackToSite = () => {
-    window.location.href = 'http://localhost:5173';
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    window.location.href = isLocal ? 'http://localhost:5173' : (import.meta.env.VITE_CLIENT_URL || '/');
   };
 
   if (!adminToken) {

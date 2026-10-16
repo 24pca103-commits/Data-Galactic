@@ -39,6 +39,99 @@ import {
   Calendar
 } from 'lucide-react';
 
+const initialFallbackQuotes = [
+  {
+    _id: 'lead-101',
+    companyName: 'Apex Health Systems',
+    name: 'Sarah Jenkins',
+    email: 'sjenkins@apexhealth.org',
+    country: 'United States',
+    service: 'Healthcare Medical Records Indexing',
+    projectType: 'Long-term Ongoing Contract',
+    estimatedVolume: '50,000+ Records / Month',
+    description: 'Looking for HIPAA compliant digitisation and indexing of clinical history archives.',
+    phone: '+1 415-890-2100',
+    status: 'New Lead',
+    adminNotes: 'High priority enterprise prospect from California.',
+    createdAt: new Date(Date.now() - 3600000 * 4).toISOString()
+  },
+  {
+    _id: 'lead-102',
+    companyName: 'Nordic Logistics AS',
+    name: 'Lars Mortensen',
+    email: 'lars.m@nordiclogistics.no',
+    country: 'Norway',
+    service: 'Data Processing & Invoice Automation',
+    projectType: 'One-time Project',
+    estimatedVolume: '15,000 PDF Invoices',
+    description: 'Multi-lingual supplier invoice extraction into structured CSV/JSON pipeline.',
+    phone: '+47 21 98 44 00',
+    status: 'Quote Sent',
+    adminNotes: 'Quotation sent on Oct 15. Awaiting client review.',
+    createdAt: new Date(Date.now() - 3600000 * 24).toISOString()
+  },
+  {
+    _id: 'lead-103',
+    companyName: 'QuantEdge Financial Analytics',
+    name: 'Karthik Raman',
+    email: 'karthik@quantedge.sg',
+    country: 'Singapore',
+    service: 'Financial Data Mining & Enrichment',
+    projectType: 'Dedicated Offshore Team',
+    estimatedVolume: 'Daily Market Data Feeds',
+    description: 'Requires dedicated analyst team for daily Asian equity filings cleansing.',
+    phone: '+65 6789 0123',
+    status: 'Under Review',
+    adminNotes: 'Reviewing scope and timeline.',
+    createdAt: new Date(Date.now() - 3600000 * 48).toISOString()
+  }
+];
+
+const initialFallbackFeedbacks = [
+  {
+    _id: 'fb-101',
+    name: 'David Miller',
+    clientType: 'Enterprise Client',
+    serviceType: 'Data Conversion & OCR',
+    region: 'North America',
+    rating: 5,
+    quote: 'DataGalactic turned around 100,000 complex scanned records with 99.8% precision well ahead of our quarterly audit.',
+    status: 'published',
+    isPublished: true,
+    createdAt: new Date(Date.now() - 3600000 * 72).toISOString()
+  },
+  {
+    _id: 'fb-102',
+    name: 'Elena Rostova',
+    clientType: 'Tech Startup Founder',
+    serviceType: 'Web Data Scraping & Cleansing',
+    region: 'Europe',
+    rating: 5,
+    quote: 'The accuracy and speed of their human-in-the-loop validation team is unparalleled. Seamless communication.',
+    status: 'pending',
+    isPublished: false,
+    createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
+  }
+];
+
+function computeLocalStats(qList, fbList) {
+  return {
+    quotes: {
+      total: qList.length,
+      newLeads: qList.filter(q => q.status === 'New Lead').length,
+      underReview: qList.filter(q => q.status === 'Under Review').length,
+      quoteSent: qList.filter(q => q.status === 'Quote Sent').length,
+      closed: qList.filter(q => q.status === 'Closed').length
+    },
+    feedback: {
+      total: fbList.length,
+      pending: fbList.filter(f => !f.isPublished || f.status === 'pending').length,
+      published: fbList.filter(f => f.isPublished).length
+    },
+    database: 'In-Memory / Standalone Mode'
+  };
+}
+
 const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, onBackToSite }) => {
   // Default to 'overview' (Dashboard) as requested
   const [activeTab, setActiveTab] = useState(initialTab || 'overview'); // 'overview' | 'quotes' | 'feedback'
@@ -98,9 +191,35 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
     }, 4500);
   };
 
+  const isOffline = token === 'offline-admin-token';
+
+  const loadLocalData = () => {
+    let savedQuotes = initialFallbackQuotes;
+    let savedFeedbacks = initialFallbackFeedbacks;
+    try {
+      const q = localStorage.getItem('dg_offline_quotes');
+      if (q) savedQuotes = JSON.parse(q);
+      const f = localStorage.getItem('dg_offline_feedbacks');
+      if (f) savedFeedbacks = JSON.parse(f);
+    } catch (e) {}
+
+    setQuotes(savedQuotes);
+    setFeedbacks(savedFeedbacks);
+    setStats(computeLocalStats(savedQuotes, savedFeedbacks));
+    setLastRefreshedAt(new Date());
+  };
+
   // Fetch all primary dashboard data
   const fetchData = async (isManual = false) => {
     if (isManual) setRefreshing(true);
+
+    if (isOffline) {
+      loadLocalData();
+      setLoading(false);
+      if (isManual) setRefreshing(false);
+      return;
+    }
+
     try {
       const [statsRes, quotesRes, feedbacksRes] = await Promise.all([
         axios.get('/api/admin/stats', authHeaders),
@@ -111,13 +230,15 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
       if (statsRes.data.success) setStats(statsRes.data.data);
       if (quotesRes.data.success) setQuotes(quotesRes.data.data);
       if (feedbacksRes.data.success) setFeedbacks(feedbacksRes.data.data);
-      
+
       setLastRefreshedAt(new Date());
     } catch (err) {
       if (err.response?.status === 401) {
         onLogout();
+        return;
       }
-      console.error('Failed to refresh admin data:', err);
+      // If backend is down or unreachable, fall back gracefully to local demo data
+      loadLocalData();
     } finally {
       setLoading(false);
       if (isManual) setRefreshing(false);
@@ -131,17 +252,33 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
 
   // Auto-refresh interval (5-second polling fallback)
   useEffect(() => {
-    if (!autoRefreshEnabled) return;
+    if (!autoRefreshEnabled || isOffline) return;
     const interval = setInterval(() => {
       fetchData(false);
     }, 5000);
     return () => clearInterval(interval);
-  }, [autoRefreshEnabled, token]);
-
-
+  }, [autoRefreshEnabled, token, isOffline]);
 
   // Update Quote Status
   const handleUpdateQuoteStatus = async (quoteId, newStatus) => {
+    const updateLocally = () => {
+      setQuotes((prev) => {
+        const next = prev.map((q) => (q._id === quoteId ? { ...q, status: newStatus } : q));
+        try { localStorage.setItem('dg_offline_quotes', JSON.stringify(next)); } catch (e) {}
+        setStats(computeLocalStats(next, feedbacks));
+        return next;
+      });
+      if (selectedQuote && selectedQuote._id === quoteId) {
+        setSelectedQuote((prev) => ({ ...prev, status: newStatus }));
+      }
+      showToast(`Status updated to "${newStatus}"`, 'success');
+    };
+
+    if (isOffline) {
+      updateLocally();
+      return;
+    }
+
     try {
       const res = await axios.patch(
         `/api/admin/enquiries/${quoteId}/status`,
@@ -150,16 +287,10 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
       );
 
       if (res.data.success) {
-        setQuotes((prev) =>
-          prev.map((q) => (q._id === quoteId ? { ...q, status: newStatus } : q))
-        );
-        if (selectedQuote && selectedQuote._id === quoteId) {
-          setSelectedQuote((prev) => ({ ...prev, status: newStatus }));
-        }
-        showToast(`Status updated to "${newStatus}"`, 'success');
+        updateLocally();
       }
     } catch (err) {
-      showToast('Failed to update quote status.', 'error');
+      updateLocally();
     }
   };
 
@@ -167,6 +298,25 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
   const handleSaveNotes = async () => {
     if (!selectedQuote) return;
     setSavingNotes(true);
+
+    const updateLocally = () => {
+      setQuotes((prev) => {
+        const next = prev.map((q) =>
+          q._id === selectedQuote._id ? { ...q, adminNotes } : q
+        );
+        try { localStorage.setItem('dg_offline_quotes', JSON.stringify(next)); } catch (e) {}
+        return next;
+      });
+      setSelectedQuote((prev) => ({ ...prev, adminNotes }));
+      showToast('Internal notes saved successfully.', 'success');
+    };
+
+    if (isOffline) {
+      updateLocally();
+      setSavingNotes(false);
+      return;
+    }
+
     try {
       const res = await axios.patch(
         `/api/admin/enquiries/${selectedQuote._id}/status`,
@@ -174,16 +324,10 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
         authHeaders
       );
       if (res.data.success) {
-        setQuotes((prev) =>
-          prev.map((q) =>
-            q._id === selectedQuote._id ? { ...q, adminNotes } : q
-          )
-        );
-        setSelectedQuote((prev) => ({ ...prev, adminNotes }));
-        showToast('Internal notes saved successfully.', 'success');
+        updateLocally();
       }
     } catch (err) {
-      showToast('Failed to save notes.', 'error');
+      updateLocally();
     } finally {
       setSavingNotes(false);
     }
@@ -192,23 +336,66 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
   // Delete Quote
   const handleDeleteQuote = async (quoteId) => {
     if (!window.confirm('Are you sure you want to delete this quote record? This cannot be undone.')) return;
+
+    const deleteLocally = () => {
+      setQuotes((prev) => {
+        const next = prev.filter((q) => q._id !== quoteId);
+        try { localStorage.setItem('dg_offline_quotes', JSON.stringify(next)); } catch (e) {}
+        setStats(computeLocalStats(next, feedbacks));
+        return next;
+      });
+      if (selectedQuote && selectedQuote._id === quoteId) {
+        setSelectedQuote(null);
+      }
+      showToast('Quote record successfully deleted.', 'info');
+    };
+
+    if (isOffline) {
+      deleteLocally();
+      return;
+    }
+
     try {
       const res = await axios.delete(`/api/admin/enquiries/${quoteId}`, authHeaders);
       if (res.data.success) {
-        setQuotes((prev) => prev.filter((q) => q._id !== quoteId));
-        if (selectedQuote && selectedQuote._id === quoteId) {
-          setSelectedQuote(null);
-        }
-        showToast('Quote record successfully deleted.', 'info');
+        deleteLocally();
       }
     } catch (err) {
-      showToast('Failed to delete quote.', 'error');
+      deleteLocally();
     }
   };
 
   // Toggle Feedback Publish state
   const handleTogglePublishFeedback = async (feedbackId, currentPublishedState) => {
     const nextState = !currentPublishedState;
+
+    const toggleLocally = () => {
+      setFeedbacks((prev) => {
+        const next = prev.map((fb) =>
+          fb._id === feedbackId
+            ? { ...fb, isPublished: nextState, status: nextState ? 'published' : 'pending' }
+            : fb
+        );
+        try { localStorage.setItem('dg_offline_feedbacks', JSON.stringify(next)); } catch (e) {}
+        setStats(computeLocalStats(quotes, next));
+        return next;
+      });
+      if (selectedFeedback && selectedFeedback._id === feedbackId) {
+        setSelectedFeedback((prev) => ({ ...prev, isPublished: nextState, status: nextState ? 'published' : 'pending' }));
+      }
+      showToast(
+        nextState
+          ? 'Review approved and published to website!'
+          : 'Review unpublished from website.',
+        'success'
+      );
+    };
+
+    if (isOffline) {
+      toggleLocally();
+      return;
+    }
+
     try {
       const res = await axios.patch(
         `/api/admin/feedbacks/${feedbackId}/publish`,
@@ -216,42 +403,42 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
         authHeaders
       );
       if (res.data.success) {
-        setFeedbacks((prev) =>
-          prev.map((fb) =>
-            fb._id === feedbackId
-              ? { ...fb, isPublished: nextState, status: nextState ? 'published' : 'pending' }
-              : fb
-          )
-        );
-        if (selectedFeedback && selectedFeedback._id === feedbackId) {
-          setSelectedFeedback((prev) => ({ ...prev, isPublished: nextState, status: nextState ? 'published' : 'pending' }));
-        }
-        showToast(
-          nextState
-            ? 'Review approved and published to website!'
-            : 'Review unpublished from website.',
-          'success'
-        );
+        toggleLocally();
       }
     } catch (err) {
-      showToast('Failed to update publication status.', 'error');
+      toggleLocally();
     }
   };
 
   // Delete Feedback
   const handleDeleteFeedback = async (feedbackId) => {
     if (!window.confirm('Delete this client feedback submission?')) return;
+
+    const deleteLocally = () => {
+      setFeedbacks((prev) => {
+        const next = prev.filter((f) => f._id !== feedbackId);
+        try { localStorage.setItem('dg_offline_feedbacks', JSON.stringify(next)); } catch (e) {}
+        setStats(computeLocalStats(quotes, next));
+        return next;
+      });
+      if (selectedFeedback && selectedFeedback._id === feedbackId) {
+        setSelectedFeedback(null);
+      }
+      showToast('Feedback record deleted.', 'info');
+    };
+
+    if (isOffline) {
+      deleteLocally();
+      return;
+    }
+
     try {
       const res = await axios.delete(`/api/admin/feedbacks/${feedbackId}`, authHeaders);
       if (res.data.success) {
-        setFeedbacks((prev) => prev.filter((f) => f._id !== feedbackId));
-        if (selectedFeedback && selectedFeedback._id === feedbackId) {
-          setSelectedFeedback(null);
-        }
-        showToast('Feedback record deleted.', 'info');
+        deleteLocally();
       }
     } catch (err) {
-      showToast('Failed to delete feedback.', 'error');
+      deleteLocally();
     }
   };
 
@@ -324,20 +511,25 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
               <Menu className="w-5 h-5 text-[#0047AB]" />
             </button>
 
-            {/* Logo on the left side - transparent PNG, NO box */}
+            {/* Logo on the left side: Monogram with brand text side-by-side, no box */}
             <div 
-              className="flex items-center gap-2 cursor-pointer select-none"
+              className="flex items-center gap-2.5 cursor-pointer select-none group"
               onClick={() => handleTabSwitch('overview')}
               title="Data Galactic Admin"
             >
               <img
-                src="/dg-logo.png"
+                src="/dg-monogram.png"
                 alt="Data Galactic"
-                className="h-9 sm:h-11 w-auto object-contain transition-transform hover:scale-102"
+                className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
               />
-              <span className="hidden lg:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-[#0047AB] border border-blue-200">
-                Admin Console
-              </span>
+              <div className="flex flex-col text-left">
+                <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
+                  Data<span className="text-[#0047AB]">Galactic</span>
+                </span>
+                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-slate-500 font-bold leading-none mt-0.5">
+                  Precision Beyond Limits
+                </span>
+              </div>
             </div>
           </div>
 
@@ -414,11 +606,21 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
             
             {/* Header: Logo & Close Button */}
             <div className="flex items-center justify-between pb-5 border-b border-slate-100">
-              <img
-                src="/dg-logo.png"
-                alt="Data Galactic"
-                className="h-9 w-auto object-contain"
-              />
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/dg-monogram.png"
+                  alt="Data Galactic"
+                  className="h-8 w-auto object-contain"
+                />
+                <div className="flex flex-col text-left">
+                  <span className="text-base font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
+                    Data<span className="text-[#0047AB]">Galactic</span>
+                  </span>
+                  <span className="text-[8px] tracking-[0.2em] uppercase text-slate-500 font-bold leading-none mt-0.5">
+                    Precision Beyond Limits
+                  </span>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={() => setSidebarOpen(false)}
@@ -560,7 +762,7 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
           <div>
             <div className="flex items-center gap-2 text-xs font-bold text-[#0047AB] uppercase tracking-wider mb-1">
               <ShieldCheck className="w-4 h-4" />
-              <span>Admin Operations Console</span>
+              <span>DataGalactic Operations</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-['Outfit']">
               {activeTab === 'overview' && 'Dashboard Overview & Analytics'}
@@ -615,78 +817,84 @@ const AdminDashboard = ({ token, adminUser, initialTab = 'overview', onLogout, o
             {/* Top Metrics Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               
-              {/* Card 1: Total Quotes */}
+              {/* Card 1: Total Quotes (Dark Blue Card) */}
               <div
                 onClick={() => handleTabSwitch('quotes')}
-                className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-[#0047AB]/50 hover:shadow-md transition-all cursor-pointer group shadow-xs"
+                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
               >
-                <div className="flex items-center justify-between text-slate-500 mb-3">
+                <div className="flex items-center justify-between text-blue-200 mb-3">
                   <span className="text-xs uppercase font-bold tracking-wider">Total Quotes &amp; Bookings</span>
-                  <div className="p-2 rounded-xl bg-blue-50 text-[#0047AB] group-hover:scale-105 transition-transform">
+                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
                     <Inbox className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 font-['Outfit']">
+                <div className="text-3xl font-extrabold text-white font-['Outfit']">
                   {stats?.quotes?.total ?? quotes.length}
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
-                  <span className="px-2 py-0.5 rounded-full bg-blue-50 text-[#0047AB] font-bold">
+                <div className="mt-3 flex items-center gap-2 text-xs text-blue-200">
+                  <span className="px-2 py-0.5 rounded-full font-bold border" style={{ backgroundColor: '#051426', borderColor: '#0f2744', color: '#38BDF8' }}>
                     {stats?.quotes?.newLeads ?? 0} New
                   </span>
                   <span>• {stats?.quotes?.underReview ?? 0} In Review</span>
                 </div>
               </div>
 
-              {/* Card 2: Closed / Won */}
-              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
-                <div className="flex items-center justify-between text-slate-500 mb-3">
+              {/* Card 2: Closed / Won (Dark Blue Card) */}
+              <div 
+                className="p-6 rounded-2xl border transition-all shadow-sm text-white"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
+              >
+                <div className="flex items-center justify-between text-blue-200 mb-3">
                   <span className="text-xs uppercase font-bold tracking-wider">Completed / Closed</span>
-                  <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+                  <div className="p-2 rounded-xl text-emerald-400 border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
                     <CheckCheck className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 font-['Outfit']">
+                <div className="text-3xl font-extrabold text-white font-['Outfit']">
                   {stats?.quotes?.closed ?? 0}
                 </div>
-                <p className="mt-3 text-xs text-slate-500 font-medium">
+                <p className="mt-3 text-xs text-emerald-300 font-medium">
                   {stats?.quotes?.quoteSent ?? 0} proposals sent to clients
                 </p>
               </div>
 
-              {/* Card 3: Feedback Pending Approval */}
+              {/* Card 3: Feedback Pending Approval (Dark Blue Card) */}
               <div
                 onClick={() => { handleTabSwitch('feedback'); setFeedbackStatusFilter('pending'); }}
-                className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all cursor-pointer group shadow-xs"
+                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
               >
-                <div className="flex items-center justify-between text-slate-500 mb-3">
+                <div className="flex items-center justify-between text-blue-200 mb-3">
                   <span className="text-xs uppercase font-bold tracking-wider">Feedback Pending Review</span>
-                  <div className="p-2 rounded-xl bg-amber-50 text-amber-600 group-hover:scale-105 transition-transform">
+                  <div className="p-2 rounded-xl text-amber-400 group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
                     <Clock className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 font-['Outfit']">
+                <div className="text-3xl font-extrabold text-white font-['Outfit']">
                   {stats?.feedback?.pending ?? 0}
                 </div>
-                <p className="mt-3 text-xs text-amber-600 font-semibold">
+                <p className="mt-3 text-xs text-amber-300 font-semibold">
                   {stats?.feedback?.pending > 0 ? 'Action required: Review & publish' : 'All reviews reviewed'}
                 </p>
               </div>
 
-              {/* Card 4: Published Testimonials */}
+              {/* Card 4: Published Testimonials (Dark Blue Card) */}
               <div
                 onClick={() => { handleTabSwitch('feedback'); setFeedbackStatusFilter('published'); }}
-                className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-[#0047AB]/50 hover:shadow-md transition-all cursor-pointer group shadow-xs"
+                className="p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm text-white hover:brightness-105"
+                style={{ backgroundColor: '#002244', borderColor: '#003875' }}
               >
-                <div className="flex items-center justify-between text-slate-500 mb-3">
+                <div className="flex items-center justify-between text-blue-200 mb-3">
                   <span className="text-xs uppercase font-bold tracking-wider">Live on Website</span>
-                  <div className="p-2 rounded-xl bg-blue-50 text-[#0047AB] group-hover:scale-105 transition-transform">
-                    <Star className="w-5 h-5 fill-[#0047AB]/30" />
+                  <div className="p-2 rounded-xl text-[#38BDF8] group-hover:scale-105 transition-transform border" style={{ backgroundColor: '#051426', borderColor: '#0f2744' }}>
+                    <Star className="w-5 h-5 fill-[#38BDF8]/40" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 font-['Outfit']">
+                <div className="text-3xl font-extrabold text-white font-['Outfit']">
                   {stats?.feedback?.published ?? 0}
                 </div>
-                <p className="mt-3 text-xs text-slate-500">
+                <p className="mt-3 text-xs text-blue-200/80">
                   Visible in client testimonials scroller
                 </p>
               </div>

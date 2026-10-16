@@ -14,3 +14,21 @@
     color: #0f172a;
   }
 }
+
+.admin-card-dark {
+  background-color: #002244 !important;
+  border-color: #003875 !important;
+  color: #ffffff !important;
+}
+
+.admin-input-dark {
+  background-color: #051426 !important;
+  border-color: #0f2744 !important;
+  color: #ffffff !important;
+}
+
+.admin-helper-dark {
+  background-color: #051426 !important;
+  border-color: #0f2744 !important;
+}
+
