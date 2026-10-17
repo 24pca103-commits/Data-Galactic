@@ -44,8 +44,8 @@ const getTransporter = async () => {
 
     transporter = nodemailer.createTransport({
       host: targetHost,
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false, // port 587 with STARTTLS (open on Render / cloud firewalls)
       auth: { user, pass },
       tls: {
         servername: 'smtp.gmail.com',
@@ -55,7 +55,7 @@ const getTransporter = async () => {
       greetingTimeout: 15000,
       socketTimeout: 20000
     });
-    console.log(`[MailService] Configured direct IPv4 (${targetHost}:465) SSL for: ${user}`);
+    console.log(`[MailService] Configured direct IPv4 (${targetHost}:587) STARTTLS for: ${user}`);
     return transporter;
   }
 
