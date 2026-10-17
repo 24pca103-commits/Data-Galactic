@@ -96,18 +96,26 @@ const FeedbackSection = () => {
           submitted = true;
         }
       } catch (err1) {
-        // Attempt 2: Direct localhost if on dev or 127.0.0.1
-        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-        if (isLocal) {
-          try {
-            response = await axios.post('http://127.0.0.1:5000/api/feedback', payload);
-            if (response.data && response.data.success) submitted = true;
-          } catch (err2) {
+        // Attempt 2: Direct Render production backend
+        try {
+          response = await axios.post('https://data-galactic-1.onrender.com/api/feedback', payload);
+          if (response.data && response.data.success) {
+            submitted = true;
+          }
+        } catch (err2) {
+          // Attempt 3: Direct localhost if on dev or 127.0.0.1
+          const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+          if (isLocal) {
             try {
-              response = await axios.post('http://localhost:5000/api/feedback', payload);
+              response = await axios.post('http://127.0.0.1:5000/api/feedback', payload);
               if (response.data && response.data.success) submitted = true;
             } catch (err3) {
-              submitted = false;
+              try {
+                response = await axios.post('http://localhost:5000/api/feedback', payload);
+                if (response.data && response.data.success) submitted = true;
+              } catch (err4) {
+                submitted = false;
+              }
             }
           }
         }

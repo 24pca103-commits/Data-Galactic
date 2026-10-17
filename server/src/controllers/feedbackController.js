@@ -62,13 +62,23 @@ const submitFeedback = async (req, res) => {
     eventBus.emit('feedback_created', savedRecord);
 
     // Send real-time notification emails to Admin and User
+    let emailStatus = { sent: false };
     try {
-      await Promise.race([
+      const emailResults = await Promise.race([
         sendFeedbackEmails(feedbackData, savedRecord._id),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 12s')), 12000))
       ]);
+      emailStatus = {
+        sent: true,
+        details: emailResults?.map((r, i) => ({
+          recipient: i === 0 ? 'Admin' : 'Client',
+          status: r.status,
+          error: r.status === 'rejected' ? (r.reason?.message || String(r.reason)) : null
+        }))
+      };
     } catch (mailErr) {
       console.error('[sendFeedbackEmails Error]:', mailErr.message);
+      emailStatus = { sent: false, error: mailErr.message };
     }
 
     return res.status(201).json({
@@ -78,7 +88,8 @@ const submitFeedback = async (req, res) => {
         id: savedRecord._id,
         name: savedRecord.name,
         rating: savedRecord.rating,
-        status: savedRecord.status
+        status: savedRecord.status,
+        emailStatus
       }
     });
   } catch (err) {

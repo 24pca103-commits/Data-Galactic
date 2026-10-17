@@ -188,13 +188,23 @@ const submitEnquiry = async (req, res) => {
     eventBus.emit('enquiry_created', savedRecord);
 
     // Send Real-Time Confirmation & Notification Emails to User and Admin
+    let emailStatus = { sent: false };
     try {
-      await Promise.race([
+      const emailResults = await Promise.race([
         sendEnquiryEmails(enquiryData, savedRecord._id),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 12s')), 12000))
       ]);
+      emailStatus = {
+        sent: true,
+        details: emailResults?.map((r, i) => ({
+          recipient: i === 0 ? 'Client' : 'Admin',
+          status: r.status,
+          error: r.status === 'rejected' ? (r.reason?.message || String(r.reason)) : null
+        }))
+      };
     } catch (err) {
       console.error('[sendEnquiryEmails Error]:', err.message);
+      emailStatus = { sent: false, error: err.message };
     }
 
     // Return clean success response
@@ -206,7 +216,8 @@ const submitEnquiry = async (req, res) => {
         name: enquiryData.name,
         companyName: enquiryData.companyName,
         service: enquiryData.service,
-        createdAt: savedRecord.createdAt
+        createdAt: savedRecord.createdAt,
+        emailStatus
       }
     });
   } catch (error) {

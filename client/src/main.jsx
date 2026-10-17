@@ -24,7 +24,7 @@ if (!isLocalHost && (rawUrl.includes('127.0.0.1') || rawUrl.includes('localhost'
 }
 
 if (!rawUrl || rawUrl.includes('render.com/docs') || rawUrl.includes('#')) {
-  rawUrl = (import.meta.env.DEV || isLocalHost) ? 'http://127.0.0.1:5000' : '';
+  rawUrl = (import.meta.env.DEV || isLocalHost) ? 'http://127.0.0.1:5000' : 'https://data-galactic-1.onrender.com';
 }
 
 if (rawUrl) {
