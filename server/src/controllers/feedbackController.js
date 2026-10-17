@@ -66,7 +66,7 @@ const submitFeedback = async (req, res) => {
     try {
       const emailResults = await Promise.race([
         sendFeedbackEmails(feedbackData, savedRecord._id),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 12s')), 12000))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Email dispatch timed out after 25s')), 25000))
       ]);
       emailStatus = {
         sent: true,
