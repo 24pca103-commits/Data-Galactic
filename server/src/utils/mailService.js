@@ -29,33 +29,19 @@ const getTransporter = async () => {
 
   // 1. Direct Service (e.g. Gmail with App Password)
   if (service && user && pass) {
-    let targetHost = 'smtp.gmail.com';
-    try {
-      const resolved = await new Promise((resolve, reject) => {
-        dns.lookup('smtp.gmail.com', { family: 4 }, (err, address) => {
-          if (err) reject(err);
-          else resolve(address);
-        });
-      });
-      if (resolved) targetHost = resolved;
-    } catch (e) {
-      console.warn('[MailService] DNS IPv4 pre-resolve warning:', e.message);
-    }
+    const port = parseInt(process.env.SMTP_PORT || '465', 10);
+    const secure = port === 465;
 
     transporter = nodemailer.createTransport({
-      host: targetHost,
-      port: 587,
-      secure: false, // port 587 with STARTTLS (open on Render / cloud firewalls)
+      host: 'smtp.gmail.com',
+      port,
+      secure,
       auth: { user, pass },
       tls: {
-        servername: 'smtp.gmail.com',
         rejectUnauthorized: false
-      },
-      connectionTimeout: 15000,
-      greetingTimeout: 15000,
-      socketTimeout: 20000
+      }
     });
-    console.log(`[MailService] Configured direct IPv4 (${targetHost}:587) STARTTLS for: ${user}`);
+    console.log(`[MailService] Configured direct Gmail SMTP (${port}, secure=${secure}) for: ${user}`);
     return transporter;
   }
 
