@@ -33,7 +33,10 @@ const getTransporter = async () => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // direct SSL for port 465
-      family: 4, // strictly force IPv4 to prevent ENETUNREACH in Render cloud network
+      family: 4, // strictly force IPv4
+      lookup: (hostname, options, callback) => {
+        dns.lookup(hostname, { family: 4 }, callback);
+      },
       auth: { user, pass },
       tls: {
         rejectUnauthorized: false
