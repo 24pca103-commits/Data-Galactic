@@ -5,6 +5,11 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 
+const dns = require('dns');
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
+
 // In-memory OTP storage: email -> { otp, expiresAt, verified }
 const otpStore = new Map();
 
@@ -28,6 +33,7 @@ const getTransporter = async () => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // direct SSL for port 465
+      family: 4, // strictly force IPv4 to prevent ENETUNREACH in Render cloud network
       auth: { user, pass },
       tls: {
         rejectUnauthorized: false
@@ -36,7 +42,7 @@ const getTransporter = async () => {
       greetingTimeout: 15000,
       socketTimeout: 20000
     });
-    console.log(`[MailService] Configured direct SSL smtp.gmail.com:465 for: ${user}`);
+    console.log(`[MailService] Configured direct IPv4 SSL smtp.gmail.com:465 for: ${user}`);
     return transporter;
   }
 
