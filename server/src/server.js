@@ -15,6 +15,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 
+// Enable trust proxy for reverse proxies (Render, Vercel, Cloudflare)
+app.set('trust proxy', 1);
+
 // Initialize DB connection
 connectDB();
 
@@ -60,6 +63,7 @@ const generalLimiter = rateLimit({
   max: 1000, // Generous limit for normal dashboard auto-refresh
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   skip: (req) => req.path.startsWith('/api/admin/events') || req.path.startsWith('/api/feedback/events'),
   message: {
     success: false,
@@ -72,6 +76,7 @@ app.use('/api/', generalLimiter);
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 30,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many quote requests from this IP. Please try again after 15 minutes.'

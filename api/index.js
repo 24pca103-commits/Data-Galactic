@@ -13,6 +13,9 @@ const feedbackRoutes = require('../server/src/routes/feedbackRoutes');
 
 const app = express();
 
+// Enable trust proxy for Vercel Serverless & reverse proxies
+app.set('trust proxy', 1);
+
 // Initialize DB connection (MySQL or fallback memory store)
 connectDB();
 
