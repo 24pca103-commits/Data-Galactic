@@ -1,0 +1,39 @@
+{
+  "name": "datagalactic-fullstack",
+  "version": "1.0.0",
+  "description": "DataGalactic - Premium B2B Data & Business Support Services Website",
+  "scripts": {
+    "dev": "npm run client",
+    "client": "cd client && npm run dev",
+    "admin": "cd admin && npm run dev",
+    "server": "cd server && node src/server.js",
+    "build:client": "cd client && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build": "npm run build:client && npm run build:admin",
+    "start": "node server/src/server.js"
+  },
+  "keywords": [
+    "datagalactic",
+    "b2b",
+    "data-entry",
+    "data-processing",
+    "data-conversion",
+    "mern"
+  ],
+  "author": "DataGalactic (Founder: Risona R)",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.10.4",
+    "multer": "^2.4.0",
+    "mysql2": "^3.24.5",
+    "nodemailer": "^10.0.16",
+    "validator": "^13.15.35"
+  }
+}

@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ============================================
+   DataGalactic Theme — derived from brand logo
+   Logo primary : #0D4BA3 (deep royal blue)
+   Logo light   : #AAC7ED (soft blue accent)
+   ============================================ */
+@theme {
+  /* Sky palette rebuilt as the DG logo-blue scale */
+  --color-sky-50: #eef4fd;
+  --color-sky-100: #d9e6fb;
+  --color-sky-200: #b7cef6;
+  --color-sky-300: #8fb1ef;
+  --color-sky-400: #5f8ce6;
+  --color-sky-500: #3568d6;
+  --color-sky-600: #0d4ba3; /* logo primary */
+  --color-sky-700: #0b3d88;
+  --color-sky-800: #093270;
+  --color-sky-900: #072859;
+  --color-sky-950: #041a3d;
+}
+
+@layer base {
+  :root {
+    --sky-primary: #4c8df7;
+    --sky-light: #aac7ee;
+    --sky-dark: #0d4ba3;
+    --charcoal-deep: #05142f;
+    --charcoal-mid: #0a1f45;
+    --charcoal-surface: #122f5c;
+    --charcoal-card: #1e4480;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: #e6edf3;
+    background-color: #05142f;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #05142f;
+    color: #e6edf3;
+  }
+}
+
+.storm-card {
+  background: linear-gradient(180deg, rgba(18, 47, 92, 0.80) 0%, rgba(10, 31, 69, 0.90) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(76, 141, 247, 0.15);
+}
+
+.storm-card:hover {
+  border-color: rgba(170, 199, 238, 0.40);
+  box-shadow: 0 14px 35px -10px rgba(76, 141, 247, 0.15);
+}
+
+.glow-sky {
+  box-shadow: 0 0 40px -10px rgba(76, 141, 247, 0.30);
+}
+
+.text-gradient-sky {
+  background: linear-gradient(135deg, #ffffff 0%, #aac7ee 50%, #4c8df7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #05142f; }
+::-webkit-scrollbar-thumb { background: #122f5c; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #4c8df7; }
+
+/* Smooth button color change, subtle gradient hover, glowing shadow & lift animation */
+button, a[role="button"], input[type="submit"], .btn-action {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  will-change: transform, box-shadow;
+}
+
+/* Primary Action Buttons: blue-to-purple gradient hover, subtle glowing shadow and slight lift */
+button.bg-\[\#002b66\],
+button.bg-\[\#05142f\],
+button.bg-\[\#0d4ba3\],
+button.bg-slate-900,
+a.bg-\[\#002b66\],
+a.bg-\[\#05142f\],
+a.bg-\[\#0d4ba3\],
+a.bg-slate-900 {
+  background-size: 200% 200%;
+  transition: background-position 0.4s ease, transform 0.25s ease, box-shadow 0.3s ease, filter 0.2s ease;
+}
+
+button.bg-\[\#002b66\]:hover,
+button.bg-\[\#05142f\]:hover,
+button.bg-\[\#0d4ba3\]:hover,
+button.bg-slate-900:hover,
+a.bg-\[\#002b66\]:hover,
+a.bg-\[\#05142f\]:hover,
+a.bg-\[\#0d4ba3\]:hover,
+a.bg-slate-900:hover {
+  background-image: linear-gradient(135deg, #002b66 0%, #3b82f6 50%, #7c3aed 100%) !important;
+  background-position: right center;
+  box-shadow: 0 8px 24px -4px rgba(59, 130, 246, 0.45), 0 4px 12px -2px rgba(124, 58, 237, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Smooth right-arrow slide on hover */
+button:hover svg.lucide-arrow-right,
+a:hover svg.lucide-arrow-right {
+  transform: translateX(4px);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+svg.lucide-arrow-right {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active click state: gentle spring press */
+button:active, a[role="button"]:active, a.bg-\[\#002b66\]:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px -1px rgba(59, 130, 246, 0.3);
+}
+
+/* Smooth floating animations for badges and hero image */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.01);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 3.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatReverse 4.2s ease-in-out infinite 0.7s;
+}
+
+.animate-float-slow {
+  animation: floatGentle 4.8s ease-in-out infinite 1.4s;
+}
+
+.animate-image-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+/* Footer Link Slide to Right on hover and click */
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-link:active {
+  transform: translateX(6px);
+}
+
