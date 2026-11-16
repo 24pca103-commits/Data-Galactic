@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUpRight, ShieldCheck, Globe2, MessageCircle } from 'lucide-react';
+import { servicesData } from '../data/siteData';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,36 +9,46 @@ const Footer = () => {
   const quickLinks = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
+    { name: 'Our Services', href: '/services' },
+    { name: 'Industries We Serve', href: '/industries' },
+    { name: 'Sample Projects / Portfolio', href: '/portfolio' },
     { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Data Security', href: '/security' },
-    { name: 'Testimonials', href: '/testimonials' },
-    { name: 'Request Quote', href: '/contact' },
+    { name: 'Data Security & NDA', href: '/security' },
+    { name: 'Request a Quote', href: '/contact' }
   ];
 
-  const serviceLinks = [
-    { name: 'Online & Offline Data Entry', href: '/services/data-entry' },
-    { name: 'Data Cleansing & Verification', href: '/services/data-processing' },
-    { name: 'PDF to Excel / Word Conversion', href: '/services/data-conversion' },
-    { name: 'Web Research & Prospecting', href: '/services/web-research' },
-    { name: 'E-commerce Catalog Listings', href: '/services/ecommerce-data' },
-    { name: 'Back Office & Record Operations', href: '/services/back-office-support' }
+  const primaryServices = [
+    { name: 'Data Entry Services', href: '/services/data-entry' },
+    { name: 'Data Cleaning & Formatting', href: '/services/data-cleaning' },
+    { name: 'Data Extraction', href: '/services/data-extraction' },
+    { name: 'Database Building', href: '/services/database-building' },
+    { name: 'Data Validation & Verification', href: '/services/data-validation' },
+    { name: 'B2B Lead Generation', href: '/services/b2b-lead-generation' },
+    { name: 'Web Research Services', href: '/services/web-research' },
+    { name: 'CRM & Product Data Management', href: '/services/crm-product-data' },
+    { name: 'Document Digitization & Conversion', href: '/services/document-digitization' },
+    { name: 'Back-Office & Admin Support', href: '/services/back-office-support' }
   ];
 
   const industryLinks = [
-    { name: 'E-commerce & Marketplaces', href: '/industries/ecommerce' },
-    { name: 'Healthcare & Medical Data', href: '/industries/healthcare' },
-    { name: 'Real Estate & Portals', href: '/industries/real-estate' },
-    { name: 'Finance & Banking Records', href: '/industries/finance' },
-    { name: 'Logistics & Freight Documents', href: '/industries/logistics' },
-    { name: 'Education & EdTech', href: '/industries/education' }
+    { name: 'IT & Software Companies', href: '/industries/it-software' },
+    { name: 'Digital Marketing Agencies', href: '/industries/marketing-agencies' },
+    { name: 'B2B Lead Generation Agencies', href: '/industries/leadgen-agencies' },
+    { name: 'E-commerce Companies', href: '/industries/ecommerce' },
+    { name: 'Hospitals & Healthcare', href: '/industries/healthcare' },
+    { name: 'Real Estate Companies', href: '/industries/real-estate' },
+    { name: 'Financial Services', href: '/industries/financial-services' },
+    { name: 'Logistics & Transportation', href: '/industries/logistics-transportation' }
   ];
 
   return (
     <footer className="bg-white border-t border-slate-200 text-slate-600 pt-16 pb-12 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Top 4-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-slate-200">
 
-          {/* Col 1: Brand */}
+          {/* Col 1: Brand & Positioning */}
           <div className="lg:col-span-4 space-y-5">
             <Link to="/" className="inline-flex items-center gap-3.5 group">
               <img
@@ -54,37 +65,75 @@ const Footer = () => {
                 </span>
               </div>
             </Link>
+
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Specialized data entry, data processing, and back-office support services helping international enterprises scale accurately and cost-effectively.
+              Professional Data Management, Business Research &amp; Back-Office Outsourcing Partner helping international clients across the US, UK, Canada, Australia, and UAE eliminate operational backlogs.
             </p>
-            <div className="space-y-2 text-xs text-slate-700">
+
+            {/* Direct Contact Information */}
+            <div className="space-y-2.5 text-xs text-slate-700">
               <a href="mailto:hello@datagalactic.in" className="flex items-center gap-2 hover:text-[#0047AB] transition-colors">
-                <Mail className="w-3.5 h-3.5 text-[#0047AB] shrink-0" />
-                hello@datagalactic.in
+                <Mail className="w-4 h-4 text-[#0047AB] shrink-0" />
+                <span className="font-semibold text-slate-900">hello@datagalactic.in</span>
               </a>
               <a href="mailto:datagalactic2@gmail.com" className="flex items-center gap-2 hover:text-[#0047AB] transition-colors">
-                <Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                datagalactic2@gmail.com
+                <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+                <span>datagalactic2@gmail.com</span>
               </a>
-              <a href="tel:+919363164608" className="flex items-center gap-2 hover:text-emerald-700 transition-colors font-medium">
-                <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                +91 9363164608
+              <a href="tel:+919363164608" className="flex items-center gap-2 hover:text-[#0047AB] transition-colors font-medium">
+                <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>+91 9363164608</span>
               </a>
               <div className="flex items-center gap-2 text-slate-500">
-                <MapPin className="w-3.5 h-3.5 text-[#0047AB] shrink-0" />
-                Tamil Nadu, India
+                <MapPin className="w-4 h-4 text-[#0047AB] shrink-0" />
+                <span>Tamil Nadu, India · Serving Worldwide Enterprises</span>
               </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="pt-1 flex items-center gap-2.5">
+              <a
+                href="https://www.linkedin.com/company/datagalactic"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-[#0047AB] hover:text-white flex items-center justify-center text-slate-600 transition-colors"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c.92 0 1.67-.75 1.67-1.67a1.67 1.67 0 0 0-1.67-1.67 1.67 1.67 0 0 0-1.67 1.67c0 .92.75 1.67 1.67 1.67M7.86 18.5V10.1H5.06v8.4h2.8Z"/>
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com/datagalactic"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter / X"
+                className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-[#0047AB] hover:text-white flex items-center justify-center text-slate-600 transition-colors"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              <a
+                href="https://wa.me/919363164608"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="w-8 h-8 rounded-lg bg-emerald-50 hover:bg-emerald-600 hover:text-white flex items-center justify-center text-emerald-700 transition-colors"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
-          {/* Col 2: Quick Links */}
+          {/* Col 2: Navigation Links */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-['Space_Grotesk']">Quick Links</h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Company</h4>
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-600">
               {quickLinks.map((item, idx) => (
                 <li key={idx}>
-                  <Link to={item.href} className="footer-link hover:text-[#0047AB] transition-all flex items-center gap-1.5 group">
-                    <span className="text-[#0047AB]/50 group-hover:text-[#0047AB] transition-colors">›</span>
+                  <Link to={item.href} className="hover:text-[#0047AB] transition-colors flex items-center gap-1.5">
+                    <span className="text-[#0047AB]/50">›</span>
                     <span>{item.name}</span>
                   </Link>
                 </li>
@@ -92,15 +141,15 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Col 3: Services */}
+          {/* Col 3: Core Services */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-['Space_Grotesk']">Services</h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600">
-              {serviceLinks.map((svc, idx) => (
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Our Core Services</h4>
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-600">
+              {primaryServices.map((svc, idx) => (
                 <li key={idx}>
-                  <Link to={svc.href} className="footer-link hover:text-[#0047AB] transition-all flex items-center gap-1.5 group">
-                    <span className="text-[#0047AB]/50 group-hover:text-[#0047AB] transition-colors">›</span>
-                    <span>{svc.name}</span>
+                  <Link to={svc.href} className="hover:text-[#0047AB] transition-colors flex items-center gap-1.5">
+                    <span className="text-[#0047AB]/50">›</span>
+                    <span className="truncate">{svc.name}</span>
                   </Link>
                 </li>
               ))}
@@ -109,13 +158,13 @@ const Footer = () => {
 
           {/* Col 4: Industries */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-['Space_Grotesk']">Industries</h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Industries We Serve</h4>
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-600">
               {industryLinks.map((ind, idx) => (
                 <li key={idx}>
-                  <Link to={ind.href} className="footer-link hover:text-[#0047AB] transition-all flex items-center gap-1.5 group">
-                    <span className="text-[#0047AB]/50 group-hover:text-[#0047AB] transition-colors">›</span>
-                    <span>{ind.name}</span>
+                  <Link to={ind.href} className="hover:text-[#0047AB] transition-colors flex items-center gap-1.5">
+                    <span className="text-[#0047AB]/50">›</span>
+                    <span className="truncate">{ind.name}</span>
                   </Link>
                 </li>
               ))}
@@ -124,21 +173,27 @@ const Footer = () => {
 
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom Bar: Copyright & Legal */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex flex-col sm:flex-row items-center gap-2">
-            <span>© {currentYear} DataGalactic. All rights reserved.</span>
-            <span className="hidden sm:inline">|</span>
-            <span className="text-[#0047AB] font-semibold">Founder &amp; CEO — Risona R</span>
-          </div>
+          <p>
+            © {currentYear} DataGalactic. All rights reserved. Data Management &amp; Business Support Outsourcing.
+          </p>
+
           <div className="flex items-center gap-6">
-            <Link to="/security" className="footer-link hover:text-slate-800 transition-colors">Data Confidentiality</Link>
-            <Link to="/about" className="footer-link hover:text-slate-800 transition-colors">Terms of Engagement</Link>
-            <a href="https://datagalactic.in" className="footer-link hover:text-[#0047AB] transition-colors flex items-center gap-1">
-              datagalactic.in <ArrowUpRight className="w-3 h-3" />
-            </a>
+            <Link to="/privacy" className="hover:text-[#0047AB] transition-colors">
+              Privacy Policy
+            </Link>
+            <span>•</span>
+            <Link to="/terms" className="hover:text-[#0047AB] transition-colors">
+              Terms &amp; Conditions
+            </Link>
+            <span>•</span>
+            <Link to="/security" className="hover:text-[#0047AB] transition-colors">
+              Data Security &amp; NDA
+            </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

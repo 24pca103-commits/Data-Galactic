@@ -1,74 +1,86 @@
 import React from 'react';
-import { ShieldCheck, Lock, KeyRound, CheckCheck, FolderLock, FileCheck2, UserCheck, Server } from 'lucide-react';
+import {
+  FileCheck2,
+  Lock,
+  FolderLock,
+  ShieldCheck,
+  Trash2,
+  Scale,
+  CheckCircle2,
+  UserCheck,
+  Server
+} from 'lucide-react';
+import { securityPillarsData } from '../data/siteData';
+
+const iconMap = {
+  FileCheck2,
+  Lock,
+  FolderLock,
+  ShieldCheck,
+  Trash2,
+  Scale
+};
 
 const DataSecurity = () => {
-  const securityPillars = [
-    {
-      icon: Lock,
-      title: 'Confidential Handling',
-      description: 'Strict non-disclosure agreements (NDAs) signed prior to project kickoff. All project workflows remain strictly private and proprietary to your business.'
-    },
-    {
-      icon: KeyRound,
-      title: 'Controlled Access',
-      description: 'Restricted system access adhering strictly to the principle of least privilege. Only authorized data specialists assigned to your project access your records.'
-    },
-    {
-      icon: CheckCheck,
-      title: 'Quality Verification',
-      description: 'Multi-layer double-key data entry and independent supervisory audits ensure accurate outputs and prevent unintended data leaks or mistakes.'
-    },
-    {
-      icon: FolderLock,
-      title: 'Secure File Management',
-      description: 'Encrypted transfer pipelines, password-protected deliverables, and permanent file purging protocols following project acceptance.'
-    }
-  ];
-
   return (
-    <section id="security" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-white border-b border-slate-200/80 overflow-hidden">
+    <section id="security" className="scroll-mt-24 lg:scroll-mt-28 py-14 sm:py-20 relative bg-white border-b border-slate-200/90 overflow-hidden">
       
       {/* Background Accent */}
-      <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-sky-100/50 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-[600px] h-[350px] bg-blue-50/70 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header: Center aligned */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-            <span>Uncompromising Data Protection</span>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-[#0047AB] shadow-sm">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#0047AB]" />
+            <span>Confidentiality &amp; Information Protection</span>
           </div>
+
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
-            Your Data Deserves the{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
-              Highest Level of Care
+            Data Security &amp;{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0047AB] via-blue-600 to-cyan-600">
+              Confidentiality
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-normal">
-            Data security is not an afterthought at DataGalactic—it is engineered into every stage of our daily operational workflow.
+
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+            Data security is engineered into every stage of our operations. We enforce strict contractual, technical, and procedural safeguards to protect your business data at all times.
           </p>
         </div>
 
-        {/* 4 Security Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {securityPillars.map((pillar, idx) => {
-            const Icon = pillar.icon;
+        {/* 6 Security Pillars Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {securityPillarsData.map((pillar) => {
+            const Icon = iconMap[pillar.iconName] || ShieldCheck;
+
             return (
               <div
-                key={idx}
-                className="p-8 rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-sky-300 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-5"
+                key={pillar.id}
+                className="group p-7 rounded-3xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-[#0047AB] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
               >
-                <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 shrink-0 shadow-sm">
-                  <Icon className="w-7 h-7" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-slate-900 font-['Space_Grotesk']">
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 group-hover:bg-[#0047AB] group-hover:text-white group-hover:border-[#0047AB] text-[#0047AB] flex items-center justify-center transition-all duration-300 shadow-xs">
+                      <Icon className="w-6 h-6 transition-transform group-hover:scale-110" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-xs">
+                      {pillar.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors font-['Space_Grotesk'] mb-2.5">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     {pillar.description}
                   </p>
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-slate-200/80 flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Enforced Across All Projects</span>
                 </div>
               </div>
             );
@@ -77,17 +89,17 @@ const DataSecurity = () => {
 
         {/* Security Checklist Banner */}
         <div className="mt-12 p-6 rounded-3xl bg-slate-50 border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
-            <UserCheck className="w-4 h-4 text-sky-600" />
-            <span>Dedicated Confidential Workstations</span>
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-800 font-semibold">
+            <UserCheck className="w-4 h-4 text-[#0047AB]" />
+            <span>Dedicated Supervised Workstations</span>
           </div>
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
-            <FileCheck2 className="w-4 h-4 text-sky-600" />
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-800 font-semibold">
+            <FolderLock className="w-4 h-4 text-[#0047AB]" />
             <span>Encrypted Batch File Transfers</span>
           </div>
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
-            <Server className="w-4 h-4 text-sky-600" />
-            <span>Clean Data Purge Upon Sign-off</span>
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-800 font-semibold">
+            <Server className="w-4 h-4 text-[#0047AB]" />
+            <span>Permanent Data Purge Following Sign-Off</span>
           </div>
         </div>
 

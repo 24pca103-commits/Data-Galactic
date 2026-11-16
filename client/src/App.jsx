@@ -6,11 +6,14 @@ import ServiceDetailPage from './components/ServiceDetailPage';
 import IndustryDetailPage from './components/IndustryDetailPage';
 import ServicesPage from './components/ServicesPage';
 import IndustriesPage from './components/IndustriesPage';
+import PortfolioPage from './components/PortfolioPage';
 import AboutPage from './components/AboutPage';
 import HowItWorksPage from './components/HowItWorksPage';
 import SecurityPage from './components/SecurityPage';
 import TestimonialsPage from './components/TestimonialsPage';
 import ContactPage from './components/ContactPage';
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
+import TermsPage from './components/TermsPage';
 import FloatingActions from './components/FloatingActions';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -32,11 +35,14 @@ function App() {
             <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="/industries" element={<IndustriesPage />} />
             <Route path="/industries/:industryId" element={<IndustryDetailPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/security" element={<SecurityPage />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </div>

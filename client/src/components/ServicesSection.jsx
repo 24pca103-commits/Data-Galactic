@@ -1,348 +1,221 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FileSpreadsheet,
   Filter,
-  FileCode,
+  Database,
+  FolderKanban,
+  CheckCheck,
+  Target,
   Search,
+  TrendingUp,
   ShoppingCart,
+  FileCode,
   Briefcase,
   ArrowRight,
   CheckCircle2,
+  AlertCircle,
+  Sparkles,
   Layers,
-  ChevronLeft,
   ChevronRight
 } from 'lucide-react';
+import { serviceCategories, servicesData } from '../data/siteData';
+
+const iconMap = {
+  FileSpreadsheet,
+  Filter,
+  DatabaseZap: Database,
+  FolderKanban,
+  CheckCheck,
+  Target,
+  Search,
+  TrendingUp,
+  ShoppingCart,
+  FileCode,
+  Briefcase
+};
 
 const ServicesSection = () => {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const autoPlayRef = useRef(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const services = [
-    {
-      id: 'data-entry',
-      title: 'Data Entry Services',
-      tagline: 'High-speed, dual-verified data capture for online and offline records.',
-      icon: FileSpreadsheet,
-      subServices: [
-        { name: 'Online Data Entry', desc: 'Direct portal updates, CRM records, and cloud database indexing.' },
-        { name: 'Offline Data Entry', desc: 'Secure high-volume ingestion from physical forms and scanned sheets.' },
-        { name: 'Excel Data Entry', desc: 'Advanced spreadsheet population, mathematical audit, and formatting.' },
-        { name: 'Form Filling', desc: 'Accurate digitizing of customer intake forms, surveys, claims, and invoices.' }
-      ],
-      turnaround: '24-48 Hours SLA',
-      accuracy: '99.9% Double-Key QA'
-    },
-    {
-      id: 'data-processing',
-      title: 'Data Processing',
-      tagline: 'Transform messy unorganized datasets into structured, analytics-ready formats.',
-      icon: Filter,
-      subServices: [
-        { name: 'Data Cleaning', desc: 'Deduplication, syntax repair, missing field enrichment, and anomaly removal.' },
-        { name: 'Data Verification', desc: 'Cross-checking records against external authoritative registries and archives.' },
-        { name: 'Data Formatting', desc: 'Standardizing dates, phone numbers, currencies, units, and nested structures.' },
-        { name: 'Data Sorting', desc: 'Logical categorization, tier tagging, and hierarchical grouping for swift queries.' }
-      ],
-      turnaround: 'Same-Day Batch Processing',
-      accuracy: '100% Quality Audited'
-    },
-    {
-      id: 'data-conversion',
-      title: 'Data Conversion',
-      tagline: 'Seamlessly convert complex documents between legacy formats and structured databases.',
-      icon: FileCode,
-      subServices: [
-        { name: 'PDF to Excel', desc: 'Accurate financial, invoice, and tabular conversion with preserved formulas.' },
-        { name: 'PDF to Word', desc: 'Typography-preserved document conversion with editable formatting.' },
-        { name: 'Image to Text (OCR)', desc: 'AI-assisted OCR extraction with manual human proofreading of scanned receipts.' },
-        { name: 'Document Conversion', desc: 'XML, CSV, JSON, HTML, RTF, and proprietary database format bridging.' }
-      ],
-      turnaround: 'Rapid Automated + Human QA',
-      accuracy: 'Pixel-to-Text Exactness'
-    },
-    {
-      id: 'web-research',
-      title: 'Web Research & Intelligence',
-      tagline: 'Targeted market intelligence, verified lead generation, and competitive data aggregation.',
-      icon: Search,
-      subServices: [
-        { name: 'Market Research', desc: 'Industry landscape data aggregation, pricing trends, and competitor benchmarking.' },
-        { name: 'Product Research', desc: 'SKU research, vendor pricing comparisons, specification aggregation.' },
-        { name: 'Contact Research', desc: 'Decision-maker prospecting, verified email discovery, and professional network research.' },
-        { name: 'Data Collection', desc: 'Custom scraping, targeted list compilation, and directory validation.' }
-      ],
-      turnaround: 'Tailored Daily Feeds',
-      accuracy: '100% Verified Contacts'
-    },
-    {
-      id: 'ecommerce-data',
-      title: 'E-commerce Data Services',
-      tagline: 'End-to-end catalog population, product listings, and SKU inventory management.',
-      icon: ShoppingCart,
-      subServices: [
-        { name: 'Product Listing', desc: 'Listing creation across Shopify, Amazon, eBay, Magento, and WooCommerce.' },
-        { name: 'Catalog Management', desc: 'Category mapping, variant attribution (sizes/colors), and SEO keyword tagging.' },
-        { name: 'Product Data Entry', desc: 'Accurate feature descriptions, pricing tables, barcodes, and bullet points.' },
-        { name: 'Inventory Updates', desc: 'Real-time stock level synchronization, vendor feed ingestion, and out-of-stock audits.' }
-      ],
-      turnaround: 'High-Volume SKU Updates',
-      accuracy: '99.8% Catalog Precision'
-    },
-    {
-      id: 'back-office-support',
-      title: 'Back Office Support',
-      tagline: 'Reliable administrative, record maintenance, and operational back-office backbone.',
-      icon: Briefcase,
-      subServices: [
-        { name: 'Database Updating', desc: 'Continuous record refreshing, contact deduplication, and CRM hygiene.' },
-        { name: 'Record Management', desc: 'Archival compliance, digital filing, indexing, and swift retrieval tagging.' },
-        { name: 'Administrative Support', desc: 'Email ticket triage, invoice reconciliation, and recurring routine reporting.' },
-        { name: 'File Management', desc: 'Cloud storage reorganization, access-rights tagging, and structured directories.' }
-      ],
-      turnaround: 'Dedicated Team Options',
-      accuracy: 'Enterprise SLA Guaranteed'
-    }
-  ];
+  const allServices = Object.values(servicesData);
 
-  // Active auto-slide every 3.5 seconds (supports both auto sliding + manual sliding)
-  useEffect(() => {
-    autoPlayRef.current = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % services.length);
-    }, 3500);
-
-    return () => {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    };
-  }, [services.length]);
-
-  const handleNext = () => {
-    setActiveIdx((prev) => (prev + 1) % services.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIdx((prev) => (prev - 1 + services.length) % services.length);
-  };
-
-  // Get exactly 3 visible icons centered on the active item
-  const prevIdx = (activeIdx - 1 + services.length) % services.length;
-  const currentIdx = activeIdx;
-  const nextIdx = (activeIdx + 1) % services.length;
-
-  const visibleThree = [
-    { service: services[prevIdx], index: prevIdx, position: 'side' },
-    { service: services[currentIdx], index: currentIdx, position: 'center' },
-    { service: services[nextIdx], index: nextIdx, position: 'side' }
-  ];
-
-  const currentService = services[currentIdx];
-
-  // Check URL hash on load or change to select service tab
-  useEffect(() => {
-    const handleHashCheck = () => {
-      const h = window.location.hash.replace('#', '');
-      if (h) {
-        const found = services.findIndex(s => s.id === h);
-        if (found !== -1) {
-          setActiveIdx(found);
-        }
-      }
-    };
-    handleHashCheck();
-    window.addEventListener('hashchange', handleHashCheck);
-    return () => window.removeEventListener('hashchange', handleHashCheck);
-  }, []);
+  const filteredServices = selectedCategory === 'all'
+    ? allServices
+    : allServices.filter(s => s.categoryId === selectedCategory);
 
   return (
-    <section
-      id="services"
-      className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50 overflow-hidden border-b border-slate-200"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Background Lighting */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-sky-200/40 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-100/50 blur-[150px] rounded-full pointer-events-none" />
+    <section id="services" className="scroll-mt-24 lg:scroll-mt-28 py-14 sm:py-20 relative bg-white border-b border-slate-200/90 overflow-hidden">
+      
+      {/* Background Subtle Shapes */}
+      <div className="absolute top-1/4 right-1/4 w-[600px] h-[350px] bg-blue-50/60 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header: Center aligned */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-700 shadow-sm">
-            <Layers className="w-3.5 h-3.5 text-sky-600" />
-            <span>Comprehensive Enterprise Capabilities</span>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-[#0047AB] shadow-sm">
+            <Layers className="w-3.5 h-3.5 text-[#0047AB]" />
+            <span>Comprehensive Service Capabilities</span>
           </div>
+
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
-            Data Support Services Built Around{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700">
-              Your Business
+            Our Core{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0047AB] via-blue-600 to-cyan-600">
+              Outsourcing Services
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-normal">
-            From granular spreadsheet data entry to end-to-end e-commerce catalog operations, we deliver accurate, secure, and cost-efficient back-office support tailored for international companies.
+
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+            Organized across three core operational pillars to help international businesses eliminate administrative bottlenecks, improve data hygiene, and scale efficiently.
           </p>
         </div>
 
-        {/* 3-Visible Round Icon Carousel Bar */}
-        <div className="relative max-w-2xl mx-auto mb-8">
-          
-          {/* Slider Container with Left/Right Arrows */}
-          <div className="flex items-center justify-between gap-4">
-            
-            {/* Prev Arrow */}
+        {/* Category Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+          <button
+            onClick={() => setSelectedCategory('all')}
+            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              selectedCategory === 'all'
+                ? 'bg-[#002b66] text-white shadow-md'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
+          >
+            All Services (10)
+          </button>
+
+          {serviceCategories.map((cat) => (
             <button
-              onClick={handlePrev}
-              aria-label="Previous Service"
-              className="p-3 rounded-full bg-white border border-slate-200 hover:border-sky-500 hover:bg-sky-500 text-slate-700 hover:text-white transition-all cursor-pointer shadow-md active:scale-95 shrink-0"
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                selectedCategory === cat.id
+                  ? 'bg-[#002b66] text-white shadow-md'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }`}
             >
-              <ChevronLeft className="w-5 h-5" />
+              {cat.name}
             </button>
-
-            {/* Exactly 3 Visible Round Icons */}
-            <div className="grid grid-cols-3 gap-4 sm:gap-8 flex-grow justify-items-center items-center">
-              {visibleThree.map(({ service, index, position }) => {
-                const Icon = service.icon;
-                const isCenter = position === 'center';
-                return (
-                  <button
-                    key={`${service.id}-${index}`}
-                    onClick={() => setActiveIdx(index)}
-                    className={`group flex flex-col items-center gap-2.5 transition-all duration-300 cursor-pointer ${
-                      isCenter ? 'scale-110 z-10' : 'scale-95 opacity-60 hover:opacity-90'
-                    }`}
-                  >
-                    {/* Circular Icon Badge */}
-                    <div
-                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isCenter
-                          ? 'bg-gradient-to-br from-sky-500 via-cyan-600 to-blue-700 text-white shadow-xl shadow-sky-500/25 ring-4 ring-sky-200'
-                          : 'bg-white border-2 border-slate-200 text-sky-600 group-hover:border-sky-400 shadow-sm'
-                      }`}
-                    >
-                      <Icon className={`w-7 h-7 sm:w-8 sm:h-8 transition-transform ${isCenter ? 'scale-110' : 'group-hover:scale-105'}`} />
-                      
-                      {/* Active indicator dot */}
-                      {isCenter && (
-                        <span className="absolute -bottom-1 w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping" />
-                      )}
-                    </div>
-
-                    {/* Title under icon */}
-                    <span
-                      className={`text-xs font-semibold text-center line-clamp-1 max-w-[120px] transition-colors ${
-                        isCenter ? 'text-slate-900 font-bold' : 'text-slate-500'
-                      }`}
-                    >
-                      {service.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Next Arrow */}
-            <button
-              onClick={handleNext}
-              aria-label="Next Service"
-              className="p-3 rounded-full bg-white border border-slate-200 hover:border-sky-500 hover:bg-sky-500 text-slate-700 hover:text-white transition-all cursor-pointer shadow-md active:scale-95 shrink-0"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Clean Pagination Indicator Dots */}
-          <div className="flex items-center justify-center gap-2 mt-6">
-            {services.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIdx(i)}
-                aria-label={`Go to service ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  activeIdx === i
-                    ? 'w-7 bg-sky-600'
-                    : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
 
-        {/* Detailed Service Showcase Card */}
-        <div className="relative rounded-3xl p-6 sm:p-10 lg:p-12 bg-white border border-slate-200 shadow-xl transition-all duration-500">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Content Column */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-xs font-mono tracking-wider text-sky-700 font-medium">
-                <span>Featured Data Solution</span>
-              </div>
+        {/* Services Rich Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {filteredServices.map((service) => {
+            const Icon = iconMap[service.iconName] || FileSpreadsheet;
 
-              <h3 className="text-2xl sm:text-4xl font-bold text-slate-900 font-['Space_Grotesk']">
-                {currentService.title}
-              </h3>
-
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                {currentService.tagline}
-              </p>
-
-              {/* Service SLA & Metrics */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-mono">Turnaround</p>
-                  <p className="text-sm font-bold text-sky-600 mt-1">{currentService.turnaround}</p>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-mono">Quality Standard</p>
-                  <p className="text-sm font-bold text-emerald-600 mt-1">{currentService.accuracy}</p>
-                </div>
-              </div>
-
-              {/* CTA Action */}
-              <div className="pt-2 flex flex-wrap gap-3">
-                <Link
-                  to={`/services/${currentService.id}`}
-                  className="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl transition-all"
-                >
-                  <span>Explore Dedicated Page</span>
-                  <ArrowRight className="w-4 h-4 ml-1.5" />
-                </Link>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl shadow-md transition-all group"
-                >
-                  <span>Request Quote</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right Sub-Services Grid */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {currentService.subServices.map((sub, idx) => (
-                <div
-                  key={idx}
-                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 hover:bg-white transition-all duration-300 group flex flex-col justify-between shadow-sm hover:shadow-md"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-sm font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
-                        {sub.name}
-                      </h4>
-                      <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
+            return (
+              <div
+                key={service.id}
+                className="group relative p-7 rounded-3xl bg-slate-50/70 hover:bg-white border border-slate-200 hover:border-[#0047AB] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+              >
+                <div>
+                  {/* Top: Icon + Category Badge */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 group-hover:bg-[#0047AB] group-hover:text-white group-hover:border-[#0047AB] text-[#0047AB] flex items-center justify-center transition-all duration-300 shrink-0 shadow-xs">
+                      <Icon className="w-6 h-6 transition-transform group-hover:scale-110" />
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {sub.desc}
-                    </p>
+                    <span className="text-[10px] uppercase font-mono font-bold tracking-wider px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 shadow-xs">
+                      {service.badge}
+                    </span>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between text-[11px] text-sky-600 font-medium">
-                    <span>100% QA Verified</span>
-                    <span className="text-slate-400 group-hover:text-sky-600 transition-colors">→</span>
+
+                  {/* Title & Tagline */}
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#0047AB] transition-colors font-['Space_Grotesk'] mb-2">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                    {service.subtitle}
+                  </p>
+
+                  {/* Business Problems It Solves */}
+                  <div className="pt-3 border-t border-slate-200/80 mb-4">
+                    <p className="text-[11px] font-bold text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Problems Solved:</span>
+                    </p>
+                    <ul className="space-y-1.5 text-xs text-slate-600">
+                      {service.businessProblems.slice(0, 2).map((prob, pi) => (
+                        <li key={pi} className="flex items-start gap-1.5">
+                          <span className="text-[#0047AB] font-bold mt-0.5">•</span>
+                          <span className="line-clamp-2">{prob}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Key Tasks Included */}
+                  <div className="pt-3 border-t border-slate-200/80 mb-4">
+                    <p className="text-[11px] font-bold text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Key Tasks Included:</span>
+                    </p>
+                    <ul className="space-y-1 text-xs text-slate-600">
+                      {service.keyTasks.slice(0, 3).map((task, ti) => (
+                        <li key={ti} className="flex items-start gap-1.5">
+                          <span className="text-emerald-600 font-bold mt-0.5">✓</span>
+                          <span className="line-clamp-1">{task}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Suitable Industries Tags */}
+                  <div className="pt-3 border-t border-slate-200/80">
+                    <p className="text-[10px] font-mono text-slate-500 uppercase tracking-wider mb-1.5">
+                      Suitable Client Industries:
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {service.suitableIndustries.slice(0, 3).map((ind, ii) => (
+                        <span key={ii} className="text-[10px] font-medium px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600">
+                          {ind}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
 
+                {/* Card Action CTAs */}
+                <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between gap-3">
+                  <Link
+                    to={`/services/${service.id}`}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0047AB] hover:text-[#002b66] transition-colors"
+                  >
+                    <span>View Full Scope</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#002b66] hover:bg-[#0047AB] text-white text-xs font-semibold transition-colors shadow-xs"
+                  >
+                    <span>Get a Quote</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Banner */}
+        <div className="mt-12 p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-4 text-center sm:text-left">
+          <div>
+            <h4 className="text-base font-bold text-slate-900 font-['Space_Grotesk']">
+              Need a specialized workflow or pilot trial?
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
+              We process custom sample batches so you can inspect our turnaround and verification standards prior to commitment.
+            </p>
           </div>
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-sm font-semibold transition-colors shadow-sm cursor-pointer mx-auto sm:mx-0"
+          >
+            <span>Request Sample Batch</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </a>
         </div>
 
       </div>

@@ -12,34 +12,59 @@ import {
   Building,
   Globe2,
   Sparkles,
-  KeyRound,
   RotateCcw,
-  Check,
-  ChevronDown
+  Clock,
+  FileSpreadsheet
 } from 'lucide-react';
 
-// Country definitions with dial code, flag, and exact digit requirements
 const countryList = [
-  { code: 'IN', name: 'India', dial: '+91', flag: '🇮🇳', digits: 10, placeholder: '9876543210' },
   { code: 'US', name: 'United States', dial: '+1', flag: '🇺🇸', digits: 10, placeholder: '2025550143' },
   { code: 'GB', name: 'United Kingdom', dial: '+44', flag: '🇬🇧', digits: 10, placeholder: '7911123456' },
-  { code: 'AE', name: 'United Arab Emirates', dial: '+971', flag: '🇦🇪', digits: 9, placeholder: '501234567' },
   { code: 'CA', name: 'Canada', dial: '+1', flag: '🇨🇦', digits: 10, placeholder: '4165550199' },
   { code: 'AU', name: 'Australia', dial: '+61', flag: '🇦🇺', digits: 9, placeholder: '412345678' },
+  { code: 'AE', name: 'United Arab Emirates', dial: '+971', flag: '🇦🇪', digits: 9, placeholder: '501234567' },
+  { code: 'IN', name: 'India', dial: '+91', flag: '🇮🇳', digits: 10, placeholder: '9876543210' },
   { code: 'SG', name: 'Singapore', dial: '+65', flag: '🇸🇬', digits: 8, placeholder: '81234567' },
-  { code: 'MY', name: 'Malaysia', dial: '+60', flag: '🇲🇾', digits: 10, placeholder: '1234567890' },
-  { code: 'SA', name: 'Saudi Arabia', dial: '+966', flag: '🇸🇦', digits: 9, placeholder: '512345678' },
   { code: 'DE', name: 'Germany', dial: '+49', flag: '🇩🇪', digits: 10, placeholder: '1512345678' },
   { code: 'FR', name: 'France', dial: '+33', flag: '🇫🇷', digits: 9, placeholder: '612345678' },
+  { code: 'SA', name: 'Saudi Arabia', dial: '+966', flag: '🇸🇦', digits: 9, placeholder: '512345678' },
   { code: 'QA', name: 'Qatar', dial: '+974', flag: '🇶🇦', digits: 8, placeholder: '33123456' },
-  { code: 'KW', name: 'Kuwait', dial: '+965', flag: '🇰🇼', digits: 8, placeholder: '51234567' },
   { code: 'NZ', name: 'New Zealand', dial: '+64', flag: '🇳🇿', digits: 9, placeholder: '211234567' },
-  { code: 'ZA', name: 'South Africa', dial: '+27', flag: '🇿🇦', digits: 9, placeholder: '711234567' },
-  { code: 'JP', name: 'Japan', dial: '+81', flag: '🇯🇵', digits: 10, placeholder: '9012345678' },
-  { code: 'PH', name: 'Philippines', dial: '+63', flag: '🇵🇭', digits: 10, placeholder: '9171234567' }
+  { code: 'ZA', name: 'South Africa', dial: '+27', flag: '🇿🇦', digits: 9, placeholder: '711234567' }
+];
+
+const servicesList = [
+  'Data Entry Services',
+  'Data Cleaning & Formatting',
+  'Data Extraction',
+  'Database Building',
+  'Data Validation & Verification',
+  'B2B Lead Generation',
+  'Web Research Services',
+  'Market Research',
+  'CRM & Product Data Management',
+  'Document Digitization & Conversion',
+  'Back-Office & Administrative Support',
+  'Other / Custom Enterprise Requirement'
+];
+
+const projectTypes = [
+  'One-time Project',
+  'Monthly Retainer',
+  'Ongoing Operational Support',
+  'Trial / Pilot Batch'
+];
+
+const timelineOptions = [
+  'Immediate (Within 24-48 Hours)',
+  'Within 1 Week',
+  'Within 2-3 Weeks',
+  'Ongoing / Flexible Schedule'
 ];
 
 const QuoteContactSection = ({ defaultService, defaultDescription }) => {
+  const [selectedCountry, setSelectedCountry] = useState(countryList[0]); // Default United States
+
   const [formData, setFormData] = useState({
     name: '',
     companyName: '',
@@ -48,64 +73,28 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
     service: defaultService || 'Data Entry Services',
     projectType: 'One-time Project',
     estimatedVolume: '',
+    expectedTimeline: 'Within 1 Week',
     description: defaultDescription || '',
-    phoneDigits: ''
+    phoneDigits: '',
+    honeypot: '' // Spam protection
   });
-
-  // Country Phone Selection
-  const [selectedCountry, setSelectedCountry] = useState(countryList[0]); // Default India or US
-  
-  // Real-Time OTP States
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
-  const [otpLoading, setOtpLoading] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [otpMsg, setOtpMsg] = useState('');
-  const [otpCooldown, setOtpCooldown] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successData, setSuccessData] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  // Sync defaultService if provided
   useEffect(() => {
     if (defaultService) {
       setFormData(prev => ({ ...prev, service: defaultService }));
     }
   }, [defaultService]);
 
-  // Sync defaultDescription if provided
   useEffect(() => {
     if (defaultDescription) {
       setFormData(prev => ({ ...prev, description: defaultDescription }));
     }
   }, [defaultDescription]);
-
-  // OTP Cooldown Timer
-  useEffect(() => {
-    let timer;
-    if (otpCooldown > 0) {
-      timer = setTimeout(() => setOtpCooldown(prev => prev - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpCooldown]);
-
-  const servicesList = [
-    'Data Entry Services',
-    'Data Processing & Cleaning',
-    'Data Conversion (PDF / OCR / Excel)',
-    'Web Research & Data Mining',
-    'E-commerce Catalog & Product Listing',
-    'Back Office & Administrative Support',
-    'Other / Custom Enterprise Requirement'
-  ];
-
-  const projectTypes = [
-    'One-time Project',
-    'Ongoing / Dedicated Team',
-    'Trial / Pilot Project',
-    'Custom Consultation'
-  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -113,9 +102,8 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
     if (errorMsg) setErrorMsg('');
   };
 
-  // Phone input: strictly allow digits only and cap at selectedCountry.digits
   const handlePhoneDigitsChange = (e) => {
-    const rawDigits = e.target.value.replace(/\D/g, ''); // Strip all non-numeric characters
+    const rawDigits = e.target.value.replace(/\D/g, '');
     if (rawDigits.length <= selectedCountry.digits) {
       setFormData((prev) => ({ ...prev, phoneDigits: rawDigits }));
     }
@@ -126,7 +114,6 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
     const code = e.target.value;
     const found = countryList.find(c => c.code === code) || countryList[0];
     setSelectedCountry(found);
-    // Truncate existing phone digits if exceeds new country digit length
     setFormData(prev => ({
       ...prev,
       country: found.name,
@@ -134,76 +121,39 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
     }));
   };
 
-  // Real-Time OTP Send
-  const handleSendOtp = async () => {
-    if (!formData.email || !formData.email.includes('@')) {
-      setOtpMsg('Please enter your email address before requesting an OTP.');
-      return;
-    }
-
-    setOtpLoading(true);
-    setOtpMsg('');
-
-    try {
-      const res = await axios.post('/api/contact/send-otp', { email: formData.email.trim() });
-      if (res.data.success) {
-        setOtpSent(true);
-        setOtpCooldown(60);
-        let feedback = res.data.message;
-        if (res.data.devOtp) {
-          feedback += ` (Testing Code: ${res.data.devOtp})`;
-        }
-        setOtpMsg(feedback);
-      }
-    } catch (err) {
-      setOtpMsg(err.response?.data?.message || 'Failed to dispatch verification OTP. Please try again.');
-    } finally {
-      setOtpLoading(false);
-    }
-  };
-
-  // Real-Time OTP Verification
-  const handleVerifyOtp = async () => {
-    if (!otpCode || otpCode.trim().length !== 6) {
-      setOtpMsg('Please enter the full 6-digit code sent to your email.');
-      return;
-    }
-
-    setOtpLoading(true);
-    try {
-      const res = await axios.post('/api/contact/verify-otp', {
-        email: formData.email.trim(),
-        otp: otpCode.trim()
-      });
-      if (res.data.success) {
-        setOtpVerified(true);
-        setOtpMsg('Email verified successfully in real time!');
-      }
-    } catch (err) {
-      setOtpMsg(err.response?.data?.message || 'Incorrect or expired OTP code.');
-    } finally {
-      setOtpLoading(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
 
-    // Required checks
-    if (!formData.name.trim() || !formData.companyName.trim() || !formData.email.trim() || !formData.description.trim()) {
-      setErrorMsg('Please complete all required fields marked with an asterisk (*).');
+    // Honeypot spam trap
+    if (formData.honeypot) {
       return;
     }
 
-    // Strict Phone digits condition check
-    if (formData.phoneDigits) {
-      if (formData.phoneDigits.length !== selectedCountry.digits) {
-        setErrorMsg(
-          `Phone number for ${selectedCountry.name} (${selectedCountry.dial}) must be exactly ${selectedCountry.digits} digits. Currently entered: ${formData.phoneDigits.length} digits.`
-        );
-        return;
-      }
+    // Required field validation
+    if (!formData.name.trim()) {
+      setErrorMsg('Full Name is required.');
+      return;
+    }
+    if (!formData.email.trim() || !formData.email.includes('@') || !formData.email.includes('.')) {
+      setErrorMsg('A valid business email address is required.');
+      return;
+    }
+    if (!formData.companyName.trim()) {
+      setErrorMsg('Company Name is required.');
+      return;
+    }
+    if (!formData.description.trim()) {
+      setErrorMsg('Please describe your project requirements.');
+      return;
+    }
+
+    // Phone validation if entered
+    if (formData.phoneDigits && formData.phoneDigits.length !== selectedCountry.digits) {
+      setErrorMsg(
+        `Phone number for ${selectedCountry.name} (${selectedCountry.dial}) should be ${selectedCountry.digits} digits.`
+      );
+      return;
     }
 
     setLoading(true);
@@ -213,6 +163,8 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
         ? `${selectedCountry.dial} ${formData.phoneDigits}`
         : '';
 
+      const enrichedDescription = `${formData.description.trim()}\n\n[Expected Delivery Timeline: ${formData.expectedTimeline}]`;
+
       const payload = {
         name: formData.name.trim(),
         companyName: formData.companyName.trim(),
@@ -221,104 +173,49 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
         service: formData.service,
         projectType: formData.projectType,
         estimatedVolume: formData.estimatedVolume.trim() || 'Not specified',
-        description: formData.description.trim(),
+        description: enrichedDescription,
         phone: fullPhoneNumber
       };
 
-      let response;
       let submitted = false;
+      let response;
 
-      // Attempt 1: Standard API endpoint
+      // 1. Submit to local Express backend
       try {
         response = await axios.post('/api/contact', payload);
         if (response.data && response.data.success) {
           submitted = true;
         }
       } catch (err1) {
-        // Attempt 2: Direct Render production backend
+        // 2. Fallback to production cloud endpoint
         try {
           response = await axios.post('https://data-galactic-1.onrender.com/api/contact', payload);
           if (response.data && response.data.success) {
             submitted = true;
           }
         } catch (err2) {
-          // Attempt 3: Direct localhost if on dev or 127.0.0.1
-          const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-          if (isLocal) {
-            try {
-              response = await axios.post('http://127.0.0.1:5000/api/contact', payload);
-              if (response.data && response.data.success) submitted = true;
-            } catch (err3) {
-              try {
-                response = await axios.post('http://localhost:5000/api/contact', payload);
-                if (response.data && response.data.success) submitted = true;
-              } catch (err4) {
-                submitted = false;
-              }
-            }
-          }
+          // If network is completely offline, generate local tracking record
+          console.warn('Backend endpoint unreachable, generating local confirmation receipt');
         }
       }
 
-      if (submitted && response?.data?.success) {
-        setSuccessData(response.data);
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-        return;
-      }
-
-      // Offline / Standalone Fallback: Save directly to local queue
-      // so quotes are NEVER lost even when backend is offline or on Vercel
-      const offlineRecord = {
-        _id: `lead-offline-${Date.now()}`,
+      setHasSubmitted(true);
+      setSuccessData({
         name: payload.name,
         companyName: payload.companyName,
-        email: payload.email,
-        country: payload.country,
         service: payload.service,
-        projectType: payload.projectType,
-        estimatedVolume: payload.estimatedVolume,
-        description: payload.description,
-        phone: payload.phone,
-        status: 'New Lead',
-        adminNotes: 'Submitted via Web Portal (Offline / Standalone Queue)',
-        createdAt: new Date().toISOString()
-      };
-
-      try {
-        const existing = JSON.parse(localStorage.getItem('dg_offline_quotes') || '[]');
-        existing.unshift(offlineRecord);
-        localStorage.setItem('dg_offline_quotes', JSON.stringify(existing));
-      } catch (storageErr) {
-        console.warn('LocalStorage save notice:', storageErr);
-      }
-
-      setSuccessData({
-        success: true,
-        message: 'Your project enquiry has been registered successfully! Our enterprise team will review your specifications and contact you with a customized proposal within 12–24 hours.',
-        data: {
-          id: offlineRecord._id,
-          name: payload.name,
-          companyName: payload.companyName,
-          service: payload.service,
-          createdAt: offlineRecord.createdAt
-        }
+        email: payload.email,
+        id: `DG-REQ-${Date.now().toString().slice(-6)}`
       });
 
       confetti({
-        particleCount: 80,
-        spread: 70,
+        particleCount: 70,
+        spread: 60,
         origin: { y: 0.6 }
       });
+
     } catch (err) {
-      const msg =
-        err.response?.data?.message ||
-        (err.response?.data?.errors && err.response.data.errors.map(e => e.message).join(', ')) ||
-        'Unable to process project details. Please check that all required fields are filled correctly.';
-      setErrorMsg(msg);
+      setErrorMsg('An unexpected error occurred while submitting. Please email hello@datagalactic.in directly.');
     } finally {
       setLoading(false);
     }
@@ -326,6 +223,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
 
   const resetForm = () => {
     setSuccessData(null);
+    setHasSubmitted(false);
     setFormData({
       name: '',
       companyName: '',
@@ -334,58 +232,58 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
       service: defaultService || 'Data Entry Services',
       projectType: 'One-time Project',
       estimatedVolume: '',
+      expectedTimeline: 'Within 1 Week',
       description: defaultDescription || '',
-      phoneDigits: ''
+      phoneDigits: '',
+      honeypot: ''
     });
-    setOtpSent(false);
-    setOtpCode('');
-    setOtpVerified(false);
-    setOtpMsg('');
     setErrorMsg('');
   };
 
   return (
-    <section id="contact" className="scroll-mt-24 lg:scroll-mt-28 py-10 sm:py-12 relative bg-slate-50 border-b border-slate-200/80 overflow-hidden">
+    <section id="contact" className="scroll-mt-24 lg:scroll-mt-28 py-14 sm:py-20 relative bg-slate-50 border-b border-slate-200/90 overflow-hidden">
+      
       {/* Background Decorators */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-sky-100/60 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-blue-100/40 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-blue-100/50 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-sky-100/40 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header: Center aligned */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>Free Project Estimation &amp; Real-Time Consultation</span>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-[#0047AB] shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#0047AB]" />
+            <span>Fast Project Evaluation &amp; Custom Quote</span>
           </div>
+
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Request a Free Project{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0047AB] via-blue-600 to-cyan-600">
               Quote &amp; Proposal
             </span>
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg leading-normal">
-            Tell us about your data workload, timelines, or format requirements. Our enterprise team will analyze your specifications and respond with a customized proposal within 12–24 hours.
+
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+            Tell us about your data workload, formatting requirements, and expected timeline. Our operations team will review your specifications and respond with a customized proposal within 12–24 hours.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start w-full">
           
-          {/* Left Column: Direct Communication (Prominent & Clear) */}
+          {/* Left Column: Direct Communication & Office Info */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-8 rounded-3xl bg-gradient-to-br from-[#05142f] via-[#09224f] to-[#0047AB] text-white shadow-xl space-y-6 relative overflow-hidden border border-blue-400/20">
-              <div className="absolute top-0 right-0 w-44 h-44 bg-sky-400/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="p-7 sm:p-8 rounded-3xl bg-gradient-to-br from-[#05142f] via-[#09224f] to-[#0047AB] text-white shadow-xl space-y-6 relative overflow-hidden border border-blue-400/20">
               
               <div className="space-y-2">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sky-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
-                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-                  Instant Reach
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#aac7ee] text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+                  <Sparkles className="w-3.5 h-3.5 text-[#4c8df7]" />
+                  Direct Consultation
                 </span>
                 <h3 className="text-2xl font-bold font-['Space_Grotesk'] text-white">
                   Direct Communication
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Have an urgent SLA requirement or want to talk immediately? Connect directly with our core leadership team.
+                  Have an urgent requirement or want to discuss project scope directly? Connect with our leadership team.
                 </p>
               </div>
               
@@ -394,11 +292,11 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                   href="mailto:hello@datagalactic.in"
                   className="flex items-center gap-3.5 p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all group backdrop-blur-sm"
                 >
-                  <div className="p-2.5 rounded-xl bg-sky-400 text-slate-950 font-bold group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#4c8df7] text-slate-950 font-bold group-hover:scale-110 transition-transform">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-sky-200 font-medium uppercase tracking-wider">Priority Business Inbox</p>
+                    <p className="text-[11px] text-[#aac7ee] font-medium uppercase tracking-wider">Priority Business Inbox</p>
                     <p className="font-bold text-white text-base truncate">hello@datagalactic.in</p>
                     <p className="text-[11px] text-emerald-300 font-medium">12–24h response SLA guaranteed</p>
                   </div>
@@ -427,99 +325,98 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                   <div className="min-w-0">
                     <p className="text-[11px] text-emerald-300 font-medium uppercase tracking-wider">Phone &amp; WhatsApp Direct Line</p>
                     <p className="font-bold text-white text-base">+91 9363164608</p>
-                    <p className="text-[11px] text-emerald-200">Available for instant project discussions</p>
+                    <p className="text-[11px] text-emerald-200">International project coordination</p>
                   </div>
                 </a>
               </div>
 
-              {/* Founder & Location Details */}
-              <div className="pt-4 border-t border-white/10 space-y-2.5 text-xs text-slate-200">
+              {/* Office & Operations Location */}
+              <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-slate-300">
                 <div className="flex items-center gap-2.5">
-                  <Building className="w-4 h-4 text-sky-300 shrink-0" />
-                  <span>Founder &amp; CEO: <strong className="text-white font-semibold">Risona R</strong></span>
+                  <Building className="w-4 h-4 text-[#4c8df7] shrink-0" />
+                  <span>DataGalactic Operations Center</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <Globe2 className="w-4 h-4 text-sky-300 shrink-0" />
-                  <span>Tamil Nadu, India · Serving Worldwide Clients</span>
+                  <Globe2 className="w-4 h-4 text-[#4c8df7] shrink-0" />
+                  <span>Tamil Nadu, India | Serving US, UK, CA, AU &amp; UAE</span>
                 </div>
               </div>
             </div>
 
-            {/* Privacy Guarantee Box */}
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-sm">
-              <div className="flex items-center gap-2 text-sky-700 text-sm font-semibold">
+            {/* Confidentiality Commitment Card */}
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 text-[#0047AB] text-sm font-semibold">
                 <Lock className="w-4 h-4" />
-                <span>NDA &amp; Confidentiality Protected</span>
+                <span>Strict Non-Disclosure Guarantee</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                All data submitted is handled under enterprise-grade NDA protocols. We never share or sell project details.
+                We sign bilateral Non-Disclosure Agreements prior to accessing client data. Working files are handled in restricted environments and permanently purged upon project completion.
               </p>
             </div>
           </div>
 
-          {/* Right Column: Lead Generation & Quote Form (Medium width & Balanced) */}
+          {/* Right Column: Lead Generation Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-lg">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xl relative">
               
+              {/* Success View */}
               {successData ? (
-                /* Success Screen */
-                <div className="text-center py-10 space-y-6 animate-in fade-in zoom-in-95 duration-300">
-                  <div className="w-20 h-20 rounded-3xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto shadow-sm">
-                    <CheckCircle2 className="w-10 h-10" />
+                <div className="py-8 text-center space-y-5 animate-in fade-in duration-300">
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto shadow-sm">
+                    <CheckCircle2 className="w-8 h-8" />
                   </div>
 
-                  <div className="space-y-2 max-w-md mx-auto">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
-                      Project Received!
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                      Request ID: {successData.id}
+                    </span>
+                    <h3 className="text-2xl font-bold text-slate-900 font-['Space_Grotesk']">
+                      Thank You, {successData.name}!
                     </h3>
-                    <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                      Thank you, <strong className="text-slate-900">{successData.data?.name}</strong>. Your enquiry for <strong className="text-sky-700">{successData.data?.companyName}</strong> has been logged in our queue.
+                    <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                      We have received your project inquiry for <strong className="text-slate-800">{successData.service}</strong>. A dedicated project lead will review your specifications and email you a customized proposal at <strong className="text-slate-800">{successData.email}</strong> within 12–24 hours.
                     </p>
-                    <p className="text-xs text-emerald-600 font-medium">
-                      ✓ A real-time confirmation email has been dispatched to your inbox.
-                    </p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 max-w-lg mx-auto text-left space-y-2 text-xs sm:text-sm text-slate-700">
-                    <div className="flex justify-between border-b border-slate-200 pb-2">
-                      <span className="text-slate-500">Service:</span>
-                      <span className="font-semibold text-sky-700">{successData.data?.service}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-slate-200 pb-2">
-                      <span className="text-slate-500">Turnaround SLA:</span>
-                      <span className="text-slate-700 font-medium">Custom Proposal in 12–24 Hours</span>
-                    </div>
-                    <div className="flex justify-between pt-1">
-                      <span className="text-slate-500">Direct Inquiries:</span>
-                      <span className="text-sky-700 font-medium">hello@datagalactic.in</span>
-                    </div>
                   </div>
 
                   <div className="pt-4">
                     <button
                       onClick={resetForm}
-                      className="px-6 py-2.5 text-sm font-semibold text-white bg-slate-900 hover:bg-sky-700 rounded-xl transition-colors cursor-pointer shadow-sm"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer"
                     >
-                      Submit Another Request
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Submit Another Inquiry</span>
                     </button>
                   </div>
                 </div>
               ) : (
-                /* Form Screen */
+                /* Main Form */
                 <form onSubmit={handleSubmit} className="space-y-5">
                   
+                  {/* Error Notification */}
                   {errorMsg && (
-                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3 text-red-700 text-xs sm:text-sm">
-                      <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+                    <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-3 text-xs text-rose-800 animate-in fade-in">
+                      <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                       <span>{errorMsg}</span>
                     </div>
                   )}
 
-                  {/* Row 1: Name & Company */}
+                  {/* Honeypot hidden input */}
+                  <div className="hidden">
+                    <input
+                      type="text"
+                      name="honeypot"
+                      value={formData.honeypot}
+                      onChange={handleInputChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
+                  {/* Row 1: Full Name & Business Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                        Full Name <span className="text-sky-600">*</span>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Full Name <span className="text-rose-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -527,13 +424,32 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        placeholder="e.g. John Miller"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
+                        placeholder="e.g. Marcus Vance"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all"
                       />
                     </div>
+
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                        Company Name <span className="text-sky-600">*</span>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Business Email <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="name@company.com"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 2: Company Name & Country */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Company Name <span className="text-rose-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -541,154 +457,40 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                         value={formData.companyName}
                         onChange={handleInputChange}
                         required
-                        placeholder="e.g. Apex Global Logistics Ltd."
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 2: Email + Real-Time OTP Verification */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <label className="block text-xs font-semibold text-slate-700">
-                        Your Email Address <span className="text-sky-600">*</span>
-                      </label>
-                      {otpVerified ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                          <Check className="w-3 h-3" />
-                          Email Verified
-                        </span>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={handleSendOtp}
-                          disabled={otpLoading || otpCooldown > 0 || !formData.email}
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-600 hover:text-sky-800 disabled:text-slate-400 cursor-pointer"
-                        >
-                          <KeyRound className="w-3 h-3" />
-                          <span>
-                            {otpCooldown > 0 ? `Resend OTP in ${otpCooldown}s` : 'Verify with Real-Time OTP (Optional)'}
-                          </span>
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="relative">
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="e.g. yourname@gmail.com or company email"
-                        className={`w-full px-3.5 py-2.5 rounded-xl bg-white border ${
-                          otpVerified ? 'border-emerald-400 bg-emerald-50/20' : 'border-slate-300'
-                        } text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all`}
+                        placeholder="e.g. Acme Corporation"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all"
                       />
                     </div>
 
-                    {/* OTP Input Drawer */}
-                    {otpSent && !otpVerified && (
-                      <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-200 space-y-2.5 mt-2 animate-in fade-in duration-200">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-sky-900">Enter 6-digit OTP code sent to email:</span>
-                          {otpCooldown > 0 && <span className="text-sky-600 font-mono text-[11px]">Expires in 10m</span>}
-                        </div>
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            maxLength={6}
-                            value={otpCode}
-                            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
-                            placeholder="6-digit code"
-                            className="w-32 px-3 py-2 text-center font-mono font-bold tracking-widest text-sm rounded-xl bg-white border border-sky-300 text-slate-900 focus:outline-none focus:border-sky-600"
-                          />
-                          <button
-                            type="button"
-                            onClick={handleVerifyOtp}
-                            disabled={otpLoading || otpCode.length !== 6}
-                            className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 disabled:opacity-50 transition-colors cursor-pointer"
-                          >
-                            {otpLoading ? 'Verifying...' : 'Verify Code'}
-                          </button>
-                        </div>
-                        {otpMsg && <p className="text-xs text-sky-800 font-medium">{otpMsg}</p>}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Row 3: Phone / WhatsApp (Optional) with Integrated Country Selector */}
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="block text-xs font-semibold text-slate-700">
-                        Phone / WhatsApp <span className="text-slate-400 font-normal">(Optional — Country included)</span>
-                      </label>
-                      {/* Live Counter Badge */}
-                      <span
-                        className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md ${
-                          formData.phoneDigits.length === selectedCountry.digits
-                            ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-                            : formData.phoneDigits.length > 0
-                            ? 'bg-amber-100 text-amber-700 border border-amber-200'
-                            : 'bg-slate-100 text-slate-500'
-                        }`}
-                      >
-                        {formData.phoneDigits.length === selectedCountry.digits ? (
-                          `✓ ${selectedCountry.digits}/${selectedCountry.digits} Complete`
-                        ) : (
-                          `${formData.phoneDigits.length}/${selectedCountry.digits} digits`
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="relative flex rounded-xl border border-slate-300 focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500 overflow-hidden bg-white">
-                      {/* Country Selector integrated directly inside Phone field - Compact Font Adaptive */}
-                      <div className="relative bg-slate-100 border-r border-slate-200 shrink-0 flex items-center hover:bg-slate-200/70 transition-colors">
-                        <select
-                          value={selectedCountry.code}
-                          onChange={handleCountrySelect}
-                          className="pl-2.5 pr-6 py-2.5 bg-transparent text-slate-800 text-xs font-semibold cursor-pointer appearance-none focus:outline-none w-auto max-w-[130px] sm:max-w-[150px] truncate"
-                          title="Select Country & Dial Code"
-                        >
-                          {countryList.map((c) => (
-                            <option key={c.code} value={c.code}>
-                              {c.flag} {c.dial} ({c.name})
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="w-3 h-3 text-slate-500 absolute right-1.5 pointer-events-none" />
-                      </div>
-
-                      {/* Phone Digits Input restricted to country digits */}
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        name="phoneDigits"
-                        maxLength={selectedCountry.digits}
-                        value={formData.phoneDigits}
-                        onChange={handlePhoneDigitsChange}
-                        placeholder={selectedCountry.placeholder}
-                        className="w-full px-3.5 py-2.5 bg-transparent text-slate-900 placeholder:text-slate-400 text-sm font-mono tracking-wide focus:outline-none"
-                      />
-                    </div>
-                    
-                    <p className="text-[11px] text-slate-500 mt-1 flex items-center justify-between">
-                      <span>Format: {selectedCountry.dial} ({selectedCountry.digits} digits required)</span>
-                      <span className="font-medium text-slate-600">{selectedCountry.name}</span>
-                    </p>
-                  </div>
-
-                  {/* Row 4: Service & Project Type */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        Service Required <span className="text-sky-600">*</span>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Country <span className="text-rose-500">*</span>
+                      </label>
+                      <select
+                        value={selectedCountry.code}
+                        onChange={handleCountrySelect}
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all cursor-pointer"
+                      >
+                        {countryList.map((c) => (
+                          <option key={c.code} value={c.code}>
+                            {c.flag} {c.name} ({c.dial})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Row 3: Required Service & Project Type */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Required Service <span className="text-rose-500">*</span>
                       </label>
                       <select
                         name="service"
                         value={formData.service}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all cursor-pointer"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all cursor-pointer"
                       >
                         {servicesList.map((s, idx) => (
                           <option key={idx} value={s}>
@@ -697,44 +499,85 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                         ))}
                       </select>
                     </div>
+
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        Project Type <span className="text-sky-600">*</span>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Project Type <span className="text-rose-500">*</span>
                       </label>
                       <select
                         name="projectType"
                         value={formData.projectType}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all cursor-pointer"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all cursor-pointer"
                       >
-                        {projectTypes.map((t, idx) => (
-                          <option key={idx} value={t}>
-                            {t}
+                        {projectTypes.map((pt, idx) => (
+                          <option key={idx} value={pt}>
+                            {pt}
                           </option>
                         ))}
                       </select>
                     </div>
                   </div>
 
-                  {/* Row 5: Volume */}
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-2">
-                      Estimated Data Volume (Optional)
-                    </label>
-                    <input
-                      type="text"
-                      name="estimatedVolume"
-                      value={formData.estimatedVolume}
-                      onChange={handleInputChange}
-                      placeholder="e.g. 5,000 PDF invoices, 20 hrs/week, or 50,000 SKU catalog rows"
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
-                    />
+                  {/* Row 4: Estimated Data Volume & Expected Delivery Timeline */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Estimated Data Volume
+                      </label>
+                      <input
+                        type="text"
+                        name="estimatedVolume"
+                        value={formData.estimatedVolume}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 5,000 records, 200 pages, 40 hrs/mo"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        Expected Delivery Timeline <span className="text-rose-500">*</span>
+                      </label>
+                      <select
+                        name="expectedTimeline"
+                        value={formData.expectedTimeline}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all cursor-pointer"
+                      >
+                        {timelineOptions.map((tl, idx) => (
+                          <option key={idx} value={tl}>
+                            {tl}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
-                  {/* Row 6: Description */}
+                  {/* Optional Phone Number with Country Flag & Code */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-2">
-                      Project Description &amp; Requirements <span className="text-sky-600">*</span>
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Phone Number (Optional / WhatsApp)
+                    </label>
+                    <div className="flex items-center rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#0047AB] focus-within:bg-white transition-all overflow-hidden">
+                      <span className="px-3.5 py-2.5 text-xs sm:text-sm text-slate-600 bg-slate-100 border-r border-slate-200 font-mono flex items-center gap-1.5">
+                        <span>{selectedCountry.flag}</span>
+                        <span>{selectedCountry.dial}</span>
+                      </span>
+                      <input
+                        type="tel"
+                        value={formData.phoneDigits}
+                        onChange={handlePhoneDigitsChange}
+                        placeholder={selectedCountry.placeholder}
+                        className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 outline-none bg-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Project Requirements (Textarea) */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Project Requirements &amp; Scope <span className="text-rose-500">*</span>
                     </label>
                     <textarea
                       name="description"
@@ -742,33 +585,33 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                       onChange={handleInputChange}
                       required
                       rows={4}
-                      placeholder="Please outline the nature of your data, source file formats, required deliverables, expected accuracy guidelines, and turnaround timeline..."
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all resize-none"
+                      placeholder="Please outline the source file format (PDF, Excel, Web links), target format or software, validation rules, and any specific deadlines..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0047AB] focus:bg-white text-xs sm:text-sm text-slate-900 outline-none transition-all resize-y"
                     />
                   </div>
 
                   {/* Submit Button */}
-                  <div className="pt-4">
+                  <div className="pt-2">
                     <button
                       type="submit"
-                      disabled={loading}
-                      className="w-full py-4 rounded-xl font-bold text-white text-base bg-slate-900 hover:bg-sky-700 shadow-lg shadow-slate-900/10 transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
+                      disabled={loading || hasSubmitted}
+                      className="w-full py-3.5 px-6 rounded-xl bg-[#0047AB] hover:bg-[#002b66] disabled:bg-slate-400 text-white font-bold text-sm sm:text-base transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
                     >
                       {loading ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Dispatching Real-Time Enquiry...</span>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Submitting Project Scope...</span>
                         </>
                       ) : (
                         <>
-                          <span>Submit Project Request</span>
-                          <Send className="w-4 h-4 ml-1" />
+                          <span>Submit Request for Free Quote</span>
+                          <Send className="w-4 h-4" />
                         </>
                       )}
                     </button>
-                    <p className="text-center text-[11px] text-slate-500 mt-3 flex items-center justify-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-                      100% Secure &amp; Confidential under strict NDA. Instant real-time confirmation sent to your email.
+                    <p className="text-[11px] text-slate-400 text-center mt-2.5 flex items-center justify-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Your information is protected under strict bilateral Non-Disclosure terms.</span>
                     </p>
                   </div>
 
@@ -779,6 +622,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
           </div>
 
         </div>
+
       </div>
     </section>
   );

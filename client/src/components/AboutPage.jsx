@@ -4,14 +4,15 @@ import { ChevronRight, Award, Users, Globe, Shield, Sparkles } from 'lucide-reac
 import InnerHero3DBackground from './InnerHero3DBackground';
 import AboutUs from './AboutUs';
 import WhyChooseUs from './WhyChooseUs';
+import HowItWorks from './HowItWorks';
+import DataSecurity from './DataSecurity';
 import QuoteContactSection from './QuoteContactSection';
 
 const AboutPage = () => {
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero Header: Standardized height, 3D animated bg, exact navbar logo alignment */}
+      {/* Hero Header */}
       <div className="relative bg-[#05142f] text-white pt-28 sm:pt-32 lg:pt-36 pb-14 sm:pb-16 overflow-hidden border-b border-[#122f5c]">
-        {/* Interactive 3D Canvas Background */}
         <InnerHero3DBackground />
 
         {/* Ambient subtle glow */}
@@ -24,16 +25,16 @@ const AboutPage = () => {
             <span className="text-[#aac7ee] font-semibold">About Us</span>
           </nav>
 
-          <div className="max-w-2xl space-y-2">
+          <div className="max-w-3xl space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#122f5c]/90 border border-[#4c8df7]/40 text-xs font-semibold text-[#aac7ee] backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-[#4c8df7]" />
-              <span>Company Profile &amp; Mission</span>
+              <span>International Outsourcing Partner</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-['Space_Grotesk'] leading-tight">
-              About Us
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk'] leading-tight">
+              About DataGalactic
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 leading-normal font-normal">
-              Delivering high-speed, dual-verified data entry, cleansing, and back-office operations to global businesses with guaranteed SLAs.
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              A specialized Data Management, Business Research &amp; Back-Office Outsourcing Partner helping international clients across the US, UK, Canada, Australia, and UAE eliminate administrative bottlenecks with accuracy and efficiency.
             </p>
           </div>
         </div>
@@ -42,6 +43,8 @@ const AboutPage = () => {
       <div>
         <AboutUs />
         <WhyChooseUs />
+        <HowItWorks />
+        <DataSecurity />
         <div className="border-t border-slate-200">
           <QuoteContactSection />
         </div>

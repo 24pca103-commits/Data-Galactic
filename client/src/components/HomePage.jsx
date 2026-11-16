@@ -2,46 +2,49 @@ import React from 'react';
 import Hero from './Hero';
 import AboutUs from './AboutUs';
 import ServicesSection from './ServicesSection';
-import QuoteCalculator from './QuoteCalculator';
-import WhyChooseUs from './WhyChooseUs';
 import IndustriesSection from './IndustriesSection';
+import WhyChooseUs from './WhyChooseUs';
 import HowItWorks from './HowItWorks';
+import PortfolioSection from './PortfolioSection';
 import DataSecurity from './DataSecurity';
-import Testimonials from './Testimonials';
-import FeedbackSection from './FeedbackSection';
+import FAQSection from './FAQSection';
 import FinalCTA from './FinalCTA';
 import QuoteContactSection from './QuoteContactSection';
 
 const HomePage = () => {
   return (
     <main className="flex-grow">
-      {/* 1. HERO */}
+      {/* 1. Hero Section */}
       <Hero />
 
-      {/* 2. ABOUT US */}
+      {/* 2. Company Introduction */}
       <AboutUs />
 
-      {/* 3. SERVICES */}
+      {/* 3. Our Core Services */}
       <ServicesSection />
-      <QuoteCalculator />
-      <WhyChooseUs />
 
-      {/* 4. INDUSTRIES */}
+      {/* 4. Industries We Serve */}
       <IndustriesSection />
 
-      {/* 5. HOW IT WORKS */}
+      {/* 5. Why Choose DataGalactic */}
+      <WhyChooseUs />
+
+      {/* 6. How It Works */}
       <HowItWorks />
 
-      {/* 6. DATA SECURITY */}
+      {/* 7. Sample Projects / Portfolio */}
+      <PortfolioSection />
+
+      {/* 8. Data Security & Confidentiality */}
       <DataSecurity />
 
-      {/* 7. TESTIMONIALS */}
-      <Testimonials />
+      {/* 9. Frequently Asked Questions */}
+      <FAQSection />
 
-      {/* 8. FINAL CALL TO ACTION */}
+      {/* 10. Final CTA Section */}
       <FinalCTA />
 
-      {/* 10. CONTACT / QUOTE FORM */}
+      {/* 11. Lead Generation / Contact Form */}
       <QuoteContactSection />
     </main>
   );

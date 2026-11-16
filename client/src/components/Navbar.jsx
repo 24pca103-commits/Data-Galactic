@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -10,31 +10,38 @@ import {
   ChevronDown,
   FileSpreadsheet,
   Filter,
-  FileCode,
+  Database,
+  FolderKanban,
+  CheckCheck,
+  Target,
   Search,
+  TrendingUp,
   ShoppingCart,
+  FileCode,
   Briefcase,
+  Cpu,
+  Megaphone,
   ShoppingBag,
+  GraduationCap,
   HeartPulse,
   Building2,
+  Factory,
+  Ship,
+  UserCheck,
   BadgeDollarSign,
   Truck,
-  GraduationCap,
-  Users,
-  Workflow,
-  Lock,
-  Star,
-  Sparkles,
-  ExternalLink
+  Store,
+  Building,
+  Sparkles
 } from 'lucide-react';
+import { serviceCategories, servicesData } from '../data/siteData';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null); // 'services' | 'industries' | 'company' | null
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'services' | 'industries' | null
   const [mobileExpanded, setMobileExpanded] = useState({});
   const location = useLocation();
-  const navigate = useNavigate();
   const dropdownTimeoutRef = useRef(null);
   const navContainerRef = useRef(null);
 
@@ -72,7 +79,6 @@ const Navbar = () => {
     }, 200);
   };
 
-  // Toggle dropdown on click (supports 1st click open, 2nd click toggle)
   const toggleDropdown = (menuKey, e) => {
     if (e) {
       e.preventDefault();
@@ -89,125 +95,20 @@ const Navbar = () => {
     }));
   };
 
-
-  // Submenu Definitions with Dedicated Page Routes
-  const servicesSubmenu = [
-    {
-      name: 'Data Entry Services',
-      desc: 'Online & offline entry with 99.9% accuracy SLA',
-      href: '/services/data-entry',
-      icon: FileSpreadsheet
-    },
-    {
-      name: 'Data Processing & Cleansing',
-      desc: 'Deduplication, schema normalization & enrichment',
-      href: '/services/data-processing',
-      icon: Filter
-    },
-    {
-      name: 'Data Conversion (OCR / PDF)',
-      desc: 'PDF to Excel, scanned sheets & automated OCR',
-      href: '/services/data-conversion',
-      icon: FileCode
-    },
-    {
-      name: 'Web Research & Mining',
-      desc: 'Business lead generation, market data & price monitoring',
-      href: '/services/web-research',
-      icon: Search
-    },
-    {
-      name: 'E-commerce Data Services',
-      desc: 'Multi-channel product listings & inventory updates',
-      href: '/services/ecommerce-data',
-      icon: ShoppingCart
-    },
-    {
-      name: 'Back Office Support',
-      desc: 'Dedicated teams for ongoing admin & operations',
-      href: '/services/back-office-support',
-      icon: Briefcase
-    }
-  ];
-
-  const industriesSubmenu = [
-    {
-      name: 'E-commerce & Retail',
-      desc: 'High-speed SKU population & catalog syncing',
-      href: '/industries/ecommerce',
-      icon: ShoppingBag
-    },
-    {
-      name: 'Healthcare & Medical',
-      desc: 'Patient intake charts & insurance claims entry',
-      href: '/industries/healthcare',
-      icon: HeartPulse
-    },
-    {
-      name: 'Real Estate & Properties',
-      desc: 'MLS listing management & county deeds indexing',
-      href: '/industries/real-estate',
-      icon: Building2
-    },
-    {
-      name: 'Banking & Financial',
-      desc: 'Ledger reconciliation & KYC document parsing',
-      href: '/industries/finance',
-      icon: BadgeDollarSign
-    },
-    {
-      name: 'Logistics & Supply Chain',
-      desc: 'Bill of Lading processing & shipping manifests',
-      href: '/industries/logistics',
-      icon: Truck
-    },
-    {
-      name: 'Education & EdTech',
-      desc: 'Student admissions digitization & archives',
-      href: '/industries/education',
-      icon: GraduationCap
-    }
-  ];
-
-  const companySubmenu = [
-    {
-      name: 'About Us',
-      desc: 'Our mission, leadership & operational standards',
-      href: '/about',
-      icon: Users
-    },
-    {
-      name: 'How It Works',
-      desc: '5-stage precision SLA workflow & delivery',
-      href: '/how-it-works',
-      icon: Workflow
-    },
-    {
-      name: 'Data Security & NDA',
-      desc: 'Tier-1 confidentiality, ISO protocols & encryption',
-      href: '/security',
-      icon: Lock
-    },
-    {
-      name: 'Client Testimonials',
-      desc: 'Verified enterprise endorsements & reviews',
-      href: '/testimonials',
-      icon: Star
-    }
-  ];
+  const servicesList = Object.values(servicesData);
 
   return (
     <header ref={navContainerRef} className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-sm">
-      {/* Top micro bar directly touching top edge (no white gap above) */}
+      {/* Top micro bar */}
       <div className="hidden lg:block bg-[#05142f] py-2 border-b border-[#122f5c]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs text-slate-400">
           <div className="flex items-center space-x-6">
             <span className="flex items-center gap-1.5 text-[#aac7ee] font-semibold">
               <ShieldCheck className="w-3.5 h-3.5 text-[#4c8df7]" />
-              Enterprise Data &amp; Business Support Services
+              Data Management, Business Research &amp; Back-Office Outsourcing Partner
             </span>
             <span className="text-[#1e4480]">|</span>
-            <span className="text-slate-300 tracking-wider font-medium">Precision Beyond Limits</span>
+            <span className="text-slate-300 tracking-wider font-medium">Serving US, UK, CA, AU &amp; UAE</span>
           </div>
           <div className="flex items-center space-x-6">
             <a href="mailto:hello@datagalactic.in" className="flex items-center gap-1.5 text-slate-300 hover:text-[#4c8df7] transition-colors font-medium">
@@ -224,12 +125,12 @@ const Navbar = () => {
 
       {/* Main navigation row */}
       <div className={`bg-white/95 backdrop-blur-md border-b border-slate-200/90 transition-all duration-300 ${
-        scrolled ? 'py-2' : 'py-3'
+        scrolled ? 'py-2.5' : 'py-3'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
 
-            {/* Logo - Monogram with brand text side-by-side */}
+            {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <img
                 src="/dg-monogram.png"
@@ -246,7 +147,7 @@ const Navbar = () => {
               </div>
             </Link>
 
-            {/* Desktop Nav: Home | About ⌵ | Services ⌵ | Industries ⌵ | Testimonials ⌵ | Contact ⌵ */}
+            {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center space-x-1">
               
               {/* 1. Home */}
@@ -259,95 +160,15 @@ const Navbar = () => {
                 Home
               </Link>
 
-              {/* 2. About Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => handleMouseEnter('about')}
-                onMouseLeave={handleMouseLeave}
+              {/* 2. About Us */}
+              <Link
+                to="/about"
+                className={`px-3.5 py-2 text-sm font-semibold transition-all rounded-xl ${
+                  location.pathname === '/about' ? 'text-white bg-[#002b66] shadow-xs' : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
+                }`}
               >
-                <div
-                  className={`flex items-center rounded-xl transition-all ${
-                    activeDropdown === 'about' || location.pathname.startsWith('/about') || location.pathname === '/how-it-works' || location.pathname === '/security'
-                      ? 'text-white bg-[#002b66] shadow-xs'
-                      : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
-                  }`}
-                >
-                  <Link
-                    to="/about"
-                    onClick={() => setActiveDropdown(null)}
-                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
-                  >
-                    About
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={(e) => toggleDropdown('about', e)}
-                    aria-label="Toggle About submenu"
-                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
-                  >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
-
-                {activeDropdown === 'about' && (
-                  <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <Link
-                      to="/about#about"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Users className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Company Profile</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Our mission, leadership &amp; vision</p>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/about#why-choose-us"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <ShieldCheck className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Why Choose Us</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">The enterprise outsourcing advantage</p>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/how-it-works"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Workflow className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">How It Works</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">5-stage precision SLA workflow</p>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/security"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Lock className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Security &amp; NDA</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Bank-grade data confidentiality</p>
-                      </div>
-                    </Link>
-                    <div className="pt-2 border-t border-slate-100 mt-1">
-                      <Link
-                        to="/about"
-                        onClick={() => setActiveDropdown(null)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#002b66] bg-sky-50/70 hover:bg-[#002b66] hover:text-white transition-colors group cursor-pointer"
-                      >
-                        <span>View Dedicated About Page</span>
-                        <span className="text-sm group-hover:translate-x-1 transition-transform">→</span>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
+                About Us
+              </Link>
 
               {/* 3. Services Dropdown */}
               <div
@@ -379,47 +200,42 @@ const Navbar = () => {
                   </button>
                 </div>
 
+                {/* Services Mega Dropdown */}
                 {activeDropdown === 'services' && (
-                  <div className="absolute top-full left-0 w-[580px] p-4 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50">
-                    <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-                      <span className="uppercase tracking-wider font-bold text-slate-700">Enterprise Data Services</span>
-                      <div className="flex items-center gap-3">
-                        <Link to="/services" onClick={() => setActiveDropdown(null)} className="text-[#002b66] font-bold hover:underline cursor-pointer">All Services Catalog →</Link>
-                      </div>
+                  <div className="absolute top-full left-0 w-[640px] p-5 bg-white rounded-3xl shadow-2xl border border-slate-200 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-4">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs">
+                      <span className="font-bold text-slate-800 uppercase tracking-wider">10 Core Services in 3 Categories</span>
+                      <Link to="/services" onClick={() => setActiveDropdown(null)} className="text-[#0047AB] font-bold hover:underline">
+                        View All Services →
+                      </Link>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {servicesSubmenu.map((item, idx) => {
-                        const Icon = item.icon;
-                        return (
-                          <Link
-                            key={idx}
-                            to={item.href}
-                            onClick={() => setActiveDropdown(null)}
-                            className="flex items-start gap-3 p-2.5 rounded-xl transition-all duration-200 group hover:bg-[#002b66] hover:text-white text-slate-800 cursor-pointer"
-                          >
-                            <div className="p-2 rounded-lg shrink-0 transition-colors bg-slate-100 text-slate-700 group-hover:bg-[#122f5c] group-hover:text-white">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <p className="text-xs font-bold leading-snug text-slate-900 group-hover:text-white">
-                                {item.name}
-                              </p>
-                              <p className="text-[11px] line-clamp-1 mt-0.5 leading-snug text-slate-500 group-hover:text-slate-200">
-                                {item.desc}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
+
+                    <div className="grid grid-cols-3 gap-4 text-xs">
+                      {serviceCategories.map((cat) => (
+                        <div key={cat.id} className="space-y-2">
+                          <h4 className="font-bold text-[#0047AB] uppercase text-[11px] tracking-wider font-mono">
+                            {cat.name}
+                          </h4>
+                          <div className="space-y-1">
+                            {servicesList.filter(s => s.categoryId === cat.id).map(svc => (
+                              <Link
+                                key={svc.id}
+                                to={`/services/${svc.id}`}
+                                onClick={() => setActiveDropdown(null)}
+                                className="block p-1.5 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors"
+                              >
+                                <p className="font-semibold text-xs leading-snug">{svc.title}</p>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="pt-2 border-t border-slate-100 mt-2">
-                      <Link
-                        to="/services"
-                        onClick={() => setActiveDropdown(null)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl bg-sky-50 text-[#002b66] text-xs font-bold hover:bg-[#002b66] hover:text-white transition-all cursor-pointer group"
-                      >
-                        <span>Explore Complete Services Catalog &amp; Details</span>
-                        <span className="text-sm group-hover:translate-x-1 transition-transform">→</span>
+
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                      <span>Multi-stage verification on every project batch</span>
+                      <Link to="/services" onClick={() => setActiveDropdown(null)} className="text-xs font-bold text-[#0047AB] hover:underline">
+                        Explore Catalog →
                       </Link>
                     </div>
                   </div>
@@ -456,483 +272,217 @@ const Navbar = () => {
                   </button>
                 </div>
 
+                {/* Industries Dropdown */}
                 {activeDropdown === 'industries' && (
-                  <div className="absolute top-full left-0 w-[580px] p-4 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50">
-                    <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-                      <span className="uppercase tracking-wider font-bold text-slate-700">Specialized Industry Solutions</span>
-                      <div className="flex items-center gap-3">
-                        <Link to="/industries" onClick={() => setActiveDropdown(null)} className="text-[#002b66] font-bold hover:underline cursor-pointer">All Industries Overview →</Link>
-                      </div>
+                  <div className="absolute top-full left-0 w-[540px] p-5 bg-white rounded-3xl shadow-2xl border border-slate-200 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs">
+                      <span className="font-bold text-slate-800 uppercase tracking-wider">15 Industry Sectors Supported</span>
+                      <Link to="/industries" onClick={() => setActiveDropdown(null)} className="text-[#0047AB] font-bold hover:underline">
+                        All Sectors →
+                      </Link>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {industriesSubmenu.map((item, idx) => {
-                        const Icon = item.icon;
-                        return (
-                          <Link
-                            key={idx}
-                            to={item.href}
-                            onClick={() => setActiveDropdown(null)}
-                            className="flex items-start gap-3 p-2.5 rounded-xl transition-all duration-200 group hover:bg-[#002b66] hover:text-white text-slate-800 cursor-pointer"
-                          >
-                            <div className="p-2 rounded-lg shrink-0 transition-colors bg-slate-100 text-slate-700 group-hover:bg-[#122f5c] group-hover:text-white">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <p className="text-xs font-bold leading-snug text-slate-900 group-hover:text-white">
-                                {item.name}
-                              </p>
-                              <p className="text-[11px] line-clamp-1 mt-0.5 leading-snug text-slate-500 group-hover:text-slate-200">
-                                {item.desc}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
+
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <Link to="/industries/it-software" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        IT &amp; Software Companies
+                      </Link>
+                      <Link to="/industries/marketing-agencies" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        Digital Marketing Agencies
+                      </Link>
+                      <Link to="/industries/leadgen-agencies" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        B2B Lead Generation Agencies
+                      </Link>
+                      <Link to="/industries/ecommerce" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        E-commerce Companies
+                      </Link>
+                      <Link to="/industries/healthcare" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        Hospitals &amp; Healthcare
+                      </Link>
+                      <Link to="/industries/real-estate" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        Real Estate Companies
+                      </Link>
+                      <Link to="/industries/financial-services" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        Financial Services Companies
+                      </Link>
+                      <Link to="/industries/logistics-transportation" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
+                        Logistics &amp; Transportation
+                      </Link>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 mt-2">
-                      <Link
-                        to="/industries"
-                        onClick={() => setActiveDropdown(null)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl bg-sky-50 text-[#002b66] text-xs font-bold hover:bg-[#002b66] hover:text-white transition-all cursor-pointer group"
-                      >
-                        <span>Explore Dedicated Industry Sectors Overview</span>
-                        <span className="text-sm group-hover:translate-x-1 transition-transform">→</span>
+
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                      <span>Explore tailored workflows for all 15 industries</span>
+                      <Link to="/industries" onClick={() => setActiveDropdown(null)} className="text-xs font-bold text-[#0047AB] hover:underline">
+                        View Complete List →
                       </Link>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* 5. Testimonials Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => handleMouseEnter('testimonials')}
-                onMouseLeave={handleMouseLeave}
+              {/* 5. Portfolio */}
+              <Link
+                to="/portfolio"
+                className={`px-3.5 py-2 text-sm font-semibold transition-all rounded-xl ${
+                  location.pathname === '/portfolio' ? 'text-white bg-[#002b66] shadow-xs' : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
+                }`}
               >
-                <div
-                  className={`flex items-center rounded-xl transition-all ${
-                    activeDropdown === 'testimonials' || location.pathname.startsWith('/testimonials')
-                      ? 'text-white bg-[#002b66] shadow-xs'
-                      : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
-                  }`}
-                >
-                  <Link
-                    to="/testimonials"
-                    onClick={() => setActiveDropdown(null)}
-                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
-                  >
-                    Testimonials
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={(e) => toggleDropdown('testimonials', e)}
-                    aria-label="Toggle Testimonials submenu"
-                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
-                  >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'testimonials' ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
+                Portfolio
+              </Link>
 
-                {activeDropdown === 'testimonials' && (
-                  <div className="absolute top-full left-0 w-72 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <Link
-                      to="/testimonials#testimonials"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Star className="w-4 h-4 text-amber-500 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Client Endorsements</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Verified global partner reviews</p>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/testimonials#feedback"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Sparkles className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Submit Feedback</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Share your experience with us</p>
-                      </div>
-                    </Link>
-                    <div className="pt-2 border-t border-slate-100 mt-1">
-                      <Link
-                        to="/testimonials"
-                        onClick={() => setActiveDropdown(null)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#002b66] bg-sky-50/70 hover:bg-[#002b66] hover:text-white transition-colors group cursor-pointer"
-                      >
-                        <span>View All Client Reviews Page</span>
-                        <span className="text-sm group-hover:translate-x-1 transition-transform">→</span>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* 6. Contact Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => handleMouseEnter('contact')}
-                onMouseLeave={handleMouseLeave}
+              {/* 6. Contact */}
+              <Link
+                to="/contact"
+                className={`px-3.5 py-2 text-sm font-semibold transition-all rounded-xl ${
+                  location.pathname === '/contact' ? 'text-white bg-[#002b66] shadow-xs' : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
+                }`}
               >
-                <div
-                  className={`flex items-center rounded-xl transition-all ${
-                    activeDropdown === 'contact' || location.pathname === '/contact'
-                      ? 'text-white bg-[#002b66] shadow-xs'
-                      : 'text-slate-700 hover:text-white hover:bg-[#002b66]'
-                  }`}
-                >
-                  <Link
-                    to="/contact"
-                    onClick={() => setActiveDropdown(null)}
-                    className="pl-3.5 pr-1 py-2 text-sm font-semibold transition-colors"
-                  >
-                    Contact
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={(e) => toggleDropdown('contact', e)}
-                    aria-label="Toggle Contact submenu"
-                    className="pl-0.5 pr-2.5 py-2 text-sm font-semibold transition-colors cursor-pointer flex items-center"
-                  >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'contact' ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
-
-                {activeDropdown === 'contact' && (
-                  <div className="absolute top-full right-0 w-80 p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 mt-1 animate-in fade-in zoom-in-95 duration-150 z-50 space-y-1">
-                    <Link
-                      to="/contact#contact"
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#002b66] hover:text-white text-slate-800 transition-colors group cursor-pointer"
-                    >
-                      <Mail className="w-4 h-4 text-sky-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">Request Free Quote</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-slate-200">Instant proposal in 12–24h</p>
-                      </div>
-                    </Link>
-                    <a
-                      href="https://wa.me/919363164608"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#25D366] hover:text-white text-slate-800 transition-colors group"
-                    >
-                      <Phone className="w-4 h-4 text-emerald-600 group-hover:text-white" />
-                      <div>
-                        <p className="text-xs font-bold leading-snug">WhatsApp Direct Chat</p>
-                        <p className="text-[11px] text-slate-500 group-hover:text-white">+91 9363164608</p>
-                      </div>
-                    </a>
-                    <div className="pt-2 border-t border-slate-100 mt-1">
-                      <Link
-                        to="/contact"
-                        onClick={() => setActiveDropdown(null)}
-                        className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#002b66] bg-sky-50/70 hover:bg-[#002b66] hover:text-white transition-colors group cursor-pointer"
-                      >
-                        <span>Visit Dedicated Contact Page</span>
-                        <span className="text-sm group-hover:translate-x-1 transition-transform">→</span>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
+                Contact
+              </Link>
 
             </nav>
 
-          {/* CTA Button */}
-          <div className="hidden sm:flex items-center">
-            <Link
-              to="/contact#contact"
-              className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-[#002b66] hover:bg-[#05142f] rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
-            >
-              <span>Get a Free Quote</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
-          </div>
+            {/* Right Action: Prominent "Get a Free Quote" Button */}
+            <div className="hidden lg:flex items-center space-x-3">
+              <a
+                href="/contact#contact"
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all group cursor-pointer"
+              >
+                <span>Get a Free Quote</span>
+                <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
 
-          {/* Mobile hamburger toggle */}
-          <div className="flex items-center lg:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none cursor-pointer"
-              aria-label="Toggle Navigation Menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile Menu Hamburger Button */}
+            <div className="lg:hidden flex items-center gap-2">
+              <a
+                href="/contact#contact"
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-[#0047AB] text-white text-xs font-bold"
+              >
+                Get Quote
+              </a>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
 
-      {/* Mobile Drawer with Accordion Sub-menus */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 backdrop-blur-2xl border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 mt-2 shadow-2xl max-h-[85vh] overflow-y-auto">
-          <div className="flex flex-col space-y-1">
-            
-            {/* Mobile Home */}
-            <Link
-              to="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-4 py-2.5 text-sm font-semibold text-slate-800 hover:text-white hover:bg-[#002b66] rounded-xl transition-colors"
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-xl max-h-[85vh] overflow-y-auto">
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/about"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            About Us
+          </Link>
+
+          {/* Mobile Services */}
+          <div>
+            <button
+              onClick={() => toggleMobileSubmenu('services')}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
             >
-              Home
-            </Link>
-
-            {/* Mobile About Accordion */}
-            {/* Mobile About Accordion */}
-            <div className="border-b border-slate-100 py-1">
-              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
-                <Link
-                  to="/about"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#002b66] py-1 flex-grow"
-                >
-                  About
+              <span>Services (10)</span>
+              <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded.services ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileExpanded.services && (
+              <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50 rounded-xl mt-1">
+                <Link to="/services" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-bold text-[#0047AB]">
+                  All Services Catalog →
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSubmenu('about')}
-                  aria-label="Toggle About submenu"
-                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
-                >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['about'] ? 'rotate-180' : ''}`} />
-                </button>
+                {servicesList.map(s => (
+                  <Link
+                    key={s.id}
+                    to={`/services/${s.id}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-1 text-xs text-slate-600 hover:text-[#0047AB]"
+                  >
+                    {s.title}
+                  </Link>
+                ))}
               </div>
-              {mobileExpanded['about'] && (
-                <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
-                  <Link
-                    to="/about"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors border-b border-slate-200/60 pb-2 mb-1 cursor-pointer"
-                  >
-                    View Dedicated About Page →
-                  </Link>
-                  <Link
-                    to="/about#about"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Company Profile
-                  </Link>
-                  <Link
-                    to="/about#why-choose-us"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Why Choose Us
-                  </Link>
-                  <Link
-                    to="/how-it-works"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    How It Works
-                  </Link>
-                  <Link
-                    to="/security"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Security &amp; NDA
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Services Accordion */}
-            <div className="border-b border-slate-100 py-1">
-              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
-                <Link
-                  to="/services"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#002b66] py-1 flex-grow"
-                >
-                  Services
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSubmenu('services')}
-                  aria-label="Toggle Services submenu"
-                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
-                >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['services'] ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              {mobileExpanded['services'] && (
-                <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
-                  <Link
-                    to="/services"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors border-b border-slate-200/60 pb-2 mb-1 cursor-pointer"
-                  >
-                    View All Services Page →
-                  </Link>
-                  {servicesSubmenu.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      to={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Industries Accordion */}
-            <div className="border-b border-slate-100 py-1">
-              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
-                <Link
-                  to="/industries"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#002b66] py-1 flex-grow"
-                >
-                  Industries
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSubmenu('industries')}
-                  aria-label="Toggle Industries submenu"
-                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
-                >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['industries'] ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              {mobileExpanded['industries'] && (
-                <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
-                  <Link
-                    to="/industries"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors border-b border-slate-200/60 pb-2 mb-1 cursor-pointer"
-                  >
-                    View All Industries Page →
-                  </Link>
-                  {industriesSubmenu.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      to={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Testimonials Accordion */}
-            <div className="border-b border-slate-100 py-1">
-              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
-                <Link
-                  to="/testimonials"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#002b66] py-1 flex-grow"
-                >
-                  Testimonials
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSubmenu('testimonials')}
-                  aria-label="Toggle Testimonials submenu"
-                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
-                >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['testimonials'] ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              {mobileExpanded['testimonials'] && (
-                <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
-                  <Link
-                    to="/testimonials"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors border-b border-slate-200/60 pb-2 mb-1 cursor-pointer"
-                  >
-                    View All Reviews Page →
-                  </Link>
-                  <Link
-                    to="/testimonials#testimonials"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Client Endorsements
-                  </Link>
-                  <Link
-                    to="/testimonials#feedback"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Submit Feedback
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Contact */}
-            <div className="border-b border-slate-100 py-1">
-              <div className="w-full flex items-center justify-between px-4 py-2 text-sm font-semibold text-slate-800">
-                <Link
-                  to="/contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#002b66] py-1 flex-grow"
-                >
-                  Contact
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSubmenu('contact')}
-                  aria-label="Toggle Contact submenu"
-                  className="p-1 text-slate-500 hover:text-[#002b66] cursor-pointer"
-                >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded['contact'] ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-              {mobileExpanded['contact'] && (
-                <div className="pl-6 pr-2 py-2 space-y-1.5 bg-slate-50 rounded-xl my-1">
-                  <Link
-                    to="/contact"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-bold text-[#002b66] hover:text-white hover:bg-[#002b66] transition-colors border-b border-slate-200/60 pb-2 mb-1 cursor-pointer"
-                  >
-                    Visit Dedicated Contact Page →
-                  </Link>
-                  <Link
-                    to="/contact#contact"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-white hover:bg-[#002b66] transition-colors cursor-pointer"
-                  >
-                    Request Free Quote &amp; Proposal
-                  </Link>
-                  <a
-                    href="https://wa.me/919363164608"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block py-1.5 px-2 rounded-lg text-xs font-semibold text-emerald-700 hover:text-white hover:bg-emerald-600 transition-colors cursor-pointer"
-                  >
-                    WhatsApp Direct Chat (+91 9363164608)
-                  </a>
-                </div>
-              )}
-            </div>
-
+            )}
           </div>
 
-          <div className="pt-4 border-t border-slate-200 flex flex-col gap-3">
-            <div className="text-xs text-slate-600 px-2 flex flex-col gap-1 font-medium">
-              <span>📧 hello@datagalactic.in</span>
-              <span>📞 +91 9363164608</span>
-            </div>
-            <Link
-              to="/contact#contact"
+          {/* Mobile Industries */}
+          <div>
+            <button
+              onClick={() => toggleMobileSubmenu('industries')}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+            >
+              <span>Industries (15)</span>
+              <ChevronDown className={`w-4 h-4 transition-transform ${mobileExpanded.industries ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileExpanded.industries && (
+              <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50 rounded-xl mt-1">
+                <Link to="/industries" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-bold text-[#0047AB]">
+                  All 15 Industries Overview →
+                </Link>
+                <Link to="/industries/it-software" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-xs text-slate-600">IT &amp; Software Companies</Link>
+                <Link to="/industries/ecommerce" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-xs text-slate-600">E-commerce Companies</Link>
+                <Link to="/industries/healthcare" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-xs text-slate-600">Healthcare Organisations</Link>
+                <Link to="/industries/real-estate" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-xs text-slate-600">Real Estate Companies</Link>
+                <Link to="/industries/financial-services" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-xs text-slate-600">Financial Services</Link>
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/portfolio"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            Portfolio
+          </Link>
+
+          <Link
+            to="/how-it-works"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            How It Works
+          </Link>
+
+          <Link
+            to="/security"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            Data Security &amp; NDA
+          </Link>
+
+          <Link
+            to="/contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            Contact
+          </Link>
+
+          <div className="pt-2 border-t border-slate-100">
+            <a
+              href="/contact#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center px-5 py-3 text-sm font-bold text-white bg-[#05142f] hover:bg-sky-600 rounded-xl shadow-lg transition-colors cursor-pointer"
+              className="flex items-center justify-center w-full py-3 rounded-xl bg-[#0047AB] text-white text-sm font-bold shadow-sm"
             >
               Get a Free Quote
-            </Link>
+            </a>
           </div>
         </div>
       )}

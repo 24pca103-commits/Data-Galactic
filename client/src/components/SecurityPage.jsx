@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ShieldCheck, Lock, Sparkles } from 'lucide-react';
+import { ChevronRight, ShieldCheck, Sparkles } from 'lucide-react';
 import InnerHero3DBackground from './InnerHero3DBackground';
 import DataSecurity from './DataSecurity';
 import QuoteContactSection from './QuoteContactSection';
@@ -8,9 +8,8 @@ import QuoteContactSection from './QuoteContactSection';
 const SecurityPage = () => {
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero Header: Standardized height, 3D animated bg, exact navbar logo alignment */}
+      {/* Hero Header */}
       <div className="relative bg-[#05142f] text-white pt-28 sm:pt-32 lg:pt-36 pb-14 sm:pb-16 overflow-hidden border-b border-[#122f5c]">
-        {/* Interactive 3D Canvas Background */}
         <InnerHero3DBackground />
 
         {/* Ambient subtle glow */}
@@ -23,16 +22,16 @@ const SecurityPage = () => {
             <span className="text-[#aac7ee] font-semibold">Data Security</span>
           </nav>
 
-          <div className="max-w-2xl space-y-2">
+          <div className="max-w-3xl space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#122f5c]/90 border border-[#4c8df7]/40 text-xs font-semibold text-[#aac7ee] backdrop-blur-md">
-              <Lock className="w-3.5 h-3.5 text-[#4c8df7]" />
-              <span>Tier-1 Confidentiality &amp; Compliance</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#4c8df7]" />
+              <span>Information Protection Standards</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-['Space_Grotesk'] leading-tight">
-              Enterprise Security &amp; Compliance
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-['Space_Grotesk'] leading-tight">
+              Data Security &amp; Confidentiality
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 leading-normal font-normal">
-              Bank-grade 256-bit encryption, strict Non-Disclosure Agreements, and zero data leakage policies protecting your corporate data.
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              Learn about our comprehensive approach to protecting client data, including Non-Disclosure Agreements, role-based access restrictions, encrypted file handling, and secure data disposal policies.
             </p>
           </div>
         </div>
