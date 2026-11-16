@@ -173,52 +173,165 @@ const sendEnquiryEmails = async (enquiryData, enquiryId) => {
   const { fromEmail, adminEmail } = getMailAddresses();
   const refCode = String(enquiryId).slice(-6).toUpperCase();
 
-  // 1. Client Confirmation Email
+  // 1. Client Confirmation Email (Premium Branded Responsive Template)
   const clientOptions = {
     from: `"DataGalactic Client Support" <${fromEmail}>`,
     to: enquiryData.email,
     replyTo: adminEmail,
-    subject: `Enquiry Received: ${enquiryData.service} [Ref: #DG-${refCode}]`,
+    subject: `✅ Request Confirmed: ${enquiryData.service} [Ref: #DG-${refCode}] — DataGalactic`,
     html: `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <div style="background: #05142f; padding: 26px 24px; text-align: center;">
-          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700;">Data<span style="color: #4c8df7;">Galactic</span></h1>
-          <p style="color: #94a3b8; margin: 4px 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Precision Beyond Limits</p>
-        </div>
-        <div style="padding: 28px 24px; background: #f8fafc;">
-          <h2 style="color: #0f172a; margin-top: 0; font-size: 18px;">Thank You, ${enquiryData.name}!</h2>
-          <p style="color: #475569; font-size: 14px; line-height: 1.6;">
-            We have received your request for <strong>${enquiryData.service}</strong>. Our enterprise operations specialists are currently evaluating your project parameters.
-          </p>
-          
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin: 20px 0;">
-            <h4 style="margin: 0 0 12px; color: #05142f; font-size: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">Registration &amp; Project Summary:</h4>
-            <table style="width: 100%; font-size: 13px; color: #334155; border-collapse: collapse;">
-              <tr><td style="padding: 6px 0; color: #64748b; width: 40%;">Reference Number:</td><td style="font-weight: 700; color: #0284c7;">#DG-${refCode}</td></tr>
-              <tr><td style="padding: 6px 0; color: #64748b;">Company / Brand:</td><td style="font-weight: 600;">${enquiryData.companyName}</td></tr>
-              <tr><td style="padding: 6px 0; color: #64748b;">Requested Service:</td><td style="font-weight: 600; color: #0f172a;">${enquiryData.service}</td></tr>
-              <tr><td style="padding: 6px 0; color: #64748b;">Engagement Model:</td><td>${enquiryData.projectType}</td></tr>
-              <tr><td style="padding: 6px 0; color: #64748b;">Country / Region:</td><td>${enquiryData.country}</td></tr>
-              ${enquiryData.phone ? `<tr><td style="padding: 6px 0; color: #64748b;">Phone:</td><td>${enquiryData.phone}</td></tr>` : ''}
-              <tr><td style="padding: 6px 0; color: #64748b;">Estimated Volume:</td><td>${enquiryData.estimatedVolume || 'Standard Volume'}</td></tr>
-              ${enquiryData.file ? `<tr><td style="padding: 6px 0; color: #64748b;">Attached File:</td><td style="color: #059669; font-weight: 600;">✓ ${enquiryData.file.originalName}</td></tr>` : ''}
-            </table>
-          </div>
+      <div style="margin: 0; padding: 30px 10px; background-color: #05142f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="620" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #1e3f73;">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 34px 30px; background: linear-gradient(135deg, #05142f 0%, #0047AB 100%); text-align: center;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: middle; padding-right: 14px;">
+                    <div style="width: 48px; height: 48px; background: #0047AB; border-radius: 14px; border: 2px solid #4c8df7; color: #ffffff; font-weight: 900; font-size: 22px; line-height: 48px; text-align: center; box-shadow: 0 4px 12px rgba(0,71,171,0.5);">DG</div>
+                  </td>
+                  <td style="vertical-align: middle; text-align: left;">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">Data<span style="color: #4c8df7;">Galactic</span></h1>
+                    <p style="margin: 4px 0 0; color: #aac7ee; font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600;">Precision Beyond Limits</p>
+                  </td>
+                </tr>
+              </table>
+              <div style="display: inline-block; margin-top: 18px; padding: 6px 18px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; border-radius: 30px; color: #a7f3d0; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;">
+                ✓ REQUEST RECEIVED &amp; LOGGED
+              </div>
+            </td>
+          </tr>
 
-          <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 4px; margin: 20px 0;">
-            <p style="margin: 0; color: #1e40af; font-size: 13px; font-weight: 700;">What happens next?</p>
-            <p style="margin: 6px 0 0; color: #1e3a8a; font-size: 12px; line-height: 1.6;">
-              A Dedicated Project Manager will review your scope, prepare custom pricing, and deliver a formal quotation within <strong>12 to 24 hours</strong>.
-            </p>
-          </div>
+          <!-- Main Body -->
+          <tr>
+            <td style="padding: 32px 30px; background-color: #ffffff;">
+              <h2 style="margin: 0 0 14px; color: #0f172a; font-size: 20px; font-weight: 700;">
+                Hello, ${enquiryData.name} 👋
+              </h2>
+              <p style="margin: 0 0 20px; color: #475569; font-size: 14px; line-height: 1.65;">
+                Thank you for reaching out to <strong>DataGalactic</strong>. We have successfully registered your request for <strong style="color: #0047AB;">${enquiryData.service}</strong>. Our enterprise operations specialists are currently evaluating your requirements to provide an accurate scope and tailored quotation.
+              </p>
 
-          <p style="color: #64748b; font-size: 12px; margin-top: 24px; line-height: 1.5;">
-            Need immediate assistance or have urgent requirements? Contact our direct team at <a href="mailto:hello@datagalactic.in" style="color: #0284c7; text-decoration: none; font-weight: 600;">hello@datagalactic.in</a> or call <strong>+91 9363164608</strong>.
-          </p>
-        </div>
-        <div style="background: #05142f; padding: 16px 24px; text-align: center; color: #64748b; font-size: 11px;">
-          &copy; ${new Date().getFullYear()} DataGalactic Enterprise Services. All rights reserved.
-        </div>
+              <!-- Reference Badge Box -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; background: linear-gradient(135deg, #f0f7ff 0%, #e0effe 100%); border-radius: 12px; border: 1px solid #bae6fd; padding: 16px 20px;">
+                <tr>
+                  <td style="vertical-align: middle;">
+                    <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #0369a1; font-weight: 700;">Official Reference ID</span>
+                    <span style="font-size: 22px; font-weight: 800; color: #0047AB; letter-spacing: 1px;">#DG-${refCode}</span>
+                  </td>
+                  <td style="text-align: right; vertical-align: middle;">
+                    <span style="display: inline-block; background: #0284c7; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 700;">12-24h Response SLA</span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Project Summary Table -->
+              <h3 style="margin: 0 0 12px; color: #0f172a; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">
+                📋 Your Project Summary
+              </h3>
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; margin-bottom: 24px; background-color: #f8fafc; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0;">
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600; width: 38%;">Requested Service</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #0047AB; font-size: 14px; font-weight: 800;">${enquiryData.service}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Company / Brand</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 13px; font-weight: 700;">${enquiryData.companyName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Engagement Type</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 13px; font-weight: 600;">${enquiryData.projectType}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Country / Region</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 13px;">${enquiryData.country}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Estimated Volume</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 13px;">${enquiryData.estimatedVolume || 'Standard / Flexible Volume'}</td>
+                </tr>
+                ${enquiryData.phone ? `
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Contact Phone</td>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 13px;">${enquiryData.phone}</td>
+                </tr>` : ''}
+                <tr>
+                  <td style="padding: 12px 16px; color: #64748b; font-size: 13px; font-weight: 600;">Attachment Uploaded</td>
+                  <td style="padding: 12px 16px; color: #059669; font-size: 13px; font-weight: 600;">${enquiryData.file ? `✓ ${enquiryData.file.originalName}` : 'None provided'}</td>
+                </tr>
+              </table>
+
+              <!-- Project Scope Box -->
+              <div style="margin-bottom: 26px;">
+                <h4 style="margin: 0 0 8px; color: #0f172a; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">
+                  Submitted Requirements:
+                </h4>
+                <div style="background-color: #f8fafc; border-left: 4px solid #0047AB; padding: 14px 16px; border-radius: 6px; color: #334155; font-size: 13px; line-height: 1.6; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; white-space: pre-wrap;">${enquiryData.description}</div>
+              </div>
+
+              <!-- Next Steps Timeline Box -->
+              <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; margin-bottom: 26px;">
+                <h4 style="margin: 0 0 12px; color: #166534; font-size: 14px; font-weight: 700; display: flex; align-items: center;">
+                  🚀 What Happens Next?
+                </h4>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td style="vertical-align: top; width: 28px; padding-bottom: 10px;">
+                      <div style="width: 22px; height: 22px; background: #16a34a; color: #ffffff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 22px; font-weight: 700;">1</div>
+                    </td>
+                    <td style="vertical-align: top; padding-bottom: 10px; padding-left: 8px;">
+                      <p style="margin: 0; color: #0f172a; font-size: 13px; font-weight: 700;">Scope &amp; Feasibility Evaluation</p>
+                      <p style="margin: 2px 0 0; color: #475569; font-size: 12px;">Our team analyzes your datasets, file formats, and operational goals.</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 28px; padding-bottom: 10px;">
+                      <div style="width: 22px; height: 22px; background: #16a34a; color: #ffffff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 22px; font-weight: 700;">2</div>
+                    </td>
+                    <td style="vertical-align: top; padding-bottom: 10px; padding-left: 8px;">
+                      <p style="margin: 0; color: #0f172a; font-size: 13px; font-weight: 700;">Dedicated Project Manager Assigned</p>
+                      <p style="margin: 2px 0 0; color: #475569; font-size: 12px;">A single point of contact will prepare a custom proposal and sample proof.</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 28px;">
+                      <div style="width: 22px; height: 22px; background: #16a34a; color: #ffffff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 22px; font-weight: 700;">3</div>
+                    </td>
+                    <td style="vertical-align: top; padding-left: 8px;">
+                      <p style="margin: 0; color: #0f172a; font-size: 13px; font-weight: 700;">Quotation Delivery</p>
+                      <p style="margin: 2px 0 0; color: #475569; font-size: 12px;">You will receive the quotation and turnaround schedule within <strong>12 to 24 hours</strong>.</p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Confidentiality & Trust Guarantee -->
+              <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 14px 18px; margin-bottom: 26px;">
+                <p style="margin: 0; color: #334155; font-size: 12px; line-height: 1.5;">
+                  🔒 <strong>Strict NDA &amp; Data Security:</strong> Your data and proprietary business information are protected under strict Non-Disclosure Agreements, role-based access controls, and secure transfer standards.
+                </p>
+              </div>
+
+              <!-- Support CTA -->
+              <div style="text-align: center; padding: 10px 0 0;">
+                <p style="margin: 0 0 10px; color: #64748b; font-size: 13px;">Have urgent deadlines or need immediate assistance?</p>
+                <a href="mailto:${adminEmail}?subject=Urgent%20Inquiry%20regarding%20Ref%20#DG-${refCode}" style="display: inline-block; background: #0047AB; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,71,171,0.3);">
+                  Reply to this Email &rarr;
+                </a>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 30px; background-color: #05142f; text-align: center; border-top: 1px solid #142d57;">
+              <p style="margin: 0; color: #ffffff; font-size: 13px; font-weight: 700;">DataGalactic Enterprise Outsourcing Operations</p>
+              <p style="margin: 6px 0 0; color: #94a3b8; font-size: 12px;">Email: <a href="mailto:hello@datagalactic.in" style="color: #4c8df7; text-decoration: none;">hello@datagalactic.in</a> | Phone: <span style="color: #ffffff;">+91 9363164608</span></p>
+              <p style="margin: 6px 0 0; color: #64748b; font-size: 11px;">Tamil Nadu, India &bull; Serving Clients in US, UK, Canada, Australia &amp; UAE</p>
+              <p style="margin: 12px 0 0; color: #475569; font-size: 11px;">&copy; ${new Date().getFullYear()} DataGalactic. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
       </div>
     `
   };
@@ -426,37 +539,78 @@ const sendFeedbackEmails = async (feedbackData, feedbackId) => {
       from: `"DataGalactic Client Care" <${fromEmail}>`,
       to: feedbackData.email,
       replyTo: adminEmail,
-      subject: `Thank You for Your Feedback! — DataGalactic`,
+      subject: `⭐ Thank You for Your Feedback! — DataGalactic`,
       html: `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-          <div style="background: #05142f; padding: 26px 24px; text-align: center;">
-            <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700;">Data<span style="color: #4c8df7;">Galactic</span></h1>
-            <p style="color: #94a3b8; margin: 4px 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Precision Beyond Limits</p>
-          </div>
-          <div style="padding: 28px 24px; background: #f8fafc;">
-            <h2 style="color: #0f172a; margin-top: 0; font-size: 18px;">Thank You, ${feedbackData.name}!</h2>
-            <p style="color: #475569; font-size: 14px; line-height: 1.6;">
-              We sincerely appreciate you taking the time to share your feedback regarding our <strong>${feedbackData.serviceType}</strong> services.
-            </p>
+        <div style="margin: 0; padding: 30px 10px; background-color: #05142f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+          <table align="center" border="0" cellpadding="0" cellspacing="0" width="620" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #1e3f73;">
+            <!-- Header -->
+            <tr>
+              <td style="padding: 34px 30px; background: linear-gradient(135deg, #05142f 0%, #0047AB 100%); text-align: center;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="vertical-align: middle; padding-right: 14px;">
+                      <div style="width: 48px; height: 48px; background: #0047AB; border-radius: 14px; border: 2px solid #4c8df7; color: #ffffff; font-weight: 900; font-size: 22px; line-height: 48px; text-align: center;">DG</div>
+                    </td>
+                    <td style="vertical-align: middle; text-align: left;">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">Data<span style="color: #4c8df7;">Galactic</span></h1>
+                      <p style="margin: 4px 0 0; color: #aac7ee; font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 600;">Precision Beyond Limits</p>
+                    </td>
+                  </tr>
+                </table>
+                <div style="display: inline-block; margin-top: 18px; padding: 6px 18px; background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; border-radius: 30px; color: #fde68a; font-size: 12px; font-weight: 700;">
+                  ⭐ CLIENT REVIEW RECEIVED
+                </div>
+              </td>
+            </tr>
 
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin: 20px 0;">
-              <div style="font-size: 18px; color: #f59e0b; margin-bottom: 8px;">${stars} <span style="font-size: 13px; color: #64748b; font-weight: 600;">(${feedbackData.rating}/5)</span></div>
-              <div style="color: #334155; font-size: 13px; line-height: 1.6; font-style: italic; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                "${feedbackData.quote}"
-              </div>
-            </div>
+            <!-- Main Body -->
+            <tr>
+              <td style="padding: 32px 30px; background-color: #ffffff;">
+                <h2 style="margin: 0 0 14px; color: #0f172a; font-size: 20px; font-weight: 700;">
+                  Thank You, ${feedbackData.name}! 👋
+                </h2>
+                <p style="margin: 0 0 20px; color: #475569; font-size: 14px; line-height: 1.65;">
+                  We truly appreciate you taking the time to share your experience with <strong>DataGalactic</strong> regarding our <strong style="color: #0047AB;">${feedbackData.serviceType}</strong> services.
+                </p>
 
-            <p style="color: #475569; font-size: 13px; line-height: 1.6;">
-              Client partnerships and rigorous standards are at the heart of DataGalactic. Your insights help us continually deliver high accuracy, fast SLAs, and dependable data support.
-            </p>
+                <!-- Feedback Display Card -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                  <div style="margin-bottom: 12px; font-size: 18px; color: #f59e0b; letter-spacing: 2px;">
+                    ${stars} <span style="font-size: 13px; color: #64748b; font-weight: 700; margin-left: 6px;">(${feedbackData.rating} out of 5 Stars)</span>
+                  </div>
+                  <div style="background-color: #ffffff; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 6px; color: #334155; font-size: 13px; line-height: 1.6; font-style: italic; border-top: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;">
+                    "${feedbackData.quote}"
+                  </div>
+                  <div style="margin-top: 12px; font-size: 12px; color: #64748b;">
+                    <strong>Service:</strong> ${feedbackData.serviceType} &bull; <strong>Company:</strong> ${feedbackData.company || 'Enterprise Partner'}
+                  </div>
+                </div>
 
-            <p style="color: #64748b; font-size: 12px; margin-top: 24px;">
-              Looking to expand your workflows or need additional assistance? Reach us anytime at <a href="mailto:hello@datagalactic.in" style="color: #0284c7; text-decoration: none; font-weight: 600;">hello@datagalactic.in</a>.
-            </p>
-          </div>
-          <div style="background: #05142f; padding: 16px 24px; text-align: center; color: #64748b; font-size: 11px;">
-            &copy; ${new Date().getFullYear()} DataGalactic Enterprise Services. All rights reserved.
-          </div>
+                <p style="color: #475569; font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+                  Client trust and rigorous data standards are at the foundation of everything we do. Feedback like yours drives our team to consistently deliver 99.9% accuracy and dependable SLA turnarounds.
+                </p>
+
+                <!-- Next Collaboration Callout -->
+                <div style="background: linear-gradient(135deg, #f0f7ff 0%, #e0effe 100%); border: 1px solid #bae6fd; border-radius: 12px; padding: 18px 20px; text-align: center; margin-bottom: 24px;">
+                  <h4 style="margin: 0 0 6px; color: #0047AB; font-size: 14px; font-weight: 700;">Need to scale more datasets or start a new project?</h4>
+                  <p style="margin: 0 0 14px; color: #475569; font-size: 12px;">Our team is ready to support your upcoming operations and research demands.</p>
+                  <a href="mailto:${adminEmail}?subject=New%20Data%20Project%20Inquiry%20from%20${encodeURIComponent(feedbackData.name)}" style="display: inline-block; background: #0047AB; color: #ffffff; text-decoration: none; padding: 10px 24px; border-radius: 8px; font-size: 12px; font-weight: 700;">
+                    Consult Our Team &rarr;
+                  </a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 24px 30px; background-color: #05142f; text-align: center; border-top: 1px solid #142d57;">
+                <p style="margin: 0; color: #ffffff; font-size: 13px; font-weight: 700;">DataGalactic Client Operations</p>
+                <p style="margin: 6px 0 0; color: #94a3b8; font-size: 12px;">Email: <a href="mailto:hello@datagalactic.in" style="color: #4c8df7; text-decoration: none;">hello@datagalactic.in</a> | Phone: <span style="color: #ffffff;">+91 9363164608</span></p>
+                <p style="margin: 6px 0 0; color: #64748b; font-size: 11px;">Tamil Nadu, India &bull; Serving Clients Worldwide</p>
+                <p style="margin: 12px 0 0; color: #475569; font-size: 11px;">&copy; ${new Date().getFullYear()} DataGalactic. All rights reserved.</p>
+              </td>
+            </tr>
+          </table>
         </div>
       `
     };
