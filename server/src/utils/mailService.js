@@ -230,36 +230,103 @@ const sendEnquiryEmails = async (enquiryData, enquiryId) => {
     replyTo: enquiryData.email,
     subject: `🚨 [New Lead #DG-${refCode}] ${enquiryData.name} (${enquiryData.companyName}) - ${enquiryData.service}`,
     html: `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 24px; background: #f1f5f9;">
-        <div style="max-width: 620px; margin: 0 auto; background: #ffffff; padding: 28px; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 4px 10px rgba(0,0,0,0.04);">
-          <div style="border-bottom: 2px solid #0284c7; padding-bottom: 14px; margin-bottom: 20px;">
-            <h2 style="color: #0f172a; margin: 0; font-size: 20px;">⚡ New Project Consultation Request</h2>
-            <p style="color: #64748b; margin: 4px 0 0; font-size: 12px;">Reference: #DG-${refCode} | Logged: ${new Date().toLocaleString()}</p>
-          </div>
+      <div style="margin: 0; padding: 30px 10px; background-color: #05142f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="620" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #1e3f73;">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 32px 30px; background: linear-gradient(135deg, #05142f 0%, #0d4ba3 100%); text-align: center;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: middle; padding-right: 12px;">
+                    <div style="width: 44px; height: 44px; background: #0047AB; border-radius: 12px; border: 2px solid #4c8df7; color: #ffffff; font-weight: 900; font-size: 20px; line-height: 44px; text-align: center;">DG</div>
+                  </td>
+                  <td style="vertical-align: middle; text-align: left;">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Data<span style="color: #4c8df7;">Galactic</span></h1>
+                    <p style="margin: 3px 0 0; color: #aac7ee; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">Precision Beyond Limits</p>
+                  </td>
+                </tr>
+              </table>
+              <div style="display: inline-block; margin-top: 18px; padding: 6px 16px; background: rgba(76, 141, 247, 0.2); border: 1px solid #4c8df7; border-radius: 30px; color: #aac7ee; font-size: 12px; font-weight: 700;">
+                🚨 REAL-TIME LEAD NOTIFICATION ALERT
+              </div>
+            </td>
+          </tr>
 
-          <table style="width: 100%; font-size: 13px; color: #334155; border-collapse: collapse;">
-            <tr style="background: #f8fafc;"><td style="padding: 8px 12px; font-weight: 600; width: 35%;">Client Name:</td><td style="padding: 8px 12px;">${enquiryData.name}</td></tr>
-            <tr><td style="padding: 8px 12px; font-weight: 600;">Company Name:</td><td style="padding: 8px 12px; font-weight: bold; color: #0284c7;">${enquiryData.companyName}</td></tr>
-            <tr style="background: #f8fafc;"><td style="padding: 8px 12px; font-weight: 600;">Business Email:</td><td style="padding: 8px 12px;"><a href="mailto:${enquiryData.email}" style="color: #0284c7; text-decoration: none;">${enquiryData.email}</a></td></tr>
-            <tr><td style="padding: 8px 12px; font-weight: 600;">Phone:</td><td style="padding: 8px 12px;">${enquiryData.phone || 'Not provided'}</td></tr>
-            <tr style="background: #f8fafc;"><td style="padding: 8px 12px; font-weight: 600;">Country / Region:</td><td style="padding: 8px 12px;">${enquiryData.country}</td></tr>
-            <tr><td style="padding: 8px 12px; font-weight: 600;">Service Requested:</td><td style="padding: 8px 12px; font-weight: 700; color: #0f172a;">${enquiryData.service}</td></tr>
-            <tr style="background: #f8fafc;"><td style="padding: 8px 12px; font-weight: 600;">Engagement Type:</td><td style="padding: 8px 12px;">${enquiryData.projectType}</td></tr>
-            <tr><td style="padding: 8px 12px; font-weight: 600;">Estimated Volume:</td><td style="padding: 8px 12px;">${enquiryData.estimatedVolume || 'Not specified'}</td></tr>
-            <tr style="background: #f8fafc;"><td style="padding: 8px 12px; font-weight: 600;">File Attachment:</td><td style="padding: 8px 12px;">${enquiryData.file ? enquiryData.file.originalName : 'No file attached'}</td></tr>
-          </table>
+          <!-- Body Content -->
+          <tr>
+            <td style="padding: 32px 30px; background-color: #ffffff;">
+              <h2 style="margin: 0 0 10px; color: #0f172a; font-size: 20px; font-weight: 700;">⚡ New Project Consultation Request</h2>
+              <p style="margin: 0 0 24px; color: #64748b; font-size: 13px;">A new client has submitted a project enquiry on the <strong>DataGalactic</strong> portal. Below are the verified details:</p>
 
-          <div style="margin-top: 20px;">
-            <p style="font-weight: 600; color: #0f172a; margin-bottom: 6px; font-size: 13px;">Project Description &amp; Scope:</p>
-            <div style="background: #f8fafc; padding: 14px; border-radius: 6px; border: 1px solid #e2e8f0; color: #334155; font-size: 13px; line-height: 1.6; white-space: pre-wrap;">
-              ${enquiryData.description}
-            </div>
-          </div>
+              <!-- Client Key Info Table -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; width: 35%; font-weight: 600;">Reference ID</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0047AB; font-size: 14px; font-weight: 800; font-family: monospace;">#DG-${refCode}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Client Name</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 14px; font-weight: 700;">${enquiryData.name}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Company / Brand</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 14px; font-weight: 700;">${enquiryData.companyName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Business Email</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0047AB; font-size: 13px; font-weight: 700;"><a href="mailto:${enquiryData.email}" style="color: #0047AB; text-decoration: none;">${enquiryData.email}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Phone / WhatsApp</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #059669; font-size: 13px; font-weight: 700;">${enquiryData.phone || 'Not provided'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Country / Region</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 13px; font-weight: 600;">${enquiryData.country}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Requested Service</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #0047AB; font-size: 14px; font-weight: 800;">${enquiryData.service}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Engagement Type</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 13px;">${enquiryData.projectType}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Estimated Volume</td>
+                  <td style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 13px; font-weight: 600;">${enquiryData.estimatedVolume || 'Not specified'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 18px; color: #64748b; font-size: 13px; font-weight: 600;">File Attachment</td>
+                  <td style="padding: 14px 18px; color: #0f172a; font-size: 13px; font-weight: 600;">${enquiryData.file ? `📎 ${enquiryData.file.originalName}` : 'None'}</td>
+                </tr>
+              </table>
 
-          <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b;">
-            💡 View this lead in real-time in the <strong style="color: #0f172a;">DataGalactic Admin Dashboard</strong>.
-          </div>
-        </div>
+              <!-- Project Scope / Description -->
+              <div style="margin-bottom: 24px;">
+                <h4 style="margin: 0 0 8px; color: #0f172a; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Project Scope &amp; Specifications:</h4>
+                <div style="background-color: #f1f5f9; border-left: 4px solid #0047AB; padding: 16px; border-radius: 6px; color: #334155; font-size: 13px; line-height: 1.6; white-space: pre-wrap;">
+                  ${enquiryData.description}
+                </div>
+              </div>
+
+              <!-- Action Link -->
+              <div style="text-align: center; margin: 28px 0 10px;">
+                <a href="mailto:${enquiryData.email}?subject=DataGalactic%20Proposal%20for%20${encodeURIComponent(enquiryData.service)}%20[Ref:%20#DG-${refCode}]" style="display: inline-block; background: linear-gradient(135deg, #002b66 0%, #0047AB 100%); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 14px rgba(0,71,171,0.4);">
+                  Reply Directly to Client &rarr;
+                </a>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 20px 30px; background-color: #05142f; text-align: center; border-top: 1px solid #142d57;">
+              <p style="margin: 0; color: #94a3b8; font-size: 12px;">&copy; 2026 DataGalactic Operations Center. Tamil Nadu, India.</p>
+              <p style="margin: 5px 0 0; color: #64748b; font-size: 11px;">Automated Real-Time Dispatch System | Serving US, UK, CA, AU &amp; UAE</p>
+            </td>
+          </tr>
+        </table>
       </div>
     `
   };
