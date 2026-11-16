@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, ShieldCheck, Globe2, Sparkles, Database, FileSpreadsheet, Layers } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Globe2, Sparkles, Database, Lock, Award } from 'lucide-react';
 import DataVisualizer3D from './DataVisualizer3D';
-import DataOpsVisualizer from './DataOpsVisualizer';
+import CyberPortal3D from './CyberPortal3D';
 
 const Hero = () => {
   const trustHighlights = [
@@ -95,9 +95,40 @@ const Hero = () => {
 
           </div>
 
-          {/* Right Column: Professional Data Operations & Spreadsheet Visualizer */}
-          <div className="lg:col-span-5 relative flex justify-center px-2 sm:px-4 py-4 w-full">
-            <DataOpsVisualizer />
+          {/* Right Column: 3D Holographic Cyber Portal with Floating Badges */}
+          <div className="lg:col-span-5 relative flex justify-center items-center px-2 sm:px-4 py-4 w-full">
+            <div className="relative w-full max-w-[340px] xs:max-w-[390px] sm:max-w-[460px] lg:max-w-[480px] aspect-square flex items-center justify-center">
+              {/* Radial glow background */}
+              <div className="absolute inset-0 bg-radial from-cyan-500/25 via-blue-600/15 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+              {/* 3D Cybernetic Holographic Portal Component */}
+              <CyberPortal3D />
+
+              {/* Floating Glowing Badges around the 3D Portal */}
+              {/* 1. Top-Left: 99.9% Accuracy SLA */}
+              <div className="absolute -top-1 left-0 sm:-left-3 z-20 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#07132b]/95 border border-cyan-400/80 shadow-[0_0_18px_rgba(6,182,212,0.4)] backdrop-blur-md flex items-center gap-1.5 sm:gap-2 text-white animate-float-gentle">
+                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span className="font-semibold text-[11px] sm:text-xs text-white tracking-wide">99.9% Accuracy SLA</span>
+              </div>
+
+              {/* 2. Top-Right: Zero Error Workflow */}
+              <div className="absolute top-4 right-0 sm:-right-3 z-20 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#07132b]/95 border border-cyan-400/80 shadow-[0_0_18px_rgba(6,182,212,0.4)] backdrop-blur-md flex items-center gap-1.5 sm:gap-2 text-white animate-float-delayed">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span className="font-semibold text-[11px] sm:text-xs text-white tracking-wide">Zero Error Workflow</span>
+              </div>
+
+              {/* 3. Bottom-Left: Dual-Key QA Audited */}
+              <div className="absolute bottom-6 left-0 sm:-left-3 z-20 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#07132b]/95 border border-cyan-400/80 shadow-[0_0_18px_rgba(6,182,212,0.4)] backdrop-blur-md flex items-center gap-1.5 sm:gap-2 text-white animate-float-slow">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="font-semibold text-[11px] sm:text-xs text-white tracking-wide">Dual-Key QA Audited</span>
+              </div>
+
+              {/* 4. Bottom-Right: Enterprise Back-Office */}
+              <div className="absolute -bottom-1 right-0 sm:-right-3 z-20 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#07132b]/95 border border-[#4c8df7]/80 shadow-[0_0_18px_rgba(76,141,247,0.4)] backdrop-blur-md flex items-center gap-1.5 sm:gap-2 text-white animate-float-gentle">
+                <Lock className="w-3.5 h-3.5 text-[#4c8df7] shrink-0" />
+                <span className="font-semibold text-[11px] sm:text-xs text-white tracking-wide">Enterprise Back-Office</span>
+              </div>
+            </div>
           </div>
 
         </div>
