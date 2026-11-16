@@ -39,7 +39,7 @@ const servicesList = [
   'Data Extraction',
   'Database Building',
   'Data Validation & Verification',
-  'B2B Lead Generation',
+  'Business & Company Research',
   'Web Research Services',
   'Market Research',
   'CRM & Product Data Management',
@@ -272,14 +272,14 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
           
           {/* Left Column: Direct Communication & Office Info */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-7 sm:p-8 rounded-3xl bg-gradient-to-br from-[#05142f] via-[#09224f] to-[#0047AB] text-white shadow-xl space-y-6 relative overflow-hidden border border-blue-400/20">
+            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#05142f] via-[#09224f] to-[#0047AB] text-white shadow-xl space-y-5 sm:space-y-6 relative overflow-hidden border border-blue-400/20">
               
               <div className="space-y-2">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#aac7ee] text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
                   <Sparkles className="w-3.5 h-3.5 text-[#4c8df7]" />
                   Direct Consultation
                 </span>
-                <h3 className="text-2xl font-bold font-['Space_Grotesk'] text-white">
+                <h3 className="text-xl sm:text-2xl font-bold font-['Space_Grotesk'] text-white">
                   Direct Communication
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -287,45 +287,45 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                 </p>
               </div>
               
-              <div className="space-y-3.5 text-sm">
+              <div className="space-y-3 sm:space-y-3.5 text-sm">
                 <a
                   href="mailto:hello@datagalactic.in"
-                  className="flex items-center gap-3.5 p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all group backdrop-blur-sm"
+                  className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all group backdrop-blur-sm"
                 >
-                  <div className="p-2.5 rounded-xl bg-[#4c8df7] text-slate-950 font-bold group-hover:scale-110 transition-transform">
-                    <Mail className="w-5 h-5" />
+                  <div className="p-2 sm:p-2.5 rounded-xl bg-[#4c8df7] text-slate-950 font-bold group-hover:scale-110 transition-transform shrink-0">
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-[#aac7ee] font-medium uppercase tracking-wider">Priority Business Inbox</p>
-                    <p className="font-bold text-white text-base truncate">hello@datagalactic.in</p>
-                    <p className="text-[11px] text-emerald-300 font-medium">12–24h response SLA guaranteed</p>
+                    <p className="text-[10px] sm:text-[11px] text-[#aac7ee] font-medium uppercase tracking-wider">Priority Business Inbox</p>
+                    <p className="font-bold text-white text-sm sm:text-base truncate">hello@datagalactic.in</p>
+                    <p className="text-[10px] sm:text-[11px] text-emerald-300 font-medium">12–24h response SLA guaranteed</p>
                   </div>
                 </a>
 
                 <a
                   href="mailto:datagalactic2@gmail.com"
-                  className="flex items-center gap-3.5 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                  className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
                 >
-                  <div className="p-2.5 rounded-xl bg-blue-300/20 text-blue-200 group-hover:scale-110 transition-transform">
-                    <Mail className="w-5 h-5" />
+                  <div className="p-2 sm:p-2.5 rounded-xl bg-blue-300/20 text-blue-200 group-hover:scale-110 transition-transform shrink-0">
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-slate-300 font-medium uppercase tracking-wider">Secondary Inquiries</p>
-                    <p className="font-semibold text-slate-100 text-sm truncate">datagalactic2@gmail.com</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-300 font-medium uppercase tracking-wider">Secondary Inquiries</p>
+                    <p className="font-semibold text-slate-100 text-xs sm:text-sm truncate">datagalactic2@gmail.com</p>
                   </div>
                 </a>
 
                 <a
                   href="tel:+919363164608"
-                  className="flex items-center gap-3.5 p-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/20 border border-emerald-400/30 transition-all group"
+                  className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/20 border border-emerald-400/30 transition-all group"
                 >
-                  <div className="p-2.5 rounded-xl bg-emerald-400 text-slate-950 font-bold group-hover:scale-110 transition-transform">
-                    <Phone className="w-5 h-5" />
+                  <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-400 text-slate-950 font-bold group-hover:scale-110 transition-transform shrink-0">
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] text-emerald-300 font-medium uppercase tracking-wider">Phone &amp; WhatsApp Direct Line</p>
-                    <p className="font-bold text-white text-base">+91 9363164608</p>
-                    <p className="text-[11px] text-emerald-200">International project coordination</p>
+                    <p className="text-[10px] sm:text-[11px] text-emerald-300 font-medium uppercase tracking-wider">Phone &amp; WhatsApp Direct Line</p>
+                    <p className="font-bold text-white text-sm sm:text-base truncate">+91 9363164608</p>
+                    <p className="text-[10px] sm:text-[11px] text-emerald-200">International project coordination</p>
                   </div>
                 </a>
               </div>
@@ -357,7 +357,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
 
           {/* Right Column: Lead Generation Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xl relative">
+            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-xl relative">
               
               {/* Success View */}
               {successData ? (
@@ -560,7 +560,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                       Phone Number (Optional / WhatsApp)
                     </label>
                     <div className="flex items-center rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#0047AB] focus-within:bg-white transition-all overflow-hidden">
-                      <span className="px-3.5 py-2.5 text-xs sm:text-sm text-slate-600 bg-slate-100 border-r border-slate-200 font-mono flex items-center gap-1.5">
+                      <span className="px-3 sm:px-3.5 py-2.5 text-xs sm:text-sm text-slate-600 bg-slate-100 border-r border-slate-200 font-mono flex items-center gap-1.5 shrink-0">
                         <span>{selectedCountry.flag}</span>
                         <span>{selectedCountry.dial}</span>
                       </span>
@@ -569,7 +569,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
                         value={formData.phoneDigits}
                         onChange={handlePhoneDigitsChange}
                         placeholder={selectedCountry.placeholder}
-                        className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 outline-none bg-transparent"
+                        className="w-full min-w-0 px-3 sm:px-4 py-2.5 text-xs sm:text-sm text-slate-900 outline-none bg-transparent"
                       />
                     </div>
                   </div>

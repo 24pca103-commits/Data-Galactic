@@ -86,9 +86,9 @@ const AboutUs = () => {
         </div>
 
         {/* Executive Verification & Direct Details Bar */}
-        <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-wrap items-center justify-between gap-6">
+        <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#0047AB] border border-blue-100 flex items-center justify-center font-bold text-base font-['Outfit']">
+            <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#0047AB] border border-blue-100 flex items-center justify-center font-bold text-base font-['Outfit'] shrink-0">
               DG
             </div>
             <div>
@@ -97,10 +97,10 @@ const AboutUs = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 text-xs w-full md:w-auto">
             <Link
               to="/about"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold transition-colors text-center"
             >
               <span>Learn More About Us</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#0047AB]" />
@@ -108,7 +108,7 @@ const AboutUs = () => {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white font-semibold transition-colors text-center"
             >
               <span>Request Consultation</span>
               <ArrowRight className="w-3.5 h-3.5" />

@@ -19,7 +19,7 @@ import { portfolioData } from '../data/siteData';
 
 const iconMap = {
   'data-cleaning-spreadsheet': FileSpreadsheet,
-  'b2b-lead-generation-database': Database,
+  'market-research-database': Database,
   'ecommerce-product-data-management': ShoppingCart,
   'pdf-to-excel-conversion': FileCode,
   'company-research-market-data': TrendingUp,
@@ -131,18 +131,18 @@ const PortfolioSection = () => {
 
         {/* Modal: Interactive Project Detail View (Input, Process, Output) */}
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200 p-6 sm:p-8 space-y-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white shadow-2xl border border-slate-200 p-4 sm:p-8 space-y-4 sm:space-y-6">
               
               {/* Modal Header */}
-              <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200">
-                <div>
+              <div className="flex items-start justify-between gap-3 sm:gap-4 pb-4 border-b border-slate-200">
+                <div className="min-w-0">
                   <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-[10px] font-mono font-bold text-[#0047AB] mb-1.5">
                     <span>{selectedProject.badge}</span>
                     <span>•</span>
                     <span>{selectedProject.category}</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-['Space_Grotesk']">
+                  <h3 className="text-lg sm:text-2xl font-bold text-slate-900 font-['Space_Grotesk'] leading-tight">
                     {selectedProject.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
@@ -152,10 +152,10 @@ const PortfolioSection = () => {
 
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors shrink-0 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors shrink-0 cursor-pointer"
                   aria-label="Close Modal"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
@@ -164,16 +164,16 @@ const PortfolioSection = () => {
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
                   Business Scenario &amp; Requirement:
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 sm:p-3.5 rounded-2xl border border-slate-200/80">
                   {selectedProject.clientScenario}
                 </p>
               </div>
 
               {/* 3 Pillars: Input -> Process -> Output */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
                 
                 {/* 1. INPUT */}
-                <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-2">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-amber-800 uppercase tracking-wider font-mono">
                     <span className="w-2 h-2 rounded-full bg-amber-600" />
                     <span>1. Input Format</span>
@@ -182,14 +182,14 @@ const PortfolioSection = () => {
                   <p className="text-[11px] text-slate-600">{selectedProject.input.issues}</p>
                   <div className="pt-2 border-t border-amber-200/60">
                     <p className="text-[10px] font-mono text-slate-500 uppercase">Sample Snippet:</p>
-                    <pre className="text-[10px] font-mono bg-white p-2 rounded-lg border border-amber-200/60 mt-1 text-slate-700 whitespace-pre-wrap overflow-x-auto">
+                    <pre className="text-[10px] font-mono bg-white p-2 rounded-lg border border-amber-200/60 mt-1 text-slate-700 whitespace-pre-wrap break-all overflow-x-auto max-h-32">
                       {selectedProject.input.sampleSnippet}
                     </pre>
                   </div>
                 </div>
 
                 {/* 2. PROCESS */}
-                <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-200/80 space-y-2">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-blue-50/50 border border-blue-200/80 space-y-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#0047AB] uppercase tracking-wider font-mono">
                     <span className="w-2 h-2 rounded-full bg-[#0047AB]" />
                     <span>2. Our Process</span>
@@ -205,7 +205,7 @@ const PortfolioSection = () => {
                 </div>
 
                 {/* 3. OUTPUT */}
-                <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200/80 space-y-2">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200/80 space-y-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 uppercase tracking-wider font-mono">
                     <span className="w-2 h-2 rounded-full bg-emerald-600" />
                     <span>3. Clean Output</span>
@@ -220,23 +220,23 @@ const PortfolioSection = () => {
               </div>
 
               {/* Modal Footer CTA */}
-              <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
                 <span className="text-xs text-slate-500">
                   Need a similar workflow or custom dataset processing?
                 </span>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer"
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer text-center"
                   >
                     Close
                   </button>
                   <a
                     href="#contact"
                     onClick={() => setSelectedProject(null)}
-                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs font-semibold transition-colors shadow-sm cursor-pointer text-center"
                   >
-                    <span>Request Similar Project Scope</span>
+                    <span>Request Similar Scope</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>

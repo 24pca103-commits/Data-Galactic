@@ -131,17 +131,17 @@ const Navbar = () => {
           <div className="flex items-center justify-between">
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
               <img
                 src="/dg-monogram.png"
                 alt="DataGalactic Monogram"
-                className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
+                className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105 duration-200 shrink-0"
               />
               <div className="flex flex-col text-left">
-                <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
+                <span className="text-base sm:text-xl font-black tracking-tight text-slate-900 font-['Outfit'] leading-tight">
                   Data<span className="text-[#0047AB]">Galactic</span>
                 </span>
-                <span className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-slate-500 font-bold leading-none mt-0.5">
+                <span className="text-[8px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] uppercase text-slate-500 font-bold leading-none mt-0.5">
                   Precision Beyond Limits
                 </span>
               </div>
@@ -290,7 +290,7 @@ const Navbar = () => {
                         Digital Marketing Agencies
                       </Link>
                       <Link to="/industries/leadgen-agencies" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
-                        B2B Lead Generation Agencies
+                        Research &amp; Consulting Agencies
                       </Link>
                       <Link to="/industries/ecommerce" onClick={() => setActiveDropdown(null)} className="p-2 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-[#0047AB] transition-colors font-medium">
                         E-commerce Companies
@@ -353,19 +353,19 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Hamburger Button */}
-            <div className="lg:hidden flex items-center gap-2">
+            <div className="lg:hidden flex items-center gap-1.5 sm:gap-2 shrink-0">
               <a
                 href="/contact#contact"
-                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-[#0047AB] text-white text-xs font-bold"
+                className="inline-flex items-center justify-center px-2.5 sm:px-3 py-1.5 rounded-lg bg-[#0047AB] text-white text-[11px] sm:text-xs font-bold shrink-0"
               >
                 Get Quote
               </a>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none"
+                className="p-1.5 sm:p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none"
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
               </button>
             </div>
 
@@ -375,7 +375,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-xl max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-2.5 shadow-2xl max-h-[82vh] overflow-y-auto overscroll-contain">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}

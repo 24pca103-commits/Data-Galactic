@@ -81,7 +81,7 @@ const FAQSection = () => {
         </div>
 
         {/* Bottom Helper Box */}
-        <div className="mt-12 p-6 rounded-3xl bg-white border border-slate-200 flex flex-wrap items-center justify-between gap-4 text-center sm:text-left shadow-xs">
+        <div className="mt-12 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs">
           <div>
             <h4 className="text-base font-bold text-slate-900 font-['Space_Grotesk']">
               Have a specific question not covered here?
@@ -92,10 +92,10 @@ const FAQSection = () => {
           </div>
           <a
             href="#contact"
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm mx-auto sm:mx-0"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-2.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm shrink-0 text-center"
           >
             <span>Ask a Question</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
+            <ArrowRight className="w-4 h-4 ml-2 shrink-0" />
           </a>
         </div>
 

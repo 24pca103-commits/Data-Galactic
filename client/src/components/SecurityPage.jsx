@@ -16,9 +16,9 @@ const SecurityPage = () => {
         <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#4c8df7]/15 blur-[100px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-left">
-          <nav className="flex items-center gap-2 text-xs text-slate-400 mb-2.5 font-medium">
+          <nav className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-slate-400 mb-2.5 font-medium">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+            <ChevronRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
             <span className="text-[#aac7ee] font-semibold">Data Security</span>
           </nav>
 

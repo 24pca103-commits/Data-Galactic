@@ -100,10 +100,10 @@ const HowItWorks = () => {
         <div className="mt-12 text-center">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-sm font-semibold transition-all shadow-md hover:shadow-lg cursor-pointer"
+            className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-xl bg-[#0047AB] hover:bg-[#002b66] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg cursor-pointer text-center"
           >
             <span>Start Step 1: Share Your Requirements</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
+            <ArrowRight className="w-4 h-4 ml-2 shrink-0" />
           </a>
         </div>
 

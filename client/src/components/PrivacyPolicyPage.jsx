@@ -10,9 +10,9 @@ const PrivacyPolicyPage = () => {
       <div className="relative bg-[#05142f] text-white pt-28 sm:pt-32 lg:pt-36 pb-14 sm:pb-16 overflow-hidden border-b border-[#122f5c]">
         <InnerHero3DBackground />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-left">
-          <nav className="flex items-center gap-2 text-xs text-slate-400 mb-2.5 font-medium">
+          <nav className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-slate-400 mb-2.5 font-medium">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+            <ChevronRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
             <span className="text-[#aac7ee] font-semibold">Privacy Policy</span>
           </nav>
 

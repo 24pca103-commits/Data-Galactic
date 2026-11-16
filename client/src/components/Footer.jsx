@@ -23,7 +23,7 @@ const Footer = () => {
     { name: 'Data Extraction', href: '/services/data-extraction' },
     { name: 'Database Building', href: '/services/database-building' },
     { name: 'Data Validation & Verification', href: '/services/data-validation' },
-    { name: 'B2B Lead Generation', href: '/services/b2b-lead-generation' },
+    { name: 'Business & Company Research', href: '/services/company-research' },
     { name: 'Web Research Services', href: '/services/web-research' },
     { name: 'CRM & Product Data Management', href: '/services/crm-product-data' },
     { name: 'Document Digitization & Conversion', href: '/services/document-digitization' },
@@ -33,7 +33,7 @@ const Footer = () => {
   const industryLinks = [
     { name: 'IT & Software Companies', href: '/industries/it-software' },
     { name: 'Digital Marketing Agencies', href: '/industries/marketing-agencies' },
-    { name: 'B2B Lead Generation Agencies', href: '/industries/leadgen-agencies' },
+    { name: 'Research & Consulting Agencies', href: '/industries/leadgen-agencies' },
     { name: 'E-commerce Companies', href: '/industries/ecommerce' },
     { name: 'Hospitals & Healthcare', href: '/industries/healthcare' },
     { name: 'Real Estate Companies', href: '/industries/real-estate' },

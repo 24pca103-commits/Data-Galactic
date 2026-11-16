@@ -13,9 +13,9 @@ export const serviceCategories = [
   },
   {
     id: 'business-research',
-    name: 'Business Research & Lead Generation',
-    description: 'Actionable B2B prospect intelligence, comprehensive web research, and structured market analytics.',
-    serviceIds: ['b2b-lead-generation', 'web-research', 'market-research']
+    name: 'Business & Web Research',
+    description: 'In-depth company intelligence, comprehensive web research, and structured market analytics.',
+    serviceIds: ['company-research', 'web-research', 'market-research']
   },
   {
     id: 'operations-support',
@@ -101,7 +101,7 @@ export const servicesData = {
     suitableIndustries: [
       'Digital Marketing Agencies',
       'IT & Software Companies',
-      'B2B Lead Generation Agencies',
+      'Research & Consulting Agencies',
       'E-commerce Companies',
       'Small & Medium-Sized Businesses'
     ],
@@ -188,7 +188,7 @@ export const servicesData = {
       'Periodic database refreshing and stale contact archival'
     ],
     suitableIndustries: [
-      'B2B Lead Generation Agencies',
+      'Research & Consulting Agencies',
       'Consulting & Professional Services',
       'IT & Software Companies',
       'Recruitment & Staffing Agencies',
@@ -234,7 +234,7 @@ export const servicesData = {
     suitableIndustries: [
       'Financial Services Companies',
       'Digital Marketing Agencies',
-      'B2B Lead Generation Agencies',
+      'Research & Consulting Agencies',
       'Healthcare Organisations',
       'Large Enterprises & Corporations'
     ],
@@ -250,48 +250,48 @@ export const servicesData = {
     ]
   },
 
-  // --- Category 2: Business Research & Lead Generation ---
-  'b2b-lead-generation': {
-    id: 'b2b-lead-generation',
+  // --- Category 2: Business & Web Research ---
+  'company-research': {
+    id: 'company-research',
     categoryId: 'business-research',
-    categoryName: 'Business Research & Lead Generation',
-    title: 'B2B Lead Generation',
-    subtitle: 'Targeted, human-researched prospect lists tailored to your ideal client profile.',
-    badge: 'High-Intent Prospecting',
-    iconName: 'Target',
+    categoryName: 'Business & Web Research',
+    title: 'Business & Company Research',
+    subtitle: 'Targeted, human-researched corporate directories and market intelligence reports.',
+    badge: 'Manual Fact-Checking',
+    iconName: 'Building',
     turnaround: 'Weekly or Batch Delivery',
-    accuracy: 'Direct Human Verification',
-    overview: 'Accelerate your outbound sales pipeline with fresh, hyper-targeted B2B prospect lists. DataGalactic researches verified decision-makers across your target industries, capturing accurate email addresses, phone contacts, executive titles, and company profiles so your sales team can focus on closing deals.',
+    accuracy: '100% Human Verified',
+    overview: 'Accelerate your commercial operations with fresh, accurately researched company profiles and market data. DataGalactic investigates organizations across your target sectors, capturing verified corporate details, headquarters locations, service footprints, and leadership hierarchies so your management team has reliable intelligence.',
     businessProblems: [
-      'Sales reps spending 40% of their workday searching for contacts instead of selling',
-      'High email bounce rates resulting from stale, automated prospect directories',
-      'Generic contact lists targeting wrong departments or gatekeeper emails (info@, sales@)',
-      'Difficulty finding verified leads in niche industrial, local, or specialized B2B markets'
+      'Internal staff spending hours manually scouring websites instead of core tasks',
+      'Fragmented, stale, or incomplete corporate directory information',
+      'Unverified supplier and vendor records causing operational delays',
+      'Difficulty finding organized company data in specialized or international markets'
     ],
     keyTasks: [
-      'Ideal Customer Profile (ICP) definition and account-based prospect mapping',
-      'Identification of key decision-makers (CEOs, VPs, Directors, Department Heads)',
-      'Direct business email and professional telephone number discovery and validation',
-      'Company background data collection (employee headcount, revenue tier, tech stack)',
-      'Custom qualification checks (confirming recent funding, hiring surges, or certifications)',
-      'CRM-formatted CSV delivery ready for Apollo, HubSpot, Outreach, or Salesforce import'
+      'Company profile research and commercial registry verification',
+      'Corporate leadership and executive department mapping',
+      'Official business email and switchboard discovery from public directories',
+      'Company background data collection (headcount, corporate offices, website)',
+      'Custom research criteria checks (certifications, operating licenses, locations)',
+      'Clean spreadsheet delivery ready for ERP, CRM, or internal system import'
     ],
     suitableIndustries: [
       'IT & Software Companies',
       'Digital Marketing Agencies',
       'Consulting & Professional Services',
       'Recruitment & Staffing Agencies',
-      'B2B Lead Generation Agencies'
+      'Research & Consulting Agencies'
     ],
     workflow: [
-      { step: '01', title: 'Target Criteria Alignment', desc: 'We define exact company geography, industry vertical, revenue, and buyer job titles.' },
-      { step: '02', title: 'Human Prospecting', desc: 'Researchers identify target accounts across corporate registers and professional platforms.' },
-      { step: '03', title: 'Validation Audit', desc: 'Emails and phone contacts are cross-checked to ensure direct reachability.' },
-      { step: '04', title: 'Pipeline Delivery', desc: 'Prospect lists are formatted and delivered in spreadsheet or CRM-ready formats.' }
+      { step: '01', title: 'Target Criteria Alignment', desc: 'We define exact company geography, industry vertical, and research parameters.' },
+      { step: '02', title: 'Manual Investigation', desc: 'Researchers gather corporate data across official registers, filings, and company portals.' },
+      { step: '03', title: 'Multi-Source Verification', desc: 'All data points are cross-verified across multiple authoritative sources.' },
+      { step: '04', title: 'Structured Delivery', desc: 'Clean research datasets are delivered in your preferred spreadsheet or CRM format.' }
     ],
     faqs: [
-      { q: 'Do you use automated scrapers or human researchers?', a: 'We rely on human researchers backed by modern research tools to ensure context accuracy, relevance, and zero generic gatekeeper emails.' },
-      { q: 'Are your prospect lists compliant with privacy regulations?', a: 'Yes. We gather only publicly available professional B2B contact details in alignment with applicable regulations.' }
+      { q: 'Do you use automated scrapers or human researchers?', a: 'We rely on trained human researchers backed by verification tools to ensure context accuracy, relevance, and high data quality.' },
+      { q: 'Can you customize the research schema for our specific requirements?', a: 'Yes. We adapt research fields to match your exact spreadsheet columns, headers, and validation criteria.' }
     ]
   },
 
@@ -525,27 +525,27 @@ export const industriesData = {
     id: 'it-software',
     name: 'IT & Software Companies',
     iconName: 'Cpu',
-    tagline: 'Database cleansing, software lead prospecting, and documentation support.',
-    overview: 'Fast-moving technology firms require clean user databases, verified sales prospecting data, and administrative support to support continuous sprint cycles.',
-    supportDetails: 'DataGalactic helps IT and SaaS companies cleanse CRM databases, research decision-maker leads, verify user registries, and format technical customer documentation.',
+    tagline: 'Database cleansing, software company research, and documentation support.',
+    overview: 'Fast-moving technology firms require clean user databases, verified research data, and administrative support to support continuous sprint cycles.',
+    supportDetails: 'DataGalactic helps IT and SaaS companies cleanse CRM databases, research market data, verify user registries, and format technical customer documentation.',
     keyTasks: [
-      'B2B tech prospect list building with verified technical leader titles (CTO, VP Eng, CISO)',
+      'Enterprise tech account and leadership directory compilation (CTO, VP Eng, CISO)',
       'CRM database hygiene, duplicate user merging, and stale record archival',
       'Software release notes and technical document conversion',
       'Competitive feature matrix compilation and pricing plan tracking'
     ],
-    benefits: 'Freed developer and sales time, clean pipeline data, and zero overhead on routine administrative research.'
+    benefits: 'Freed developer and commercial time, clean pipeline data, and zero overhead on routine administrative research.'
   },
 
   'marketing-agencies': {
     id: 'marketing-agencies',
     name: 'Digital Marketing Agencies',
     iconName: 'Megaphone',
-    tagline: 'Prospect list building, campaign data audits, and reporting compilation.',
+    tagline: 'Company list building, campaign data audits, and reporting compilation.',
     overview: 'Agencies managing campaigns for multiple clients need reliable data sourcing and reporting support to maintain client satisfaction without expanding in-house headcount.',
-    supportDetails: 'We support digital agencies with hyper-targeted outbound prospect lists, influencer contact extraction, competitive benchmarking, and weekly client KPI reporting.',
+    supportDetails: 'We support digital agencies with comprehensive directory research, influencer contact extraction, competitive benchmarking, and weekly client KPI reporting.',
     keyTasks: [
-      'Verified outbound prospect list building tailored to specific client buyer personas',
+      'Verified corporate directory compilation tailored to specific client market profiles',
       'Competitor marketing intelligence and promotional campaign monitoring',
       'Weekly marketing performance spreadsheet compilation and metric aggregation',
       'Influencer and partner contact discovery with verified engagement data'
@@ -555,18 +555,18 @@ export const industriesData = {
 
   'leadgen-agencies': {
     id: 'leadgen-agencies',
-    name: 'B2B Lead Generation Agencies',
+    name: 'Research & Consulting Agencies',
     iconName: 'Target',
-    tagline: 'High-volume contact research, email validation, and ICP list building.',
-    overview: 'Specialized lead gen companies require high-volume, bounce-free prospect data to power cold email, LinkedIn, and calling campaigns for diverse clients.',
-    supportDetails: 'DataGalactic acts as your dedicated research backbone, building custom prospect databases, verifying emails, and enriching account details per client campaign.',
+    tagline: 'High-volume market research, data verification, and directory compiling.',
+    overview: 'Consulting firms, advisory practices, and research agencies require accurate, human-verified commercial data and company intelligence for diverse client mandates.',
+    supportDetails: 'DataGalactic acts as your dedicated research backbone, compiling custom market databases, verifying executive rosters, and structuring corporate profiles per client engagement.',
     keyTasks: [
-      'Custom B2B list building matching exact client niche filters and executive roles',
-      'Comprehensive email verification to safeguard outbound sending domain health',
-      'Account enrichment with verified company revenue, employee count, and tech stack',
-      'Continuous list updating and invalid contact replacement'
+      'Custom commercial directory compilation matching exact industry filters',
+      'Comprehensive contact and company verification for strategic research',
+      'Account enrichment with verified corporate revenue, employee count, and capabilities',
+      'Continuous database updating, deduplication, and record validation'
     ],
-    benefits: 'Minimized email bounce rates, reduced client acquisition costs, and increased booked sales meetings.'
+    benefits: 'Dependable operational scalability, accurate client research deliverables, and lower research overhead.'
   },
 
   'ecommerce': {
@@ -772,7 +772,7 @@ export const portfolioData = [
     category: 'Data Management & Processing',
     badge: 'Demonstration Project',
     tagline: 'Cleaned, deduplicated, and standardized 45,000+ customer records from fragmented legacy spreadsheets.',
-    clientScenario: 'A growing B2B distributor possessed multiple fragmented customer lists exported from legacy accounting and CRM software. The files contained thousands of duplicate accounts, inconsistent international phone formats, and missing state/zip fields.',
+    clientScenario: 'A global wholesale distributor possessed multiple fragmented customer lists exported from legacy accounting and CRM software. The files contained thousands of duplicate accounts, inconsistent international phone formats, and missing state/zip fields.',
     input: {
       format: 'Raw CSV & Excel (3 disparate files, 45,820 rows)',
       issues: '12% duplicate accounts, inconsistent phone numbering (+1 / bare / dashes), missing postal codes, unstandardized company naming ("Inc" vs "Inc." vs "Incorporated").',
@@ -792,28 +792,28 @@ export const portfolioData = [
     }
   },
   {
-    id: 'b2b-lead-generation-database',
-    title: 'B2B Lead Generation Database',
-    category: 'Business Research & Lead Generation',
+    id: 'market-research-database',
+    title: 'Market Research & Company Directory Database',
+    category: 'Business & Web Research',
     badge: 'Demonstration Project',
-    tagline: 'Custom-built prospect database of 2,500 verified marketing directors across US mid-market software companies.',
-    clientScenario: 'A SaaS sales development agency needed a high-intent outbound prospect database targeting Marketing Directors, VPs of Growth, and CMOs at software companies with 50-500 employees located in the United States.',
+    tagline: 'Custom-built enterprise intelligence database of 2,500 verified organizations and executive leadership teams.',
+    clientScenario: 'An international market analysis firm needed a verified corporate database profiling enterprise technology and software companies with 50-500 employees located across North America and Europe.',
     input: {
-      format: 'Target Criteria Specification (ICP Brief)',
-      issues: 'Generic bought lists produced high bounce rates (>18%) and contained obsolete contacts who had left their positions.',
-      sampleSnippet: 'Target: Head of Marketing / CMO | US SaaS Companies (50-500 FTE) | Min $10M Revenue'
+      format: 'Research Criteria & Target Industry Scope',
+      issues: 'Fragmented industry sources, outdated executive rosters, and incomplete corporate headquarters data across public portals.',
+      sampleSnippet: 'Target: Enterprise Tech Firms | North America & Europe (50-500 FTE) | Verified Leadership & Headquarters'
     },
     process: [
-      'Manual research across corporate registries, official company team pages, and professional platforms',
-      'Direct decision-maker email identification through multi-tier verification tools',
-      'Live SMTP handshake and domain MX record testing to guarantee direct deliverability',
-      'Captured key company attributes: headquarters city, company headcount, primary product category, and verified LinkedIn URL',
-      'Supervisory sample audit of 200 random leads before final delivery batching'
+      'Manual research across corporate registries, official company disclosures, and professional industry registers',
+      'Corporate entity validation and headquarters address verification',
+      'Executive leadership and departmental head mapping',
+      'Captured key commercial attributes: headquarters city, employee headcount, primary service lines, and corporate portals',
+      'Supervisory sample audit of 200 random records before final catalog delivery'
     ],
     output: {
-      format: 'CRM-Ready Excel & Google Sheets (2,500 verified prospect records)',
-      deliverable: 'First name, last name, verified business email, direct phone/switchboard, job title, company name, website, employee count, LinkedIn profile.',
-      turnaround: 'Batched weekly deliveries over 2 weeks; bounce rate maintained below 2%.'
+      format: 'Structured Excel & Database-Ready CSV (2,500 verified company records)',
+      deliverable: 'Company legal name, corporate website, official switchboard, leadership titles, employee tier, headquarters address, and industry taxonomy.',
+      turnaround: 'Batched deliveries completed over 2 weeks with 100% verification sign-off.'
     }
   },
   {
@@ -1021,7 +1021,7 @@ export const faqsData = [
     id: 'services-overview',
     category: 'Services',
     question: 'What data management services does DataGalactic provide?',
-    answer: 'DataGalactic provides comprehensive data management, business research, and back-office outsourcing services. Our core offerings include Data Entry (online & offline), Data Cleaning & Formatting, Data Extraction, Database Building, Data Validation & Verification, B2B Lead Generation, Web Research, Market Research, CRM & Product Data Management, Document Digitization & Conversion, and Ongoing Back-Office Support.'
+    answer: 'DataGalactic provides comprehensive data management, business research, and back-office outsourcing services. Our core offerings include Data Entry (online & offline), Data Cleaning & Formatting, Data Extraction, Database Building, Data Validation & Verification, Business & Company Research, Web Research, Market Research, CRM & Product Data Management, Document Digitization & Conversion, and Ongoing Back-Office Support.'
   },
   {
     id: 'international-clients',
