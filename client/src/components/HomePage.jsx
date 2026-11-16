@@ -8,6 +8,7 @@ import HowItWorks from './HowItWorks';
 import PortfolioSection from './PortfolioSection';
 import DataSecurity from './DataSecurity';
 import FAQSection from './FAQSection';
+import FeedbackSection from './FeedbackSection';
 import FinalCTA from './FinalCTA';
 import QuoteContactSection from './QuoteContactSection';
 
@@ -41,10 +42,13 @@ const HomePage = () => {
       {/* 9. Frequently Asked Questions */}
       <FAQSection />
 
-      {/* 10. Final CTA Section */}
+      {/* 10. Client Feedback & Review Section */}
+      <FeedbackSection />
+
+      {/* 11. Final CTA Section */}
       <FinalCTA />
 
-      {/* 11. Lead Generation / Contact Form */}
+      {/* 12. Lead Generation / Contact Form */}
       <QuoteContactSection />
     </main>
   );

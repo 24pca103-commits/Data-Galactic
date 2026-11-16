@@ -329,7 +329,15 @@ const Navbar = () => {
                 Portfolio
               </Link>
 
-              {/* 6. Contact */}
+              {/* 6. Feedback */}
+              <a
+                href="/#feedback"
+                className="px-3.5 py-2 text-sm font-semibold transition-all rounded-xl text-slate-700 hover:text-white hover:bg-[#002b66]"
+              >
+                Feedback
+              </a>
+
+              {/* 7. Contact */}
               <Link
                 to="/contact"
                 className={`px-3.5 py-2 text-sm font-semibold transition-all rounded-xl ${
@@ -466,6 +474,14 @@ const Navbar = () => {
           >
             Data Security &amp; NDA
           </Link>
+
+          <a
+            href="/#feedback"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            Client Feedback
+          </a>
 
           <Link
             to="/contact"

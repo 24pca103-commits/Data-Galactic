@@ -14,6 +14,7 @@ const Footer = () => {
     { name: 'Sample Projects / Portfolio', href: '/portfolio' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Data Security & NDA', href: '/security' },
+    { name: 'Client Feedback & Reviews', href: '/#feedback' },
     { name: 'Request a Quote', href: '/contact' }
   ];
 

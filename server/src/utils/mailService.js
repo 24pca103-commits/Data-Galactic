@@ -29,19 +29,14 @@ const getTransporter = async () => {
 
   // 1. Direct Service (e.g. Gmail with App Password)
   if (service && user && pass) {
-    const port = parseInt(process.env.SMTP_PORT || '465', 10);
-    const secure = port === 465;
-
     transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port,
-      secure,
+      service: 'gmail',
       auth: { user, pass },
       tls: {
         rejectUnauthorized: false
       }
     });
-    console.log(`[MailService] Configured direct Gmail SMTP (${port}, secure=${secure}) for: ${user}`);
+    console.log(`[MailService] Configured direct Gmail SMTP service for: ${user}`);
     return transporter;
   }
 

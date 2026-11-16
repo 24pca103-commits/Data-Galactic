@@ -34,13 +34,16 @@ const FeedbackSection = () => {
 
   const servicesList = [
     'Data Entry Services',
-    'Data Processing & Cleaning',
-    'Data Conversion (PDF / OCR / Excel)',
-    'Web Research & Data Mining',
-    'E-commerce Catalog & Product Listing',
-    'Back Office & Administrative Support',
-    'Healthcare & HIPAA Records Data Entry',
-    'Real Estate & Property Research',
+    'Data Cleaning & Formatting',
+    'Data Extraction',
+    'Database Building',
+    'Data Validation & Verification',
+    'Business & Company Research',
+    'Web Research Services',
+    'Market Research',
+    'CRM & Product Data Management',
+    'Document Digitization & Conversion',
+    'Back-Office & Administrative Support',
     'Other Custom Service'
   ];
 
@@ -198,14 +201,14 @@ const FeedbackSection = () => {
 
         {/* Section Header: Center aligned */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-sky-700 shadow-sm">
-            <MessageSquareHeart className="w-3.5 h-3.5 text-sky-600" />
-            <span>Client Feedback & Review</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-[#0047AB] shadow-sm">
+            <MessageSquareHeart className="w-3.5 h-3.5 text-[#0047AB]" />
+            <span>Client Feedback &amp; Reviews</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-['Space_Grotesk']">
             Share Your Experience With{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0047AB] via-blue-600 to-cyan-600">
               DataGalactic
             </span>
           </h2>
@@ -423,7 +426,7 @@ const FeedbackSection = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-xl font-bold text-white text-base bg-slate-900 hover:bg-sky-700 shadow-lg shadow-slate-900/10 transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 rounded-xl font-bold text-white text-base bg-[#0047AB] hover:bg-[#002b66] shadow-lg transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -437,6 +440,10 @@ const FeedbackSection = () => {
                     </>
                   )}
                 </button>
+                <p className="text-[11px] text-slate-400 text-center mt-2.5 flex items-center justify-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#0047AB]" />
+                  <span>Real-time email confirmation will be sent to your email address upon submission.</span>
+                </p>
               </div>
 
             </form>
