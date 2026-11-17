@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ArrowUpRight, ShieldCheck, Globe2, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUpRight, ShieldCheck, Globe2, MessageCircle, Lock } from 'lucide-react';
 import { servicesData } from '../data/siteData';
 
 const Footer = () => {
@@ -191,6 +191,15 @@ const Footer = () => {
             <span>•</span>
             <Link to="/security" className="hover:text-[#0047AB] transition-colors">
               Data Security &amp; NDA
+            </Link>
+            <span>•</span>
+            <Link
+              to="/admin"
+              title="Staff Operations Portal"
+              className="hover:text-[#0047AB] transition-colors inline-flex items-center gap-1 opacity-60 hover:opacity-100"
+            >
+              <Lock className="w-3 h-3 text-[#0047AB]" />
+              <span>Portal</span>
             </Link>
           </div>
         </div>
