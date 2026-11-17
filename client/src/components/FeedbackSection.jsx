@@ -101,7 +101,7 @@ const FeedbackSection = () => {
       } catch (err1) {
         // Attempt 2: Direct Render production backend
         try {
-          response = await axios.post('https://data-galactic-1.onrender.com/api/feedback', payload);
+          response = await axios.post('https://data-galactic.onrender.com/api/feedback', payload);
           if (response.data && response.data.success) {
             submitted = true;
           }

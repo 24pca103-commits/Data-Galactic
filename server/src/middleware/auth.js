@@ -1,6 +1,11 @@
 const { verifyToken } = require('../utils/security');
 
 const verifyAdminAuth = (req, res, next) => {
+  // Allow preflight CORS OPTIONS requests to pass through cleanly
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
+
   let token = null;
 
   // 1. Check Authorization header

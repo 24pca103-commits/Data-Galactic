@@ -189,7 +189,7 @@ const QuoteContactSection = ({ defaultService, defaultDescription }) => {
       } catch (err1) {
         // 2. Fallback to production cloud endpoint
         try {
-          response = await axios.post('https://data-galactic-1.onrender.com/api/contact', payload);
+          response = await axios.post('https://data-galactic.onrender.com/api/contact', payload);
           if (response.data && response.data.success) {
             submitted = true;
           }

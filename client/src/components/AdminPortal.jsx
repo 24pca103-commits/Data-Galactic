@@ -66,9 +66,12 @@ const AdminPortal = () => {
   // Detail Modal
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
 
-  // Axios helper with Auth headers
+  // Axios helper with Auth headers and unified base URL
   const authAxios = useMemo(() => {
+    const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    const apiBase = (import.meta.env.VITE_API_BASE_URL || (isLocal ? '' : 'https://data-galactic.onrender.com')).replace(/\/+$/, '');
     return axios.create({
+      baseURL: apiBase,
       headers: {
         Authorization: token ? `Bearer ${token}` : ''
       }
@@ -139,10 +142,24 @@ const AdminPortal = () => {
     setLoginError('');
 
     try {
-      const res = await axios.post('/api/admin/login', {
-        email: loginEmail.trim(),
-        password: loginPassword
-      });
+      let res;
+      try {
+        res = await axios.post('/api/admin/login', {
+          email: loginEmail.trim(),
+          password: loginPassword
+        });
+      } catch (firstErr) {
+        // Fallback to direct Render production URL if relative route fails or is blocked
+        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        if (!isLocal) {
+          res = await axios.post('https://data-galactic.onrender.com/api/admin/login', {
+            email: loginEmail.trim(),
+            password: loginPassword
+          });
+        } else {
+          throw firstErr;
+        }
+      }
 
       if (res.data?.success && res.data.token) {
         setToken(res.data.token);
@@ -154,7 +171,7 @@ const AdminPortal = () => {
         setLoginError(res.data?.message || 'Authentication failed.');
       }
     } catch (err) {
-      setLoginError(err.response?.data?.message || 'Invalid credentials. Please verify your email and password.');
+      setLoginError(err.response?.data?.message || err.message || 'Invalid credentials. Please verify your email and password.');
     } finally {
       setLoginLoading(false);
     }

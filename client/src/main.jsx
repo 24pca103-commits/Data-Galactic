@@ -23,8 +23,8 @@ if (!isLocalHost && (rawUrl.includes('127.0.0.1') || rawUrl.includes('localhost'
   rawUrl = '';
 }
 
-if (!rawUrl || rawUrl.includes('render.com/docs') || rawUrl.includes('#')) {
-  rawUrl = (import.meta.env.DEV || isLocalHost) ? 'http://127.0.0.1:5000' : 'https://data-galactic-1.onrender.com';
+if (!rawUrl || rawUrl.includes('render.com/docs') || rawUrl.includes('#') || rawUrl.includes('data-galactic-1.onrender.com')) {
+  rawUrl = (import.meta.env.DEV || isLocalHost) ? 'http://127.0.0.1:5000' : 'https://data-galactic.onrender.com';
 }
 
 if (rawUrl) {

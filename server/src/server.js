@@ -43,24 +43,36 @@ const allowedOrigins = [
   'https://datagalactic.in',
   'https://www.datagalactic.in',
   'https://admin.datagalactic.in',
+  'https://data-galactic-user.vercel.app',
+  'https://data-galactic.vercel.app',
   process.env.CLIENT_URL,
   process.env.ADMIN_URL
 ].filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // allow requests with no origin (like mobile apps, curl, postman)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Allow dev origins
-      }
-    },
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    credentials: true
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    
+    // Check exact matches
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    
+    // Allow any Vercel deployment preview or production domain
+    if (origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    
+    // Default allow to ensure public API & verified admin endpoints are not blocked
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Rate limiting (exempt SSE streams and admin endpoints from strict limits)
 const generalLimiter = rateLimit({
