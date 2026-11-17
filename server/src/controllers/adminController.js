@@ -4,7 +4,27 @@ const { Enquiry, memoryStore } = require('../models/Enquiry');
 const { Feedback, feedbackMemoryStore } = require('../models/Feedback');
 const { getStatus } = require('../config/db');
 const { generateToken, hashPassword, verifyPassword } = require('../utils/security');
+const { sendAdminLoginOtpEmail, getMailAddresses } = require('../utils/mailService');
 const eventBus = require('../utils/eventBus');
+
+// In-memory store for Admin 2FA Login OTP challenges (expires in 5 minutes)
+const adminOtpStore = new Map();
+
+function maskEmail(email) {
+  if (!email || !email.includes('@')) return 'admin email';
+  const [local, domain] = email.split('@');
+  if (local.length <= 3) return `${local[0]}***@${domain}`;
+  return `${local.slice(0, 2)}*****${local.slice(-2)}@${domain}`;
+}
+
+function cleanupExpiredOtpChallenges() {
+  const now = Date.now();
+  for (const [key, val] of adminOtpStore.entries()) {
+    if (now > val.expiresAt + 60000) {
+      adminOtpStore.delete(key);
+    }
+  }
+}
 
 // Cached admin credentials (hashed in memory)
 let cachedAdmin = null;
@@ -26,14 +46,15 @@ function getAdminConfig() {
 }
 
 // -------------------------------------------------------------
-// Authentication Controllers
+// Authentication Controllers (2-Step: Password + Admin Email OTP)
 // -------------------------------------------------------------
 
-// @desc    Admin Login
+// @desc    Step 1: Verify Admin Password & Dispatch 6-Digit OTP to Admin Email
 // @route   POST /api/admin/login
 // @access  Public
 const adminLogin = async (req, res) => {
   try {
+    cleanupExpiredOtpChallenges();
     const { email, password } = req.body || {};
 
     if (!email || !password) {
@@ -44,12 +65,15 @@ const adminLogin = async (req, res) => {
     }
 
     const admin = getAdminConfig();
+    const { adminEmail: notifyAdminEmail } = getMailAddresses();
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanPass = typeof password === 'string' ? password : String(password || '');
 
-    // Allow login by configured email, or simplified username 'admin' or 'administrator'
+    // Allow login by configured admin email, notification Gmail, or simplified username
     const isEmailValid =
       cleanEmail === admin.email.toLowerCase() ||
+      cleanEmail === notifyAdminEmail.toLowerCase() ||
+      cleanEmail === 'kan93095@gmail.com' ||
       cleanEmail === 'admin' ||
       cleanEmail === 'administrator' ||
       cleanEmail === 'admin@datagalactic.in';
@@ -81,31 +105,180 @@ const adminLogin = async (req, res) => {
     if (!isEmailValid || !passwordMatches) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials. Default: admin@datagalactic.in (or admin) and password Admin@DG2026!'
+        message: 'Invalid admin email or password. Please try again.'
       });
     }
 
-    // Generate signed Bearer token (24 hours expiry)
-    const token = generateToken({
-      email: admin.email,
-      role: 'admin'
-    }, 86400);
+    // Generate cryptographically secure 6-digit OTP and challenge session
+    const otp = crypto.randomInt(100000, 1000000).toString();
+    const challengeId = crypto.randomBytes(16).toString('hex');
+    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes validity
+
+    adminOtpStore.set(challengeId, {
+      otp,
+      expiresAt,
+      loginEmail: cleanEmail,
+      adminEmail: notifyAdminEmail,
+      attempts: 0,
+      lastSentAt: Date.now()
+    });
+
+    // Send 6-digit OTP to Admin Email in real-time
+    try {
+      await sendAdminLoginOtpEmail(otp, cleanEmail);
+    } catch (mailErr) {
+      adminOtpStore.delete(challengeId);
+      console.error('[AdminLogin OTP Mail Error]:', mailErr);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send verification OTP to Admin email. Please check SMTP configuration and try again.'
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: 'Authentication successful.',
-      token,
-      admin: {
-        email: admin.email,
-        role: 'admin',
-        name: 'Administrator'
-      }
+      requiresOtp: true,
+      challengeId,
+      maskedEmail: maskEmail(notifyAdminEmail),
+      expiresInSeconds: 300,
+      message: `A 6-digit verification code has been sent to ${maskEmail(notifyAdminEmail)}. Enter the OTP to unlock the Admin Portal.`
     });
   } catch (err) {
     console.error('[AdminLogin Error]:', err);
     return res.status(500).json({
       success: false,
       message: 'Server error during authentication.'
+    });
+  }
+};
+
+// @desc    Step 2: Verify 6-Digit Admin Email OTP & Issue JWT Session Token
+// @route   POST /api/admin/verify-otp
+// @access  Public
+const verifyAdminOtp = async (req, res) => {
+  try {
+    cleanupExpiredOtpChallenges();
+    const { challengeId, otp } = req.body || {};
+
+    if (!challengeId || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification session and 6-digit OTP code are required.'
+      });
+    }
+
+    const record = adminOtpStore.get(String(challengeId).trim());
+    if (!record) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification session expired or invalid. Please sign in again to receive a new OTP.'
+      });
+    }
+
+    if (Date.now() > record.expiresAt) {
+      adminOtpStore.delete(challengeId);
+      return res.status(400).json({
+        success: false,
+        message: 'This OTP code has expired (valid for 5 minutes). Please request a new code.'
+      });
+    }
+
+    if (record.attempts >= 5) {
+      adminOtpStore.delete(challengeId);
+      return res.status(429).json({
+        success: false,
+        message: 'Too many incorrect OTP attempts. Please sign in again.'
+      });
+    }
+
+    const cleanOtp = String(otp).replace(/\s+/g, '').trim();
+    if (cleanOtp !== record.otp) {
+      record.attempts += 1;
+      adminOtpStore.set(challengeId, record);
+      const remaining = Math.max(0, 5 - record.attempts);
+      return res.status(401).json({
+        success: false,
+        message: `Incorrect OTP code. ${remaining > 0 ? `${remaining} attempt(s) remaining.` : 'Please log in again.'}`
+      });
+    }
+
+    // OTP matched! Delete single-use challenge and issue 24h JWT
+    adminOtpStore.delete(challengeId);
+
+    const token = generateToken({
+      email: record.adminEmail,
+      role: 'admin'
+    }, 86400);
+
+    return res.status(200).json({
+      success: true,
+      message: 'OTP verified successfully! Unlocking Admin Portal.',
+      token,
+      admin: {
+        email: record.adminEmail,
+        role: 'admin',
+        name: 'Administrator'
+      }
+    });
+  } catch (err) {
+    console.error('[verifyAdminOtp Error]:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error during OTP verification.'
+    });
+  }
+};
+
+// @desc    Resend 6-Digit Admin Login OTP
+// @route   POST /api/admin/resend-otp
+// @access  Public
+const resendAdminOtp = async (req, res) => {
+  try {
+    const { challengeId } = req.body || {};
+
+    if (!challengeId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid verification session. Please log in again.'
+      });
+    }
+
+    const record = adminOtpStore.get(String(challengeId).trim());
+    if (!record) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification session expired. Please sign in again.'
+      });
+    }
+
+    const elapsedMs = Date.now() - record.lastSentAt;
+    if (elapsedMs < 30000) {
+      const waitSec = Math.ceil((30000 - elapsedMs) / 1000);
+      return res.status(429).json({
+        success: false,
+        message: `Please wait ${waitSec} seconds before requesting a new OTP.`
+      });
+    }
+
+    const newOtp = crypto.randomInt(100000, 1000000).toString();
+    record.otp = newOtp;
+    record.expiresAt = Date.now() + 5 * 60 * 1000;
+    record.attempts = 0;
+    record.lastSentAt = Date.now();
+    adminOtpStore.set(challengeId, record);
+
+    await sendAdminLoginOtpEmail(newOtp, record.loginEmail);
+
+    return res.status(200).json({
+      success: true,
+      maskedEmail: maskEmail(record.adminEmail),
+      message: `A new 6-digit verification code has been sent to ${maskEmail(record.adminEmail)}.`
+    });
+  } catch (err) {
+    console.error('[resendAdminOtp Error]:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to resend OTP email. Please try again.'
     });
   }
 };
@@ -515,6 +688,8 @@ const streamAdminEvents = (req, res) => {
 
 module.exports = {
   adminLogin,
+  verifyAdminOtp,
+  resendAdminOtp,
   verifyAdminSession,
   getDashboardStats,
   getQuotes,

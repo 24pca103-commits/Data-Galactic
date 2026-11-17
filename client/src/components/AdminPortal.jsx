@@ -49,6 +49,16 @@ const AdminPortal = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
 
+  // 2-Step Admin Email OTP Verification State
+  const [loginStep, setLoginStep] = useState('credentials'); // 'credentials' | 'otp'
+  const [challengeId, setChallengeId] = useState('');
+  const [maskedAdminEmail, setMaskedAdminEmail] = useState('');
+  const [otpCode, setOtpCode] = useState('');
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState('');
+  const [otpInfo, setOtpInfo] = useState('');
+  const [resendCooldown, setResendCooldown] = useState(0);
+
   // Dashboard Navigation
   const [activeTab, setActiveTab] = useState('enquiries'); // 'enquiries' | 'feedbacks' | 'system'
 
@@ -66,17 +76,31 @@ const AdminPortal = () => {
   // Detail Modal
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
 
-  // Axios helper with Auth headers and unified base URL
-  const authAxios = useMemo(() => {
+  // Sanitized API Base URL (blocks stale data-galactic-1.onrender.com or localhost in production)
+  const resolvedApiBase = useMemo(() => {
     const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-    const apiBase = (import.meta.env.VITE_API_BASE_URL || (isLocal ? '' : 'https://data-galactic.onrender.com')).replace(/\/+$/, '');
+    let envUrl = (import.meta.env.VITE_API_BASE_URL || '').trim();
+    if (
+      !envUrl ||
+      envUrl.includes('data-galactic-1.onrender.com') ||
+      envUrl.includes('render.com/docs') ||
+      envUrl.includes('#') ||
+      (!isLocal && (envUrl.includes('localhost') || envUrl.includes('127.0.0.1')))
+    ) {
+      envUrl = isLocal ? '' : 'https://data-galactic.onrender.com';
+    }
+    return envUrl.replace(/\/+$/, '');
+  }, []);
+
+  // Axios helper with Auth headers and unified sanitized base URL
+  const authAxios = useMemo(() => {
     return axios.create({
-      baseURL: apiBase,
+      baseURL: resolvedApiBase,
       headers: {
         Authorization: token ? `Bearer ${token}` : ''
       }
     });
-  }, [token]);
+  }, [token, resolvedApiBase]);
 
   // Show Toast
   const showToast = (text, type = 'success') => {
@@ -130,7 +154,32 @@ const AdminPortal = () => {
     }
   }, [token]);
 
-  // Login Handler
+  // Resend OTP cooldown countdown
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  // Helper for public admin endpoints using sanitized API base URL
+  const postPublicAdmin = async (endpoint, payload) => {
+    const targetUrl = `${resolvedApiBase}${endpoint}`;
+    try {
+      return await axios.post(targetUrl, payload);
+    } catch (firstErr) {
+      // Only fallback on network/routing errors (not 400/401/429 validation errors)
+      const status = firstErr.response?.status;
+      const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      if (!isLocal && !targetUrl.startsWith('https://data-galactic.onrender.com') && (!status || status === 404 || status >= 502)) {
+        return await axios.post(`https://data-galactic.onrender.com${endpoint}`, payload);
+      }
+      throw firstErr;
+    }
+  };
+
+  // Step 1: Login Handler (Verifies Password & Sends OTP to Admin Email)
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!loginEmail || !loginPassword) {
@@ -142,31 +191,21 @@ const AdminPortal = () => {
     setLoginError('');
 
     try {
-      let res;
-      try {
-        res = await axios.post('/api/admin/login', {
-          email: loginEmail.trim(),
-          password: loginPassword
-        });
-      } catch (firstErr) {
-        // Fallback to direct Render production URL if relative route fails or is blocked
-        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-        if (!isLocal) {
-          res = await axios.post('https://data-galactic.onrender.com/api/admin/login', {
-            email: loginEmail.trim(),
-            password: loginPassword
-          });
-        } else {
-          throw firstErr;
-        }
-      }
+      const res = await postPublicAdmin('/api/admin/login', {
+        email: loginEmail.trim(),
+        password: loginPassword
+      });
 
-      if (res.data?.success && res.data.token) {
-        setToken(res.data.token);
-        setAdminUser(res.data.admin);
-        localStorage.setItem('dg_admin_token', res.data.token);
-        localStorage.setItem('dg_admin_user', JSON.stringify(res.data.admin));
-        showToast('Welcome back, Administrator!');
+      if (res.data?.success && res.data.requiresOtp && res.data.challengeId) {
+        setChallengeId(res.data.challengeId);
+        setMaskedAdminEmail(res.data.maskedEmail || 'admin email');
+        setOtpInfo(res.data.message || 'A 6-digit verification code has been sent to the Admin email.');
+        setOtpCode('');
+        setOtpError('');
+        setResendCooldown(30);
+        setLoginStep('otp');
+      } else if (res.data?.success && !res.data.requiresOtp) {
+        setLoginError('Server is updating 2FA OTP security. Please wait a moment and try again.');
       } else {
         setLoginError(res.data?.message || 'Authentication failed.');
       }
@@ -177,19 +216,85 @@ const AdminPortal = () => {
     }
   };
 
+  // Step 2: Verify 6-Digit Admin Email OTP to Open Dashboard
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    const cleanOtp = otpCode.replace(/\D/g, '').trim();
+    if (cleanOtp.length !== 6) {
+      setOtpError('Please enter the complete 6-digit verification code sent to your Admin email.');
+      return;
+    }
+
+    setOtpLoading(true);
+    setOtpError('');
+
+    try {
+      const res = await postPublicAdmin('/api/admin/verify-otp', {
+        challengeId,
+        otp: cleanOtp
+      });
+
+      if (res.data?.success && res.data.token) {
+        setToken(res.data.token);
+        setAdminUser(res.data.admin);
+        localStorage.setItem('dg_admin_token', res.data.token);
+        localStorage.setItem('dg_admin_user', JSON.stringify(res.data.admin));
+        setLoginStep('credentials');
+        setChallengeId('');
+        setOtpCode('');
+        setLoginPassword('');
+        showToast('OTP Verified! Welcome to the Admin Portal.');
+      } else {
+        setOtpError(res.data?.message || 'OTP verification failed.');
+      }
+    } catch (err) {
+      setOtpError(err.response?.data?.message || err.message || 'Invalid or expired OTP code. Please try again.');
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  // Resend OTP Handler
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0 || !challengeId || otpLoading) return;
+    setOtpLoading(true);
+    setOtpError('');
+
+    try {
+      const res = await postPublicAdmin('/api/admin/resend-otp', { challengeId });
+      if (res.data?.success) {
+        setOtpInfo(res.data.message || `A new 6-digit OTP has been sent to ${maskedAdminEmail}.`);
+        setOtpCode('');
+        setResendCooldown(30);
+      } else {
+        setOtpError(res.data?.message || 'Unable to resend OTP.');
+      }
+    } catch (err) {
+      setOtpError(err.response?.data?.message || 'Failed to resend OTP. Please log in again.');
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  // Return to Credentials Step
+  const handleBackToCredentials = () => {
+    setLoginStep('credentials');
+    setChallengeId('');
+    setOtpCode('');
+    setOtpError('');
+    setOtpInfo('');
+    setLoginError('');
+  };
+
   // Logout Handler
   const handleLogout = () => {
     setToken('');
     setAdminUser(null);
+    setLoginStep('credentials');
+    setChallengeId('');
+    setOtpCode('');
     localStorage.removeItem('dg_admin_token');
     localStorage.removeItem('dg_admin_user');
-  };
-
-  // Quick autofill for demo testing
-  const autofillCredentials = () => {
-    setLoginEmail('admin@datagalactic.in');
-    setLoginPassword('Admin@DG2026!');
-    setLoginError('');
   };
 
   // Update Enquiry Status
@@ -364,104 +469,212 @@ const AdminPortal = () => {
           </Link>
         </div>
 
-        {/* Login Card */}
+        {/* Login / 2FA OTP Card */}
         <div className="w-full max-w-md bg-[#0a1f45]/90 border border-[#1e3f73] rounded-2xl shadow-2xl p-6 sm:p-8 backdrop-blur-xl relative z-10">
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-[#002b66] to-[#0047AB] border border-[#4c8df7]/40 shadow-[0_0_20px_rgba(0,71,171,0.5)] mb-4">
-              <ShieldCheck className="w-7 h-7 text-cyan-400" />
+              {loginStep === 'otp' ? (
+                <Key className="w-7 h-7 text-cyan-400" />
+              ) : (
+                <ShieldCheck className="w-7 h-7 text-cyan-400" />
+              )}
             </div>
             <h1 className="text-2xl font-black text-white tracking-tight font-['Space_Grotesk']">
               Data<span className="text-[#4c8df7]">Galactic</span>
             </h1>
             <p className="text-xs uppercase tracking-widest text-[#aac7ee] font-semibold mt-1">
-              Internal Operations Portal
+              {loginStep === 'otp' ? '2-Step Security Verification' : 'Internal Operations Portal'}
             </p>
           </div>
 
-          {/* Error Alert */}
-          {loginError && (
-            <div className="mb-5 p-3 rounded-xl bg-red-500/15 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-200">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-              <span>{loginError}</span>
-            </div>
-          )}
+          {/* 2-Step Indicator */}
+          <div className="flex items-center justify-center gap-2 mb-6 text-[11px] font-semibold">
+            <span
+              className={`px-2.5 py-1 rounded-full border ${
+                loginStep === 'credentials'
+                  ? 'bg-[#0047AB]/30 border-[#4c8df7] text-white'
+                  : 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+              }`}
+            >
+              {loginStep === 'otp' ? '✓ 1. Password' : '1. Password'}
+            </span>
+            <span className="text-slate-600">&rarr;</span>
+            <span
+              className={`px-2.5 py-1 rounded-full border ${
+                loginStep === 'otp'
+                  ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200'
+                  : 'bg-[#05142f]/60 border-[#1e3f73] text-slate-400'
+              }`}
+            >
+              2. Admin Email OTP
+            </span>
+          </div>
 
-          {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Staff Email / Username
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                <input
-                  type="text"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder="admin@datagalactic.in"
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#05142f]/80 border border-[#1e3f73] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4c8df7] focus:ring-1 focus:ring-[#4c8df7] transition-all"
-                  required
-                />
+          {/* STEP 1: CREDENTIALS FORM */}
+          {loginStep === 'credentials' ? (
+            <>
+              {/* Error Alert */}
+              {loginError && (
+                <div className="mb-5 p-3 rounded-xl bg-red-500/15 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-200">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <span>{loginError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Admin Email / Username
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="kan93095@gmail.com"
+                      className="w-full pl-10 pr-4 py-2.5 bg-[#05142f]/80 border border-[#1e3f73] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4c8df7] focus:ring-1 focus:ring-[#4c8df7] transition-all"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                    Portal Master Password
+                  </label>
+                  <div className="relative">
+                    <Key className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      className="w-full pl-10 pr-16 py-2.5 bg-[#05142f]/80 border border-[#1e3f73] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4c8df7] focus:ring-1 focus:ring-[#4c8df7] transition-all"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="!absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 hover:text-cyan-300 cursor-pointer"
+                    >
+                      {showPassword ? 'Hide' : 'Show'}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loginLoading}
+                  className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-[#002b66] via-[#0047AB] to-[#0d4ba3] hover:from-[#0047AB] hover:to-[#1a64d2] text-white rounded-xl text-sm font-bold shadow-[0_4px_18px_rgba(0,71,171,0.4)] border border-[#4c8df7]/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                >
+                  {loginLoading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
+                      <span>Sending Verification OTP...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4 text-cyan-400" />
+                      <span>Continue &amp; Send Admin OTP</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-6 pt-4 border-t border-[#1e3f73] text-center">
+                <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span>Protected by 2-Step Admin Email OTP Verification</span>
+                </p>
               </div>
-            </div>
+            </>
+          ) : (
+            /* STEP 2: 6-DIGIT ADMIN EMAIL OTP VERIFICATION FORM */
+            <>
+              {/* Info Banner */}
+              <div className="mb-5 p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-start gap-2.5 text-xs text-cyan-100">
+                <Mail className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold text-white">Verification Code Sent!</p>
+                  <p className="text-cyan-200/90 mt-0.5 leading-relaxed">
+                    {otpInfo || `A 6-digit OTP has been dispatched to ${maskedAdminEmail}. Enter it below to unlock the Admin Portal.`}
+                  </p>
+                </div>
+              </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Portal Master Password
-              </label>
-              <div className="relative">
-                <Key className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 bg-[#05142f]/80 border border-[#1e3f73] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4c8df7] focus:ring-1 focus:ring-[#4c8df7] transition-all"
-                  required
-                />
+              {/* OTP Error Alert */}
+              {otpError && (
+                <div className="mb-5 p-3 rounded-xl bg-red-500/15 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-200">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <span>{otpError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleVerifyOtp} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2 text-center">
+                    Enter 6-Digit Verification Code (OTP)
+                  </label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="• • • • • •"
+                    autoFocus
+                    className="w-full px-4 py-3.5 bg-[#05142f]/90 border-2 border-[#4c8df7]/60 rounded-xl text-center text-2xl font-mono font-black tracking-[0.55em] text-cyan-300 placeholder-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all"
+                    required
+                  />
+                  <p className="text-[11px] text-slate-400 text-center mt-2">
+                    Check inbox / spam folder of <strong className="text-slate-200">{maskedAdminEmail}</strong> (valid for 5 mins)
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={otpLoading || otpCode.length !== 6}
+                  className="w-full py-3 px-4 bg-gradient-to-r from-[#002b66] via-[#0047AB] to-[#0d4ba3] hover:from-[#0047AB] hover:to-[#1a64d2] text-white rounded-xl text-sm font-bold shadow-[0_4px_18px_rgba(0,71,171,0.45)] border border-cyan-400/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                >
+                  {otpLoading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
+                      <span>Verifying OTP...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 text-cyan-300" />
+                      <span>Verify OTP &amp; Open Admin Portal</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {/* Resend & Back Controls */}
+              <div className="mt-6 pt-4 border-t border-[#1e3f73] flex items-center justify-between text-xs">
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3 text-xs text-slate-400 hover:text-slate-200"
+                  onClick={handleBackToCredentials}
+                  className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
                 >
-                  {showPassword ? 'Hide' : 'Show'}
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Back to Login</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={resendCooldown > 0 || otpLoading}
+                  className="text-cyan-400 hover:text-cyan-200 font-semibold transition-colors cursor-pointer disabled:text-slate-500 disabled:cursor-not-allowed"
+                >
+                  {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Resend OTP Code'}
                 </button>
               </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className="w-full mt-2 py-3 px-4 bg-gradient-to-r from-[#002b66] via-[#0047AB] to-[#0d4ba3] hover:from-[#0047AB] hover:to-[#1a64d2] text-white rounded-xl text-sm font-bold shadow-[0_4px_18px_rgba(0,71,171,0.4)] border border-[#4c8df7]/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-            >
-              {loginLoading ? (
-                <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
-                  <span>Verifying Credentials...</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4 text-cyan-400" />
-                  <span>Unlock Admin Portal</span>
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Quick Demo Autofill */}
-          <div className="mt-6 pt-5 border-t border-[#1e3f73] text-center">
-            <button
-              type="button"
-              onClick={autofillCredentials}
-              className="text-xs text-[#aac7ee] hover:text-white transition-colors underline underline-offset-4 cursor-pointer"
-            >
-              ⚡ Click here to auto-fill default admin credentials
-            </button>
-            <p className="text-[11px] text-slate-500 mt-2">
-              Default: <code className="text-slate-400">admin@datagalactic.in</code> / <code className="text-slate-400">Admin@DG2026!</code>
-            </p>
-          </div>
+            </>
+          )}
         </div>
       </div>
     );
@@ -1045,7 +1258,7 @@ const AdminPortal = () => {
                   <span>{selectedEnquiry.file_originalName}</span>
                 </div>
                 <a
-                  href={`/api/admin/download/${selectedEnquiry.file_storedName}`}
+                  href={`${resolvedApiBase}/api/admin/download/${selectedEnquiry.file_storedName}?token=${encodeURIComponent(token)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all"

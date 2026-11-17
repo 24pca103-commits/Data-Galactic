@@ -3,6 +3,8 @@ const router = express.Router();
 const { verifyAdminAuth } = require('../middleware/auth');
 const {
   adminLogin,
+  verifyAdminOtp,
+  resendAdminOtp,
   verifyAdminSession,
   getDashboardStats,
   getQuotes,
@@ -14,7 +16,7 @@ const {
   streamAdminEvents
 } = require('../controllers/adminController');
 
-// Public admin routes
+// Public admin routes (Step 1: Password -> Step 2: Admin Email OTP)
 router.options('/login', (req, res) => res.sendStatus(204));
 router.post('/login', adminLogin);
 router.all('/login', (req, res) => {
@@ -23,6 +25,12 @@ router.all('/login', (req, res) => {
     message: `Method ${req.method} is not allowed on /api/admin/login. Please use POST with email and password.`
   });
 });
+
+router.options('/verify-otp', (req, res) => res.sendStatus(204));
+router.post('/verify-otp', verifyAdminOtp);
+
+router.options('/resend-otp', (req, res) => res.sendStatus(204));
+router.post('/resend-otp', resendAdminOtp);
 
 // Protected routes (Admin token required)
 router.use(verifyAdminAuth);

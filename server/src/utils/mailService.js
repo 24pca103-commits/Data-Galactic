@@ -23,20 +23,25 @@ const getTransporter = async () => {
   if (transporter) return transporter;
 
   const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER || 'kan93095@gmail.com';
-  const pass = process.env.SMTP_PASS || 'mewirvlmupfpdwbg';
+  const user = (process.env.SMTP_USER || 'kan93095@gmail.com').trim();
+  const pass = (process.env.SMTP_PASS || 'mewirvlmupfpdwbg').replace(/\s+/g, '');
   const service = process.env.SMTP_SERVICE || (user && user.includes('@gmail.com') ? 'gmail' : undefined);
 
-  // 1. Direct Service (e.g. Gmail with App Password)
+  // 1. Direct Service (e.g. Gmail with App Password over SSL port 465)
   if (service && user && pass) {
     transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: { user, pass },
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 20000,
       tls: {
         rejectUnauthorized: false
       }
     });
-    console.log(`[MailService] Configured direct Gmail SMTP service for: ${user}`);
+    console.log(`[MailService] Configured direct Gmail SMTP (SSL 465) for: ${user}`);
     return transporter;
   }
 
@@ -633,10 +638,115 @@ const sendFeedbackEmails = async (feedbackData, feedbackId) => {
   }
 };
 
+/**
+ * 4. Send Admin Portal 2FA Login Verification OTP Email (Real-Time)
+ */
+const sendAdminLoginOtpEmail = async (otp, attemptedEmail = 'Admin') => {
+  const mailTransporter = await getTransporter();
+  const { fromEmail, adminEmail } = getMailAddresses();
+  const timestamp = new Date().toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  });
+
+  const mailOptions = {
+    from: `"DataGalactic Security Alert" <${fromEmail}>`,
+    to: adminEmail,
+    subject: `🔐 [OTP: ${otp}] DataGalactic Admin Portal Login Verification`,
+    html: `
+      <div style="margin: 0; padding: 30px 10px; background-color: #05142f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="580" style="max-width: 580px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.35); border: 1px solid #1e3f73;">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 30px 28px; background: linear-gradient(135deg, #05142f 0%, #0047AB 100%); text-align: center;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: middle; padding-right: 12px;">
+                    <div style="width: 44px; height: 44px; background: #0047AB; border-radius: 12px; border: 2px solid #4c8df7; color: #ffffff; font-weight: 900; font-size: 20px; line-height: 44px; text-align: center;">DG</div>
+                  </td>
+                  <td style="vertical-align: middle; text-align: left;">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Data<span style="color: #4c8df7;">Galactic</span></h1>
+                    <p style="margin: 3px 0 0; color: #aac7ee; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">Admin Portal Security</p>
+                  </td>
+                </tr>
+              </table>
+              <div style="display: inline-block; margin-top: 16px; padding: 6px 16px; background: rgba(6, 182, 212, 0.2); border: 1px solid #22d3ee; border-radius: 30px; color: #a5f3fc; font-size: 11px; font-weight: 700; letter-spacing: 1px;">
+                🔐 2-STEP LOGIN VERIFICATION CODE
+              </div>
+            </td>
+          </tr>
+
+          <!-- Main Body -->
+          <tr>
+            <td style="padding: 32px 28px; background-color: #ffffff; text-align: center;">
+              <h2 style="margin: 0 0 10px; color: #0f172a; font-size: 20px; font-weight: 800;">Verify Your Admin Login</h2>
+              <p style="margin: 0 0 24px; color: #475569; font-size: 14px; line-height: 1.6;">
+                A login attempt was initiated for the <strong>DataGalactic Internal Operations Portal</strong>. Enter the 6-digit one-time verification code below to unlock the dashboard:
+              </p>
+
+              <!-- OTP Display Box -->
+              <div style="margin: 0 auto 24px; display: inline-block; background: linear-gradient(135deg, #05142f 0%, #0a1f45 100%); border: 2px dashed #4c8df7; border-radius: 14px; padding: 18px 42px; box-shadow: 0 8px 20px rgba(0, 71, 171, 0.25);">
+                <span style="font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: 900; letter-spacing: 10px; color: #38bdf8;">${otp}</span>
+              </div>
+
+              <p style="margin: 0 0 22px; color: #dc2626; font-size: 12px; font-weight: 700;">
+                ⏱ This code expires in 5 minutes and can only be used once.
+              </p>
+
+              <!-- Metadata Table -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; text-align: left; background-color: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 22px;">
+                <tr>
+                  <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 12px; font-weight: 600; width: 40%;">Login Account</td>
+                  <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 12px; font-weight: 700;">${attemptedEmail}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 14px; color: #64748b; font-size: 12px; font-weight: 600;">Time (IST)</td>
+                  <td style="padding: 10px 14px; color: #0f172a; font-size: 12px; font-weight: 600;">${timestamp}</td>
+                </tr>
+              </table>
+
+              <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; text-align: left;">
+                <p style="margin: 0; color: #991b1b; font-size: 12px; line-height: 1.5;">
+                  <strong>Security Notice:</strong> Never share this OTP with anyone. If you did not try to log in to the Admin Portal, please ignore this message and update your master password immediately.
+                </p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 18px 28px; background-color: #05142f; text-align: center; border-top: 1px solid #142d57;">
+              <p style="margin: 0; color: #94a3b8; font-size: 11px;">&copy; ${new Date().getFullYear()} DataGalactic Security Center. Automated 2FA Dispatch.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    `
+  };
+
+  try {
+    const info = await mailTransporter.sendMail(mailOptions);
+    console.log(`[MailService] ✓ Admin 2FA Login OTP sent to ${adminEmail} (MessageId: ${info.messageId || 'direct'})`);
+
+    return {
+      success: true,
+      adminEmail,
+      messageId: info.messageId,
+      previewUrl: nodemailer.getTestMessageUrl(info)
+    };
+  } catch (sendErr) {
+    transporter = null; // Reset cached transporter on socket/auth error
+    throw sendErr;
+  }
+};
+
 module.exports = {
   otpStore,
   getTransporter,
+  getMailAddresses,
   sendOtpEmail,
+  sendAdminLoginOtpEmail,
   sendEnquiryEmails,
   sendFeedbackEmails
 };
