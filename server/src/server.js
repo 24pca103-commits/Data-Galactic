@@ -11,7 +11,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { connectDB } = require('./config/db');
+const { connectDB, closeDB, getStatus } = require('./config/db');
 const enquiryRoutes = require('./routes/enquiryRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
@@ -72,7 +72,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+// Express 5 compatible global OPTIONS preflight handler (avoids path-to-regexp '*' error)
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 // Rate limiting (exempt SSE streams and admin endpoints from strict limits)
 const generalLimiter = rateLimit({
@@ -100,6 +106,19 @@ const contactLimiter = rateLimit({
   }
 });
 
+// Admin auth & OTP brute-force protection limiter
+const adminAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
+  message: {
+    success: false,
+    message: 'Too many authentication attempts. Please wait 15 minutes before trying again.'
+  }
+});
+
 // Body parsing
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
@@ -114,13 +133,28 @@ app.get('/', (req, res) => {
     email: 'hello@datagalactic.in',
     phone: '+91 9363164608',
     status: 'Operational API Gateway',
-    documentation: '/api/contact/health'
+    health: '/api/health'
+  });
+});
+
+// Production Health Check Endpoint (for Render & Uptime Monitors)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: 'healthy',
+    environment: process.env.NODE_ENV || 'development',
+    database: getStatus() ? 'MySQL Connected' : 'In-Memory Fallback',
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
   });
 });
 
 // API Routes
 app.use('/api/contact', contactLimiter, enquiryRoutes);
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/admin/login', adminAuthLimiter);
+app.use('/api/admin/verify-otp', adminAuthLimiter);
+app.use('/api/admin/resend-otp', adminAuthLimiter);
 app.use('/api/admin', adminRoutes);
 
 // 404 Fallback
@@ -145,8 +179,24 @@ let server;
 if (!process.env.VERCEL) {
   server = app.listen(PORT, HOST, () => {
     console.log(`[DataGalactic Server] Running on http://${HOST}:${PORT}`);
-    console.log(`[DataGalactic Server] Endpoints: http://${HOST}:${PORT}/api/contact`);
+    console.log(`[DataGalactic Server] Health Check: http://${HOST}:${PORT}/api/health`);
   });
+
+  // Graceful shutdown for Render / Docker / PM2 deployments
+  const shutdown = async (signal) => {
+    console.log(`[DataGalactic Server] ${signal} received. Shutting down gracefully...`);
+    if (server) {
+      server.close(async () => {
+        await closeDB();
+        process.exit(0);
+      });
+    } else {
+      await closeDB();
+      process.exit(0);
+    }
+  };
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
 module.exports = app;
